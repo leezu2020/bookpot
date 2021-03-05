@@ -24,7 +24,7 @@
           		</a>
             </div>
             <nav><!--write버튼, 회원가입버튼, login버튼 묶음-->
-                <button type="button" class="login">로그인</button>
+                <button type="button" class="login" onClick="location.href='/login'">로그인</button>
                 <!-- 
                     <div class="login-info">
                         <form action="">
@@ -37,7 +37,7 @@
                     </div> //아이디,비밀번호 dropdown 입력창 묶음
                 -->
                 <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-                <button type="sign-up" class="sign-up" onclick="location.href='/login/signUp'">회원가입</button>
+                <button type="sign-up" class="sign-up" onclick="location.href='/user/signUp'">회원가입</button>
                 <!--회원가입 페이지 이동-->
                 <button type="write" id="write-button">글쓰기</button>
                 <!--글쓰기 페이지 이동-->
