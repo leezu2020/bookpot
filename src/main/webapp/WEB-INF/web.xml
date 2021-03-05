@@ -7,7 +7,7 @@
   version="4.0"
   metadata-complete="true">
 
-<!-- 	<listener>
+ 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<context-param>
@@ -15,7 +15,7 @@
 		<param-value>
   		/WEB-INF/spring/service-context.xml
   	</param-value>
-	</context-param> -->
+	</context-param>
   
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>

@@ -1,12 +1,15 @@
 package com.bookpot.web.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -33,9 +36,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		// /user/** 은 user의 role을 가질 경우만 접근 가능
 		// /admin/** 은 admin의 role을 가질 경우만 접근 가능
 		// 위의 두 role이 없으면 formLogin
-		http.authorizeRequests().antMatchers("/login").permitAll()
+		http.authorizeRequests().antMatchers("/").permitAll()
 			.antMatchers("/user/**").access("hasRole('USER')")
 			.antMatchers("/admin/**").access("hasRole('ADMIN')").and()
 			.formLogin();
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 }
