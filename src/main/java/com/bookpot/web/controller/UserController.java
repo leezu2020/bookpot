@@ -34,6 +34,7 @@ public class UserController {
 	
 	@PostMapping("signUp")
 	public String signUp(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
+		System.out.println("signUp 실행");
 		
 		if(result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();

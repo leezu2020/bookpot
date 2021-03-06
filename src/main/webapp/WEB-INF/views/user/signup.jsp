@@ -6,6 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>  
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -13,9 +14,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>책단지</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/Sign-up CSS.css" />">
 </head>
-
+	                    <script type="text/javascript">
+	                    	function fn_checkNick(){
+	                    		$.ajax({
+	                    			url : "/user/checkNickname",
+	                    			type : "post",
+	                    			dataType : "json",
+	                    			data : {"nickname" : $("#nickname").val()},
+	                    			success : function(data){
+	                    				if(data == true){
+	                    					$("#nickname").focus();
+	                    					$("#nickname").val("");
+	                    					alert("사용중인 닉네임입니다.");
+	                    				} else if(data == false){
+	                    					alert("사용가능한 닉네임입니다.");
+	                    					$("#nickname-button").hide();
+	                    				}
+	                    			}
+	                    		})
+	                    	}
+	                    </script>
 <body>
     <div class="container">
         <header>
@@ -66,58 +85,35 @@
         
         
         <section class="main">
-            <form action="">
                 <h2>회원가입</h2><br>
-                <form:form role="form" id="signup-form" name="signupForm" modelAttribute="userVo" action="/user/signUp" method="post">
-	                <sec:csrfInput/>
+                <form id="signup-form" name="signupForm" action="/user/signUp" method="post">
 	                <!--닉네임 입력-->
 	                <p>
 	                    <label for="nickname">닉네임</label><br>
-	                    <input id="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)">
+	                    <input id="nickname" name="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
 	                   
-	                    <button class="nicknamecheck" id="nickname-button" onClick="fn_checkNick" value="N">중복확인</button>
+	                    <button class="nicknamecheck" id="nickname-button" value="N">중복확인</button>
 	                    <!-- 닉네임 중복확인 -->
-	                    <script type="text/javascript">
-	                    	function fn_checkNick(){
-	                    		$.ajax({
-	                    			url : "/user/checkNickname",
-	                    			type : "post",
-	                    			dataType : "json",
-	                    			data : {"nickname" : $("#nickname").val()},
-	                    			success : function(data){
-	                    				if(data == true){
-	                    					$("#nickname").focus();
-	                    					$("#nickname").val("");
-	                    					alert("사용중인 닉네임입니다.");
-	                    				} else if(data == false){
-	                    					alert("사용가능한 닉네임입니다.");
-	                    					$("#nickname-button").hide();
-	                    				}
-	                    			}
-	                    		})
-	                    	}
-	                    </script>
+
 	                </p>
 	
 	                <!--아이디 입력-->
 	                <p>
 	                    <label for="id">아이디</label><br>
-	                    <form:input id="id" path="userID" type="text" placeholder="아이디를 입력해주세요." />
-	                    <form:errors path="userID" />
+	                    <input id="id" name="userID" type="text" placeholder="아이디를 입력해주세요." />
 	                    <button id="id-button">중복확인</button>
 	                </p>
 	
 	                <!--비밀번호 입력-->
 	                <p>
 	                    <label for="password">비밀번호</label><br>
-	                    <form:input id="password" path="password" type="text" placeholder="8~16자 영문 대 소문자, 숫자를 사용하세요." />
-						<form:errors path="password" />
-	                </p>
+	                    <input id="password" name="password" type="text" placeholder="8~16자 영문 대 소문자, 숫자를 사용하세요." />
+					 </p>
 	                <!--비밀번호 확인 입력-->
 	
 	                <p>
-	                    <label for="password">비밀번호 확인</label><br>
-	                    <input id="password" type="text" placeholder="비밀번호가 일치하지 않습니다.">
+	                    <label for="passwordCheck">비밀번호 확인</label><br>
+	                    <input id="passwordCheck" name="passwordCheck" type="text" placeholder="비밀번호가 일치하지 않습니다.">
 	                </p>
 	                <!--개인정보 동의 내용박스-->
 	                <label for="agreebox">개인정보 수집, 이용에 대한 동의</label><br>
@@ -132,8 +128,7 @@
 	                    <input id="submit-button" type="submit" value="동의하고 회원가입">
 	                    <!--모든 항목 작성완료시 활성화되도록 해야함-->
 	                </p>
-                </form:form>
-            </form>
+                </form>
         </section>
     </div>
 
