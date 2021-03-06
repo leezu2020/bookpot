@@ -50,15 +50,28 @@ public class UserController {
 	
 	@ResponseBody
 	@PostMapping("checkNickname")
-	public boolean checkNickname(UserVo userVo) {
-		System.out.println("닉네임 중복체크");
-		return userService.existNickname(userVo.getNickname());
+	public String checkNickname(String nickname) {
+		System.out.println("닉네임 중복확인 시작");
+		
+		// 존재하면 fail
+		// 생성가능하면 success
+		if(userService.existNickname(nickname)) {
+			System.out.println("닉네임 중복");
+			return "exist";
+		} else {
+			System.out.println("닉네임 생성가능");
+			return "possible";
+		}
 	}
 	
 	@ResponseBody
 	@PostMapping("checkUserID")
-	public boolean checkUserID(UserVo userVo) {
+	public String checkUserID(String userID) {
 		System.out.println("아이디 중복체크");
-		return userService.existNickname(userVo.getUserID());
+		if(userService.existUserID(userID)) {
+			return "exist";
+		} else {
+			return "possible";
+		}
 	}
 }

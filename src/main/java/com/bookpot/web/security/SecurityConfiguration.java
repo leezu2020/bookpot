@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//테스트 위한 임시로 csrf 설정 막기
-		//http.csrf().disable();
+		http.csrf().disable();
 		
 		
 		// /login 은 누구나 접근 가능

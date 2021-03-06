@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>  
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,27 +14,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>책단지</title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/Sign-up CSS.css" />">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="<c:url value="/resources/js/jquery-3.6.0.min.js" />"></script>
 </head>
-	                    <script type="text/javascript">
-	                    	function fn_checkNick(){
-	                    		$.ajax({
-	                    			url : "/user/checkNickname",
-	                    			type : "post",
-	                    			dataType : "json",
-	                    			data : {"nickname" : $("#nickname").val()},
-	                    			success : function(data){
-	                    				if(data == true){
-	                    					$("#nickname").focus();
-	                    					$("#nickname").val("");
-	                    					alert("사용중인 닉네임입니다.");
-	                    				} else if(data == false){
-	                    					alert("사용가능한 닉네임입니다.");
-	                    					$("#nickname-button").hide();
-	                    				}
-	                    			}
-	                    		})
-	                    	}
-	                    </script>
+		<script type="text/javascript">
+			function fn_checkNick(){
+				$.ajax({
+					url : "/user/checkNickname",
+					type : "post",
+					data : {"nickname" : $(".nickname").val()},
+					success : function(result){
+						if(result == 'exist'){
+							alert('사용중인 닉네임입니다.');
+							$('#nickname').focus();
+							$('#nickname').val('');
+						} else{
+							alert('사용가능한 닉네임입니다.');
+						}
+					},
+					error: function(e){
+						alert("닉네임 값을 가져오지 못했습니다.");
+					}
+				});
+			};
+			function fn_checkID(){
+				$.ajax({
+					url : "/user/checkUserID",
+					type : "post",
+					data : {"userID" : $(".userID").val()},
+					success : function(result){
+						if(result == 'exist'){
+							alert('사용중인 아이디입니다.');
+							$('#id').focus();
+							$('#id').val('');
+						} else{
+							alert('사용가능한 아이디입니다.');
+						}
+					},
+					error: function(e){
+						alert("아이디 값을 가져오지 못했습니다.");
+					}
+				});
+			};
+		</script>
 <body>
     <div class="container">
         <header>
@@ -90,9 +113,9 @@
 	                <!--닉네임 입력-->
 	                <p>
 	                    <label for="nickname">닉네임</label><br>
-	                    <input id="nickname" name="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
+	                    <input id="nickname" class="nickname" name="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
 	                   
-	                    <button class="nicknamecheck" id="nickname-button" value="N">중복확인</button>
+	                    <button type="button" id="nickname-button" onClick="fn_checkNick()">중복확인</button>
 	                    <!-- 닉네임 중복확인 -->
 
 	                </p>
@@ -100,8 +123,8 @@
 	                <!--아이디 입력-->
 	                <p>
 	                    <label for="id">아이디</label><br>
-	                    <input id="id" name="userID" type="text" placeholder="아이디를 입력해주세요." />
-	                    <button id="id-button">중복확인</button>
+	                    <input id="id" name="userID" class="userID" type="text" placeholder="아이디를 입력해주세요." />
+	                    <button type="button" id="id-button" onClick="fn_checkID()">중복확인</button>
 	                </p>
 	
 	                <!--비밀번호 입력-->
