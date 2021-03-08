@@ -47,7 +47,7 @@
             
             <!-- 로그인시 (class와 onclick 링크 수정 필요-->
             <sec:authorize access="isAuthenticated()">
-            	<button type="button"><sec:authentication property="principal.name" />님 환영합니다</button>
+            	<button type="button"><sec:authentication property="principal.username" />님 환영합니다</button>
                 <button type="button" class="login" >회원정보</button>
                 <button type="sign-up" class="sign-up" onclick="location.href='/user/logout'">로그아웃</button>
                 <!--회원가입 페이지 이동-->

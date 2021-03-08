@@ -22,11 +22,12 @@
 
 <!-- 중복확인 처리를 위한 script -->
 	<script type="text/javascript">
-			function fn_checkNick(){
+		var code = '';
+			function fn_checkNickname(){
 				$.ajax({
 					url : "/user/checkNickname",
 					type : "post",
-					data : {"nickname" : $(".nickname").val()},
+					data : {"nickname" : $("#nickname").val()},
 					success : function(result){
 						if(result == 'exist'){
 							alert('사용중인 닉네임입니다.');
@@ -41,25 +42,31 @@
 					}
 				});
 			};
-			function fn_checkID(){
+			
+			function fn_sendEmail(){
+				alert('이메일이 전송되었습니다.');
 				$.ajax({
-					url : "/user/checkUserID",
-					type : "post",
-					data : {"userID" : $(".userID").val()},
+					url : "/checkEmail?email=" + $('#id').val(),
+					type : "get",
 					success : function(result){
-						if(result == 'exist'){
-							alert('사용중인 아이디입니다.');
-							$('#id').focus();
-							$('#id').val('');
-						} else{
-							alert('사용가능한 아이디입니다.');
-						}
-					},
-					error: function(e){
-						alert("아이디 값을 가져오지 못했습니다.");
+						$('#inputCode').attr("disabled",false);
+						$('#code-button').attr("disabled",false);
+						code = result;
+						console.log(code);
 					}
 				});
 			};
+			
+			function fn_checkCode(){
+				var inputCode = $('#inputCode').val();
+				console.log(inputCode);
+				console.log(code);
+				if(inputCode == code){
+					alert('인증되었습니다.');
+				} else {
+					alert('인증번호를 다시 확인해주세요.');
+				}
+			}
 		</script>
 <body>
     <div class="container">
@@ -128,18 +135,20 @@
 				<p>
 					<label for="nickname">닉네임</label><br>
 					<form:input path="nickname" id="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
-					<button id="nickname-button">중복확인</button>
+					<input type="button" id="nickname-button" value="중복확인" onClick="fn_checkNickname()">
 					<!-- 닉네임 오류 출력란 -->
 					<form:errors path="nickname"/>
 				</p>
 
 				<!--아이디 입력-->
 				<p>
-					<label for="id">아이디</label><br>
-					<form:input path="userID" id="id" type="text" placeholder="아이디를 입력해주세요." />
-					<button id="id-button">중복확인</button>
+					<label for="id">이메일</label><br>
+					<form:input path="userID" id="id" type="text" placeholder="이메일을 입력해주세요." />
+					<input type="button" id="id-button" onClick="fn_sendEmail()" value="이메일 인증">
 					<!-- 아이디 오류 출력란 -->
 					<form:errors path="userID"/>
+					<input type="text" disabled="disabled" id="inputCode" placeholder="인증번호 입력해주세요."/>
+					<input type="button" id="code-button" disabled="disabled" onClick="fn_checkCode()" value="인증번호 확인">
 				</p>
 
 				<!--비밀번호 입력-->

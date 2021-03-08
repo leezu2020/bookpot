@@ -10,12 +10,12 @@ public class SecurityUser implements UserDetails {
 	// 사용자 중요 데이터
 	// 등록번호
 	private Long no;
-	// 닉네임
+	// 아이디
 	private String name;
 	
 	// 보안 필드
 	private Collection<? extends GrantedAuthority> authorities;
-	private String username;	// credential(userID)
+	private String username;	// credential(닉네임)
 	private String password;	// credential
 	
 	@Override

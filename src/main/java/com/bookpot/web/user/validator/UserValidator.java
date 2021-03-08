@@ -1,4 +1,4 @@
-package com.bookpot.web.user.valid;
+package com.bookpot.web.user.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

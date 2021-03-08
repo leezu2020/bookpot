@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookpot.web.user.service.UserService;
-import com.bookpot.web.user.valid.UserValidator;
+import com.bookpot.web.user.validator.UserValidator;
 import com.bookpot.web.user.vo.UserRegVo;
 import com.bookpot.web.user.vo.UserVo;
 
@@ -62,7 +62,7 @@ public class UserController {
 	@ResponseBody
 	@PostMapping("checkNickname")
 	public String checkNickname(String nickname) {
-		System.out.println("닉네임 중복확인 시작");
+		System.out.println("닉네임 중복확인 시작" + nickname);
 		
 		// 존재하면 fail
 		// 생성가능하면 success
@@ -73,12 +73,12 @@ public class UserController {
 			System.out.println("닉네임 생성가능");
 			return "possible";
 		}
-	}
+	}	
 	
 	@ResponseBody
 	@PostMapping("checkUserID")
 	public String checkUserID(String userID) {
-		System.out.println("아이디 중복체크");
+		System.out.println("아이디 중복체크" + userID);
 		if(userService.existUserID(userID)) {
 			return "exist";
 		} else {
