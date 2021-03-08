@@ -1,4 +1,4 @@
-package com.bookpot.web.Service;
+package com.bookpot.web.user.service;
 
 import java.util.Arrays;
 
@@ -11,9 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bookpot.web.entity.UserVo;
-import com.bookpot.web.repository.UserDao;
 import com.bookpot.web.security.SecurityUser;
+import com.bookpot.web.user.dao.UserDao;
+import com.bookpot.web.user.vo.UserVo;
 
 @Service
 public class UserService implements UserDetailsService{

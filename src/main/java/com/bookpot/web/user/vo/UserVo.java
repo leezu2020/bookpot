@@ -1,4 +1,4 @@
-package com.bookpot.web.entity;
+package com.bookpot.web.user.vo;
 
 import java.sql.Date;
 
@@ -11,19 +11,9 @@ import jakarta.validation.constraints.NotNull;
 public class UserVo {
 	
 	private Long no;
-	
-	// 공백 및 특수문자 사용 불가하게 추가하기
-	@NotEmpty
-	@Length(min = 2, max = 8)
 	private String nickname;
-	
-	@NotEmpty
 	private String userID;
-	
-	@NotNull
-	@Length(min = 4)
 	private String password;
-	
 	private String role;
 	private Date regDate;
 	

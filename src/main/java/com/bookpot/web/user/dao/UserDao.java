@@ -1,10 +1,10 @@
-package com.bookpot.web.repository;
+package com.bookpot.web.user.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bookpot.web.entity.UserVo;
+import com.bookpot.web.user.vo.UserVo;
 
 @Repository
 public class UserDao {

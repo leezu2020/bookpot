@@ -8,13 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.bookpot.web.Service.UserService;
+import com.bookpot.web.user.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -40,10 +38,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		// /admin/** 은 admin의 role을 가질 경우만 접근 가능
 		// 위의 두 role이 없으면 formLogin		
 		http.authorizeRequests()
-			.antMatchers("/", "/login").permitAll()
+			.antMatchers("/**","/").permitAll()
 			.antMatchers("/user/**").access("hasRole('ROLE_USER')")
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-			.anyRequest().permitAll()
+			.anyRequest().authenticated()
 			
 		//	로그인 설정
 			.and()

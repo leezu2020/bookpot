@@ -1,4 +1,4 @@
-package com.bookpot.web.controller;
+package com.bookpot.web.user.controller;
 
 
 import java.util.List;
@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bookpot.web.Service.UserService;
-import com.bookpot.web.entity.UserVo;
+import com.bookpot.web.user.service.UserService;
+import com.bookpot.web.user.valid.UserValidator;
+import com.bookpot.web.user.vo.UserRegVo;
+import com.bookpot.web.user.vo.UserVo;
 
 import jakarta.validation.Valid;
 
@@ -26,26 +28,35 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("signUp")
-	public String signUp(@ModelAttribute UserVo userVo) {
+	@GetMapping("signup")
+	public String signUp(@ModelAttribute UserRegVo userRegVo) {
 		
 		return "user/signup";
 	}
 	
-	@PostMapping("signUp")
-	public String signUp(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
-		System.out.println("signUp 실행");
+	@PostMapping("signup")
+	public String signUp(@ModelAttribute @Valid UserRegVo userRegVo, BindingResult result, Model model) {
+		System.out.println("signup 실행");
+		
+		//유효성 검사
+		new UserValidator().validate(userRegVo, result);
 		
 		if(result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
 			for(ObjectError error : errors) {
 				System.out.println("에러발생 : " + error);
 			}
-			model.addAttribute(result.getModel());
 			return "user/signup";
 		}
+		// userRegVo -> userVo
+		UserVo userVo = new UserVo();
+		userVo.setNickname(userRegVo.getNickname());
+		userVo.setPassword(userRegVo.getPassword());
+		userVo.setUserID(userRegVo.getUserID());
+		
 		userService.regUser(userVo);
-		return "/";
+		System.out.println("signup 종료");
+		return "redirect:/";
 	}
 	
 	@ResponseBody

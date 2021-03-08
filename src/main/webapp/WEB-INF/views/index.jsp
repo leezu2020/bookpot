@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -24,6 +25,9 @@
           		</a>
             </div>
             <nav><!--write버튼, 회원가입버튼, login버튼 묶음-->
+            
+            <!-- 비로그인시 -->
+            <sec:authorize access="!isAuthenticated()">
                 <button type="button" class="login" onClick="location.href='/login'">로그인</button>
                 <!-- 
                     <div class="login-info">
@@ -37,10 +41,19 @@
                     </div> //아이디,비밀번호 dropdown 입력창 묶음
                 -->
                 <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-                <button type="sign-up" class="sign-up" onclick="location.href='/user/signUp'">회원가입</button>
+                <button type="sign-up" class="sign-up" onclick="location.href='/user/signup'">회원가입</button>
                 <!--회원가입 페이지 이동-->
-                <button type="write" id="write-button">글쓰기</button>
+            </sec:authorize>
+            
+            <!-- 로그인시 (class와 onclick 링크 수정 필요-->
+            <sec:authorize access="isAuthenticated()">
+            	<button type="button"><sec:authentication property="principal.name" />님 환영합니다</button>
+                <button type="button" class="login" >회원정보</button>
+                <button type="sign-up" class="sign-up" onclick="location.href='/user/logout'">로그아웃</button>
+                <!--회원가입 페이지 이동-->
+                <button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
                 <!--글쓰기 페이지 이동-->
+            </sec:authorize>
             </nav>
         </header>
         
