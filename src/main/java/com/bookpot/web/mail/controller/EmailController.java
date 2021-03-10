@@ -1,25 +1,27 @@
 package com.bookpot.web.mail.controller;
 
 import java.util.Random;
-
-import javax.mail.internet.MimeMessage;
+import java.util.concurrent.Executor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookpot.web.mail.service.MailService;
 import com.bookpot.web.user.service.UserService;
 
 @Controller
+@EnableAsync
 @RequestMapping("/")
 public class EmailController {
 
 	@Autowired
-	private JavaMailSender mailSender;
+	private MailService mailService;
 	
 	@Autowired
 	private UserService userService;
@@ -43,14 +45,7 @@ public class EmailController {
 			
 			
 			try {
-				MimeMessage msg = mailSender.createMimeMessage();
-				MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8");
-				helper.setFrom(setFrom);
-				helper.setTo(toMail);
-				helper.setSubject(title);
-				helper.setText(content, true);
-				mailSender.send(msg);
-				
+				mailService.sendMessage(setFrom, toMail, title, content);
 				System.out.println("인증 메일 발송");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -62,5 +57,16 @@ public class EmailController {
 			// 이메일 중복될때 exist 전송
 			return "exist";
 		}
+	}
+	
+	@Bean
+	public Executor taskExecutor() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(2);
+		executor.setMaxPoolSize(2);
+		executor.setQueueCapacity(500);
+		executor.setThreadNamePrefix("GithubLookup-");
+		executor.initialize();
+		return executor;
 	}
 }

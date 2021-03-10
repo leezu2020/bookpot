@@ -31,7 +31,6 @@ public class UserValidator implements Validator{
 		
 		// 이메일 인증번호 기능 구현으로 사실상 필요 없음
 		// 이메일 비어있을때
-		
 		if (userRegVo.getEmail() == null || userRegVo.getEmail().trim().isEmpty()) {
 			// System.out.println("email : " + userRegVo.getEmail());
 			errors.rejectValue("email", "required", "이메일을 입력해주세요.");
