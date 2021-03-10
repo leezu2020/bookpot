@@ -11,7 +11,7 @@ import com.bookpot.web.user.vo.UserVo;
 
 public class UserValidator implements Validator{
 
-	// 비밀번호 패턴
+	// 비밀번호 패턴 (영어대소문자 숫자 아무거나 8~16자리)
 	private static final String pwRegExp = "^[A-Za-z0-9+]{8,16}$"; 
 	
 	@Override
@@ -29,15 +29,15 @@ public class UserValidator implements Validator{
 			errors.rejectValue("nickname", "required", "닉네임을 입력해주세요.");
 		}
 		
-		// 아이디가 비어있을때
-		if(userRegVo.getUserID() == null || userRegVo.getUserID().trim().isEmpty()) {
-			errors.rejectValue("userID", "required", "아이디를 입력해주세요.");
-			
-		} else {
-			// 아이디 정규식 입력하기
-			
-			
+		// 이메일 인증번호 기능 구현으로 사실상 필요 없음
+		// 이메일 비어있을때
+		
+		if (userRegVo.getEmail() == null || userRegVo.getEmail().trim().isEmpty()) {
+			// System.out.println("email : " + userRegVo.getEmail());
+			errors.rejectValue("email", "required", "이메일을 입력해주세요.");
+
 		}
+		 
 		
 		// 비밀번호가 비어있을때
 		if(userRegVo.getPassword() == null || userRegVo.getPassword().trim().isEmpty()) {

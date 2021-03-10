@@ -4,7 +4,7 @@ package com.bookpot.web.user.vo;
 public class UserRegVo {
 	
 	private String nickname;
-	private String userID;
+	private String email;
 	private String password;
 	private String passwordCheck;
 
@@ -25,12 +25,12 @@ public class UserRegVo {
 		this.nickname = nickname;
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

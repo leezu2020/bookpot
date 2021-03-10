@@ -12,18 +12,19 @@ public class UserVo {
 	
 	private Long no;
 	private String nickname;
-	private String userID;
+	private String email;
 	private String password;
 	private String role;
 	private Date regDate;
+	private String imgUrl;
 	
 	public UserVo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserVo(@NotEmpty String userID, @NotNull @Length(min = 4) String password) {
+	public UserVo(@NotEmpty String email, @NotNull @Length(min = 4) String password) {
 		super();
-		this.userID = userID;
+		this.email = email;
 		this.password = password;
 	}
 
@@ -43,12 +44,12 @@ public class UserVo {
 		this.nickname = nickname;
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -75,15 +76,23 @@ public class UserVo {
 		this.regDate = regDate;
 	}
 
-	public UserVo(Long no, @NotEmpty @Length(min = 2, max = 8) String nickname, @NotEmpty String userID,
-			@NotNull @Length(min = 4) String password, String role, Date regDate) {
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public UserVo(Long no, String nickname, String email, String password, String role, Date regDate, String imgUrl) {
 		super();
 		this.no = no;
 		this.nickname = nickname;
-		this.userID = userID;
+		this.email = email;
 		this.password = password;
 		this.role = role;
 		this.regDate = regDate;
+		this.imgUrl = imgUrl;
 	}
 	
 }

@@ -5,7 +5,7 @@
 <mapper namespace="com.bookpot.mapper.userMapper">
 	<insert id="insert" parameterType="userVo">
 		insert into user
-		values(null, #{userID}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER')
+		values(null, #{email}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER', #{imgUrl})
 	</insert>
 	
 	<select id="getByNickname" resultType="userVo">
@@ -14,22 +14,22 @@
 		where nickname = #{nickname}
 	</select>
 	
-	<select id="getByUserID" resultType="userVo">
+	<select id="getByEmail" resultType="userVo">
 		select *
 		from user
-		where userID = #{userID}
+		where email = #{email}
 	</select>	
 	
 	<select id="getByUserIDAndPassword" resultType="userVo">
 		select *
 		from user
-		where userID = #{userID}
+		where email = #{email}
 			and password = #{password}
 	</select>
 	
 	<update id="update" parameterType="userVo">
 		update user
 		set name = '수정'
-		where userID = #{userID}
+		where email = #{email}
 	</update>
 </mapper>

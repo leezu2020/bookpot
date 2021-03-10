@@ -2,6 +2,8 @@ package com.bookpot.web.user.controller;
 
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/user/")
 public class UserController {
 	
+	// 닉네임 정규식
+	private static final String nickNameRegexp = "[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+";
+	
 	@Autowired
 	private UserService userService;
 	
@@ -41,22 +46,24 @@ public class UserController {
 		//유효성 검사
 		new UserValidator().validate(userRegVo, result);
 		
+		// 오류 있을때
 		if(result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
 			for(ObjectError error : errors) {
 				System.out.println("에러발생 : " + error);
 			}
 			return "user/signup";
-		}
+		} else {
 		// userRegVo -> userVo
-		UserVo userVo = new UserVo();
-		userVo.setNickname(userRegVo.getNickname());
-		userVo.setPassword(userRegVo.getPassword());
-		userVo.setUserID(userRegVo.getUserID());
-		
-		userService.regUser(userVo);
-		System.out.println("signup 종료");
-		return "redirect:/";
+			UserVo userVo = new UserVo();
+			userVo.setNickname(userRegVo.getNickname());
+			userVo.setPassword(userRegVo.getPassword());
+			userVo.setEmail(userRegVo.getEmail());
+			
+			userService.regUser(userVo);
+			System.out.println("signup 종료");
+			return "user/signupCompleted";
+		}
 	}
 	
 	@ResponseBody
@@ -64,25 +71,22 @@ public class UserController {
 	public String checkNickname(String nickname) {
 		System.out.println("닉네임 중복확인 시작" + nickname);
 		
-		// 존재하면 fail
-		// 생성가능하면 success
-		if(userService.existNickname(nickname)) {
-			System.out.println("닉네임 중복");
-			return "exist";
+		// 닉네임 조건 체크하기 _ 한글 영문대소문자
+		Matcher matcher = Pattern.compile(nickNameRegexp).matcher(nickname);
+		
+		if(!matcher.matches()) {
+			return "notmatch";
 		} else {
-			System.out.println("닉네임 생성가능");
-			return "possible";
+			// 존재하면 fail
+			// 생성가능하면 success
+			if(userService.existNickname(nickname)) {
+				System.out.println("닉네임 중복");
+				return "exist";
+			} else {
+				System.out.println("닉네임 생성가능");
+				return "possible";
+			}
 		}
 	}	
-	
-	@ResponseBody
-	@PostMapping("checkUserID")
-	public String checkUserID(String userID) {
-		System.out.println("아이디 중복체크" + userID);
-		if(userService.existUserID(userID)) {
-			return "exist";
-		} else {
-			return "possible";
-		}
-	}
+
 }

@@ -18,8 +18,8 @@ public class UserDao {
 		return sqlSession.selectOne(namespace + ".getByNickname", nickname);
 	}
 	
-	public UserVo getByUserID(String userID) {
-		return sqlSession.selectOne(namespace + ".getByUserID", userID);
+	public UserVo getByEmail(String email) {
+		return sqlSession.selectOne(namespace + ".getByEmail", email);
 	}
 	
 	public UserVo get(UserVo userVo) {

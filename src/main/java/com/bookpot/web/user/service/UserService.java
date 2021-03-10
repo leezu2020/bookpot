@@ -29,8 +29,8 @@ public class UserService implements UserDetailsService{
 		return (userDao.getByNickname(nickname) != null);
 	}
 	
-	public boolean existUserID(String userID) {
-		return (userDao.getByUserID(userID)) != null;
+	public boolean existEmail(String email) {
+		return (userDao.getByEmail(email)) != null;
 	}
 	
 	@Transactional
@@ -49,13 +49,13 @@ public class UserService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserVo userVo = userDao.getByUserID(username);
+		UserVo userVo = userDao.getByEmail(username);
 		
 		SecurityUser securityUser = new SecurityUser();
 		
 		if(userVo != null) {
 			securityUser.setNo(userVo.getNo());
-			securityUser.setName(userVo.getUserID());
+			securityUser.setName(userVo.getEmail());
 			securityUser.setUsername(userVo.getNickname());
 			securityUser.setPassword(userVo.getPassword());
 			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getRole())));

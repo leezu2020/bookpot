@@ -10,12 +10,14 @@ public class SecurityUser implements UserDetails {
 	// 사용자 중요 데이터
 	// 등록번호
 	private Long no;
-	// 아이디
+	// 닉네임
 	private String name;
+	// 프로필 이미지
+	private String imgUrl;
 	
 	// 보안 필드
 	private Collection<? extends GrantedAuthority> authorities;
-	private String username;	// credential(닉네임)
+	private String username;	// credential(이메일)
 	private String password;	// credential
 	
 	@Override
@@ -32,6 +34,34 @@ public class SecurityUser implements UserDetails {
 		this.no = no;
 	}
 
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+	
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
@@ -71,24 +101,5 @@ public class SecurityUser implements UserDetails {
 		return true;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
 	
 }

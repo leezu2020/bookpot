@@ -51,7 +51,7 @@
                 <button type="button" class="login" >회원정보</button>
                 <button type="sign-up" class="sign-up" onclick="location.href='/user/logout'">로그아웃</button>
                 <!--회원가입 페이지 이동-->
-                <button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
+                <button type="write" id="write-button" onclick="location.href='/writing/detail'">글쓰기</button>
                 <!--글쓰기 페이지 이동-->
             </sec:authorize>
             </nav>

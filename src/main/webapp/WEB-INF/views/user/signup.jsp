@@ -23,6 +23,7 @@
 <!-- 중복확인 처리를 위한 script -->
 	<script type="text/javascript">
 		var code = '';
+		var setting = '';
 			function fn_checkNickname(){
 				$.ajax({
 					url : "/user/checkNickname",
@@ -33,7 +34,11 @@
 							alert('사용중인 닉네임입니다.');
 							$('#nickname').focus();
 							$('#nickname').val('');
-						} else{
+						} else if(result == 'notmatch'){
+							alert('닉네임을 확인해주세요.');
+							$('#nickname').focus();
+							$('#nickname').val('');
+						} else {
 							alert('사용가능한 닉네임입니다.');
 						}
 					},
@@ -44,15 +49,23 @@
 			};
 			
 			function fn_sendEmail(){
-				alert('이메일이 전송되었습니다.');
 				$.ajax({
-					url : "/checkEmail?email=" + $('#id').val(),
+					url : "/checkEmail?email=" + $('#email').val(),
 					type : "get",
 					success : function(result){
-						$('#inputCode').attr("disabled",false);
-						$('#code-button').attr("disabled",false);
-						code = result;
-						console.log(code);
+						if(result == 'exist'){
+							alert('사용중인 이메일입니다.');
+							$('#inputCode').attr("disabled",true);
+							$('#code-button').attr("disabled",true);
+							$('#email').focus();
+							$('#email').val('');
+						} else {
+							alert('이메일이 전송되었습니다.');
+							$('#inputCode').attr("disabled",false);
+							$('#code-button').attr("disabled",false);
+							code = result;
+							console.log(code);
+						}
 					}
 				});
 			};
@@ -63,6 +76,7 @@
 				console.log(code);
 				if(inputCode == code){
 					alert('인증되었습니다.');
+					setting = 'finished';
 				} else {
 					alert('인증번호를 다시 확인해주세요.');
 				}
@@ -140,14 +154,14 @@
 					<form:errors path="nickname"/>
 				</p>
 
-				<!--아이디 입력-->
+				<!--이메일 입력-->
 				<p>
-					<label for="id">이메일</label><br>
-					<form:input path="userID" id="id" type="text" placeholder="이메일을 입력해주세요." />
-					<input type="button" id="id-button" onClick="fn_sendEmail()" value="이메일 인증">
+					<label for="email">이메일</label><br>
+					<form:input path="email" id="email" type="text" placeholder="인증번호를 받을 이메일을 입력해주세요." />
+					<input type="button" id="email-button" onClick="fn_sendEmail()" value="인증번호 발송">
 					<!-- 아이디 오류 출력란 -->
-					<form:errors path="userID"/>
-					<input type="text" disabled="disabled" id="inputCode" placeholder="인증번호 입력해주세요."/>
+					<form:errors path="email"/>
+					<input type="text" id="inputCode" disabled="disabled" placeholder="인증번호 입력해주세요."/>
 					<input type="button" id="code-button" disabled="disabled" onClick="fn_checkCode()" value="인증번호 확인">
 				</p>
 
