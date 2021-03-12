@@ -41,7 +41,7 @@
                     </div> //아이디,비밀번호 dropdown 입력창 묶음
                 -->
                 <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-                <button type="sign-up" class="sign-up" onclick="location.href='/user/signup'">회원가입</button>
+                <button type="sign-up" class="sign-up" onclick="location.href='/users/signup'">회원가입</button>
                 <!--회원가입 페이지 이동-->
             </sec:authorize>
             
@@ -49,9 +49,9 @@
             <sec:authorize access="isAuthenticated()">
             	<button type="button"><sec:authentication property="principal.username" />님 환영합니다</button>
                 <button type="button" class="login" >회원정보</button>
-                <button type="sign-up" class="sign-up" onclick="location.href='/user/logout'">로그아웃</button>
+                <button type="sign-up" class="sign-up" onclick="location.href='/users/logout'">로그아웃</button>
                 <!--회원가입 페이지 이동-->
-                <button type="write" id="write-button" onclick="location.href='/writing/detail'">글쓰기</button>
+                <button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
                 <!--글쓰기 페이지 이동-->
             </sec:authorize>
             </nav>
@@ -118,6 +118,7 @@
             <div class="grid-view-contents">
                 <div class="grid-view-content">
                     <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                    	onclick="location.href='/writing/1'"
                         alt="book image">
                     <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     <div class="book-content">

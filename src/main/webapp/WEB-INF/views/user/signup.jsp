@@ -26,9 +26,8 @@
 		var setting = '';
 			function fn_checkNickname(){
 				$.ajax({
-					url : "/user/checkNickname",
-					type : "post",
-					data : {"nickname" : $("#nickname").val()},
+					url : "/users/nickname/" + $('#nickname').val(),
+					type : "get",
 					success : function(result){
 						if(result == 'exist'){
 							alert('사용중인 닉네임입니다.');
@@ -50,7 +49,7 @@
 			
 			function fn_sendEmail(){
 				$.ajax({
-					url : "/checkEmail?email=" + $('#email').val(),
+					url : "/email/" + $('#email').val(),
 					type : "get",
 					success : function(result){
 						if(result == 'exist'){
@@ -64,7 +63,6 @@
 							$('#inputCode').attr("disabled",false);
 							$('#code-button').attr("disabled",false);
 							code = result;
-							console.log(code);
 						}
 					}
 				});
@@ -72,12 +70,12 @@
 			
 			function fn_checkCode(){
 				var inputCode = $('#inputCode').val();
-				console.log(inputCode);
-				console.log(code);
 				if(inputCode == code){
 					alert('인증되었습니다.');
 					setting = 'finished';
 				} else {
+					$('#inputCode').focus();
+					$('#inputCode').val('');
 					alert('인증번호를 다시 확인해주세요.');
 				}
 			}
@@ -111,7 +109,7 @@
 	                    </div> //아이디,비밀번호 dropdown 입력창 묶음
 	                -->
 	                <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-	                <button type="sign-up" class="sign-up" onClick="location.href='/user/signup'">회원가입</button>
+	                <button type="sign-up" class="sign-up" onClick="location.href='/users/signup'">회원가입</button>
 	                <!--회원가입 페이지 이동-->
                 </sec:authorize>
                 
@@ -119,7 +117,7 @@
 	            <sec:authorize access="isAuthenticated()">
 	            	<button type="button"><sec:authentication property="principal.name" />님 환영합니다</button>
 	                <button type="button" class="login" >회원정보</button>
-	                <button type="sign-up" class="sign-up" onclick="location.href='/user/logout'">로그아웃</button>
+	                <button type="sign-up" class="sign-up" onclick="location.href='/users/logout'">로그아웃</button>
 	                <!--회원가입 페이지 이동-->
 	                <button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
 	                <!--글쓰기 페이지 이동-->
@@ -142,7 +140,7 @@
         
         <div class="main">
 			<form:form id="signup-form" modelAttribute="userRegVo"
-				name="signupForm" action="/user/signup" method="post">
+				name="signupForm" action="/users" method="post">
 				<h2>회원가입</h2>
 				<div id="green-box"></div>
 				<!--닉네임 입력-->

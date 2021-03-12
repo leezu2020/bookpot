@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,9 +27,9 @@ public class EmailController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("checkEmail")
+	@GetMapping("email/{email:.+}")
 	@ResponseBody
-	public String checkEmail(String email) {
+	public String checkEmail(@PathVariable String email) {
 		System.out.println("checkEmail 진입 email : " + email);
 		
 		// 이메일 중복 체크후 코드 전송 진행
@@ -62,10 +63,9 @@ public class EmailController {
 	@Bean
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(2);
-		executor.setMaxPoolSize(2);
-		executor.setQueueCapacity(500);
-		executor.setThreadNamePrefix("GithubLookup-");
+		executor.setCorePoolSize(2);	// 기본 스레드 수
+		executor.setMaxPoolSize(5);		// 최대 스레드 수 
+		executor.setQueueCapacity(50);	// Queue 사이즈
 		executor.initialize();
 		return executor;
 	}

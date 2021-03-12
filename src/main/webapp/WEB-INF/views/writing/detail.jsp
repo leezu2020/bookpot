@@ -14,7 +14,9 @@
     <div class="page-head">
         <div class="logo-image-text">
             <img src="<c:url value="/resources/icon/logo.svg" />" alt="logo image">
-            <img src="<c:url value="/resources/icon/책단지.svg" />" alt="logo text">
+            <a href="/">
+           	 <img src="<c:url value="/resources/icon/책단지.svg" />" alt="logo text">
+            </a>
         </div>
 
         <form action="" method="GET">     

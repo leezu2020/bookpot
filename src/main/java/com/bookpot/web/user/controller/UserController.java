@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +25,7 @@ import com.bookpot.web.user.vo.UserVo;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/users")
 public class UserController {
 	
 	// 닉네임 정규식
@@ -33,13 +34,15 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("signup")
+	// 회원 가입 페이지 이동
+	@GetMapping("/signup")
 	public String signUp(@ModelAttribute UserRegVo userRegVo) {
 		
 		return "user/signup";
 	}
 	
-	@PostMapping("signup")
+	// 회원 등록
+	@PostMapping("")
 	public String signUp(@ModelAttribute @Valid UserRegVo userRegVo, BindingResult result, Model model) {
 		System.out.println("signup 실행");
 		
@@ -66,9 +69,10 @@ public class UserController {
 		}
 	}
 	
+	// 닉네임 조회
 	@ResponseBody
-	@PostMapping("checkNickname")
-	public String checkNickname(String nickname) {
+	@GetMapping("/nickname/{nickname}")
+	public String checkNickname(@PathVariable String nickname) {
 		System.out.println("닉네임 중복확인 시작" + nickname);
 		
 		// 닉네임 조건 체크하기 _ 한글 영문대소문자
