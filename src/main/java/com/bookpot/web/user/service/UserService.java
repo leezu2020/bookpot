@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.user.dao.UserDao;
-import com.bookpot.web.user.vo.UserVo;
+import com.bookpot.web.user.entity.User;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -34,31 +34,31 @@ public class UserService implements UserDetailsService{
 	}
 	
 	@Transactional
-	public boolean regUser(UserVo userVo) {
+	public boolean regUser(User userVo) {
 		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
 		return userDao.insert(userVo);
 	}
 	
-	public UserVo getUser(UserVo userVo) {
+	public User getUser(User userVo) {
 		return userDao.get(userVo);
 	}
 	
-	public boolean updateUser(UserVo userVo) {
+	public boolean updateUser(User userVo) {
 		return userDao.update(userVo);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserVo userVo = userDao.getByEmail(username);
+		User user = userDao.getByEmail(username);
 		
 		SecurityUser securityUser = new SecurityUser();
 		
-		if(userVo != null) {
-			securityUser.setNo(userVo.getNo());
-			securityUser.setName(userVo.getEmail());
-			securityUser.setUsername(userVo.getNickname());
-			securityUser.setPassword(userVo.getPassword());
-			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getRole())));
+		if(user != null) {
+			securityUser.setNo(user.getNo());
+			securityUser.setName(user.getEmail());
+			securityUser.setUsername(user.getNickname());
+			securityUser.setPassword(user.getPassword());
+			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
 			
 		}
 		return securityUser;

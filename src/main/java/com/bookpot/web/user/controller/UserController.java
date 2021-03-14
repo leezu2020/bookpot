@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookpot.web.user.dto.UserDTO;
+import com.bookpot.web.user.entity.User;
 import com.bookpot.web.user.service.UserService;
 import com.bookpot.web.user.validator.UserValidator;
-import com.bookpot.web.user.vo.UserRegVo;
-import com.bookpot.web.user.vo.UserVo;
 
 import jakarta.validation.Valid;
 
@@ -36,14 +36,14 @@ public class UserController {
 	
 	// 회원 가입 페이지 이동
 	@GetMapping("/signup")
-	public String signUp(@ModelAttribute UserRegVo userRegVo) {
+	public String signUp(@ModelAttribute UserDTO userRegVo) {
 		
 		return "user/signup";
 	}
 	
 	// 회원 등록
 	@PostMapping("")
-	public String signUp(@ModelAttribute @Valid UserRegVo userRegVo, BindingResult result, Model model) {
+	public String signUp(@ModelAttribute @Valid UserDTO userRegVo, BindingResult result, Model model) {
 		System.out.println("signup 실행");
 		
 		//유효성 검사
@@ -58,7 +58,7 @@ public class UserController {
 			return "user/signup";
 		} else {
 		// userRegVo -> userVo
-			UserVo userVo = new UserVo();
+			User userVo = new User();
 			userVo.setNickname(userRegVo.getNickname());
 			userVo.setPassword(userRegVo.getPassword());
 			userVo.setEmail(userRegVo.getEmail());

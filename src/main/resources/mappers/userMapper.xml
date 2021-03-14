@@ -2,32 +2,32 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bookpot.mapper.userMapper">
-	<insert id="insert" parameterType="userVo">
+<mapper namespace="userMapper">
+	<insert id="insert" parameterType="user">
 		insert into user
 		values(null, #{email}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER', #{imgUrl})
 	</insert>
 	
-	<select id="getByNickname" resultType="userVo">
+	<select id="getByNickname" resultType="user">
 		select *
 		from user
 		where nickname = #{nickname}
 	</select>
 	
-	<select id="getByEmail" resultType="userVo">
+	<select id="getByEmail" resultType="user">
 		select *
 		from user
 		where email = #{email}
 	</select>	
 	
-	<select id="getByUserIDAndPassword" resultType="userVo">
+	<select id="getByUserIDAndPassword" resultType="user">
 		select *
 		from user
 		where email = #{email}
 			and password = #{password}
 	</select>
 	
-	<update id="update" parameterType="userVo">
+	<update id="update" parameterType="user">
 		update user
 		set name = '수정'
 		where email = #{email}

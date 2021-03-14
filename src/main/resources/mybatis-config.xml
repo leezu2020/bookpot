@@ -4,6 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="UserVo" type="com.bookpot.web.user.vo.UserVo"/>
+		<typeAlias alias="User" type="com.bookpot.web.user.entity.User"/>
 	</typeAliases>
 </configuration>

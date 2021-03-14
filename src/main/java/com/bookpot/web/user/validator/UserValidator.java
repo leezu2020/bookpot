@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.bookpot.web.user.vo.UserRegVo;
-import com.bookpot.web.user.vo.UserVo;
+import com.bookpot.web.user.dto.UserDTO;
+import com.bookpot.web.user.entity.User;
 
 public class UserValidator implements Validator{
 
@@ -16,13 +16,13 @@ public class UserValidator implements Validator{
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return UserVo.class.isAssignableFrom(clazz);
+		return User.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		System.out.println("signUp 유효성 검사 시작");
-		UserRegVo userRegVo = (UserRegVo) target;
+		UserDTO userRegVo = (UserDTO) target;
 		
 		// 닉네임이 비어있을때
 		if(userRegVo.getNickname() == null || userRegVo.getNickname().trim().isEmpty()) {

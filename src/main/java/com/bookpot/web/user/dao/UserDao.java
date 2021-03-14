@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bookpot.web.user.vo.UserVo;
+import com.bookpot.web.user.entity.User;
 
 @Repository
 public class UserDao {
@@ -12,21 +12,21 @@ public class UserDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private static final String namespace = "com.bookpot.mapper.userMapper";
+	private static final String namespace = "userMapper";
 	
-	public UserVo getByNickname(String nickname) {
+	public User getByNickname(String nickname) {
 		return sqlSession.selectOne(namespace + ".getByNickname", nickname);
 	}
 	
-	public UserVo getByEmail(String email) {
+	public User getByEmail(String email) {
 		return sqlSession.selectOne(namespace + ".getByEmail", email);
 	}
 	
-	public UserVo get(UserVo userVo) {
+	public User get(User userVo) {
 		return sqlSession.selectOne(namespace + ".getByUserIDAndPassword", userVo);
 	}
 	
-	public Boolean insert(UserVo userVo) {
+	public Boolean insert(User userVo) {
 		int count = sqlSession.insert(namespace + ".insert", userVo);
 		if(count == 1) {
 			return true;
@@ -35,7 +35,7 @@ public class UserDao {
 		}
 	}
 	
-	public Boolean update(UserVo userVo) {
+	public Boolean update(User userVo) {
 		int count = sqlSession.update(namespace + ".update", userVo);
 		if(count == 1) {
 			return true;

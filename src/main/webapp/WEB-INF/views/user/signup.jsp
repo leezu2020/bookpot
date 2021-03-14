@@ -139,7 +139,7 @@
         
         
         <div class="main">
-			<form:form id="signup-form" modelAttribute="userRegVo"
+			<form:form id="signup-form" modelAttribute="userDTO"
 				name="signupForm" action="/users" method="post">
 				<h2>회원가입</h2>
 				<div id="green-box"></div>

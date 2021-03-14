@@ -1,4 +1,4 @@
-package com.bookpot.web.user.vo;
+package com.bookpot.web.user.entity;
 
 import java.sql.Date;
 
@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotNull;
 
-public class UserVo {
+public class User {
 	
 	private Long no;
 	private String nickname;
@@ -18,11 +18,11 @@ public class UserVo {
 	private Date regDate;
 	private String imgUrl;
 	
-	public UserVo() {
+	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserVo(@NotEmpty String email, @NotNull @Length(min = 4) String password) {
+	public User(@NotEmpty String email, @NotNull @Length(min = 4) String password) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -84,7 +84,7 @@ public class UserVo {
 		this.imgUrl = imgUrl;
 	}
 
-	public UserVo(Long no, String nickname, String email, String password, String role, Date regDate, String imgUrl) {
+	public User(Long no, String nickname, String email, String password, String role, Date regDate, String imgUrl) {
 		super();
 		this.no = no;
 		this.nickname = nickname;
