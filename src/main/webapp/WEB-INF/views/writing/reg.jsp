@@ -74,7 +74,7 @@
 					
 					
 					$("#srch-result").append("<li class='srchList' value=" + title + " 저자 : " + author
-							+"> <img src='" + img + "'> </li>");
+							+"> <img src='" + img + "' height='50'> </li>");
 				});
 			},
 			error: function(e){
