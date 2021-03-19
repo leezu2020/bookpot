@@ -1,4 +1,4 @@
-package com.bookpot.web.user.validator;
+package com.bookpot.web.join.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.bookpot.web.user.dto.UserDTO;
+import com.bookpot.web.join.dto.JoinDto;
 import com.bookpot.web.user.entity.User;
 
-public class UserValidator implements Validator{
+public class JoinValidator implements Validator{
 
-	// 비밀번호 패턴 (영어대소문자 숫자 아무거나 8~16자리)
+	// 비밀번호 패턴 (영어대소문자 숫자 아무거나 8~16자리) -> 영문 숫자 혼합으로 수정필요
 	private static final String pwRegExp = "^[A-Za-z0-9+]{8,16}$"; 
 	
 	@Override
@@ -22,7 +22,7 @@ public class UserValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
 		System.out.println("signUp 유효성 검사 시작");
-		UserDTO userRegVo = (UserDTO) target;
+		JoinDto userRegVo = (JoinDto) target;
 		
 		// 닉네임이 비어있을때
 		if(userRegVo.getNickname() == null || userRegVo.getNickname().trim().isEmpty()) {

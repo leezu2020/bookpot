@@ -3,33 +3,37 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="userMapper">
-	<insert id="insert" parameterType="user">
+
+<!-- to join service -->
+	<insert id="insert" parameterType="User">
 		insert into user
 		values(null, #{email}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER', #{imgUrl})
 	</insert>
 	
-	<select id="getByNickname" resultType="user">
+	<select id="getByNickname" resultType="User">
 		select *
 		from user
 		where nickname = #{nickname}
 	</select>
 	
-	<select id="getByEmail" resultType="user">
+	<select id="getByEmail" resultType="User">
 		select *
 		from user
 		where email = #{email}
 	</select>	
 	
-	<select id="getByUserIDAndPassword" resultType="user">
+	<select id="getByUserIDAndPassword" resultType="User">
 		select *
 		from user
 		where email = #{email}
 			and password = #{password}
 	</select>
-	
-	<update id="update" parameterType="user">
+<!-- /to join service -->
+
+	<update id="update" parameterType="User">
 		update user
 		set name = '수정'
 		where email = #{email}
 	</update>
+	
 </mapper>

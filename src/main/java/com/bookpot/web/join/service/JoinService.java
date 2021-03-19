@@ -1,4 +1,4 @@
-package com.bookpot.web.user.service;
+package com.bookpot.web.join.service;
 
 import java.util.Arrays;
 
@@ -9,14 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.user.dao.UserDao;
 import com.bookpot.web.user.entity.User;
 
 @Service
-public class UserService implements UserDetailsService{
+public class JoinService implements UserDetailsService, IJoinService{
 
 	@Autowired
 	private UserDao userDao;
@@ -33,18 +32,9 @@ public class UserService implements UserDetailsService{
 		return (userDao.getByEmail(email)) != null;
 	}
 	
-	@Transactional
 	public boolean regUser(User userVo) {
 		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
 		return userDao.insert(userVo);
-	}
-	
-	public User getUser(User userVo) {
-		return userDao.get(userVo);
-	}
-	
-	public boolean updateUser(User userVo) {
-		return userDao.update(userVo);
 	}
 
 	@Override

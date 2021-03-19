@@ -1,7 +1,7 @@
-package com.bookpot.web.user.dto;
+package com.bookpot.web.join.dto;
 
 // 회원가입 유효성 검사를 위한 임시 entity
-public class UserDTO {
+public class JoinDto {
 	
 	private String nickname;
 	private String email;
@@ -13,8 +13,7 @@ public class UserDTO {
 		return passwordCheck.equals(password);
 	}
 	
-	public UserDTO() {
-		// TODO Auto-generated constructor stub
+	public JoinDto() {
 	}
 	
 	public String getNickname() {

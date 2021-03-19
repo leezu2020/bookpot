@@ -22,12 +22,12 @@ public class UserDao {
 		return sqlSession.selectOne(namespace + ".getByEmail", email);
 	}
 	
-	public User get(User userVo) {
-		return sqlSession.selectOne(namespace + ".getByUserIDAndPassword", userVo);
+	public User get(User user) {
+		return sqlSession.selectOne(namespace + ".getByUserIDAndPassword", user);
 	}
 	
-	public Boolean insert(User userVo) {
-		int count = sqlSession.insert(namespace + ".insert", userVo);
+	public Boolean insert(User user) {
+		int count = sqlSession.insert(namespace + ".insert", user);
 		if(count == 1) {
 			return true;
 		} else {
@@ -35,8 +35,8 @@ public class UserDao {
 		}
 	}
 	
-	public Boolean update(User userVo) {
-		int count = sqlSession.update(namespace + ".update", userVo);
+	public Boolean update(User user) {
+		int count = sqlSession.update(namespace + ".update", user);
 		if(count == 1) {
 			return true;
 		} else {

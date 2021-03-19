@@ -9,19 +9,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>책단지</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/Home CSS.css" />">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="/resources/css/Home CSS.css">
 </head>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$.ajax({
+			url : "/writing/view/grid",
+			type : "get",
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+			}
+		});
+	});
+</script>
 
 <body>
     <div class="container">
         <header>
             <div id="logo">
                 <!-- 책 아이콘 -->
-                <img src="<c:url value="/resources/icon/logo.svg" />" alt="logo-icon"> <!--로고 이미지 작업 필요-->
+                <img src="/resources/icon/logo.svg" alt="logo-icon"> <!--로고 이미지 작업 필요-->
                 <!--책단지 아이콘-->
                 <!--책단지 아이콘 클릭시 메인화면 이동-->
                 <a href="/">
-                <img class="site-name" src="<c:url value="/resources/icon/책단지.svg" />" alt="책단지-icon">
+                <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
           		</a>
             </div>
             <nav><!--write버튼, 회원가입버튼, login버튼 묶음-->
@@ -41,15 +56,20 @@
                     </div> //아이디,비밀번호 dropdown 입력창 묶음
                 -->
                 <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-                <button type="sign-up" class="sign-up" onclick="location.href='/users/signup'">회원가입</button>
+                <button type="sign-up" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
                 <!--회원가입 페이지 이동-->
             </sec:authorize>
             
             <!-- 로그인시 (class와 onclick 링크 수정 필요-->
             <sec:authorize access="isAuthenticated()">
-            	<button type="button"><sec:authentication property="principal.username" />님 환영합니다</button>
+            	<sec:authentication property="principal.username" var="nickname"/>
+            	<sec:authentication property="principal.no" var="userNo"/>
+            	<button type="button">${nickname}님 환영합니다</button>
+            	<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
+            	<a href="/users/${userNo}">
                 <button type="button" class="login" >회원정보</button>
-                <button type="sign-up" class="sign-up" onclick="location.href='/users/logout'">로그아웃</button>
+                </a>
+                <button type="sign-up" class="sign-up" onclick="location.href='/logout'">로그아웃</button>
                 <!--회원가입 페이지 이동-->
                 <button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
                 <!--글쓰기 페이지 이동-->
@@ -59,7 +79,7 @@
         
         <div id="category">
             <div id="searching-menu">
-                <img src="<c:url value="/resources/icon/search.svg" />">
+                <img src="/resources/icon/search.svg">
                 <label for="searching" class="search">책 찾아보기</label>
             </div>     
             <div class="searching-input">
@@ -68,7 +88,7 @@
             </div>
             <!--버튼 누르면 색 변하도록 js작업하기-->
             <div id="filter-menu">
-                <img src="<c:url value="/resources/icon/filter.svg" />">
+                <img src="/resources/icon/filter.svg" >
                 <div class="filter">필터</div>
             </div>
             <span class="category-menu">국내/외국</span>
@@ -108,128 +128,33 @@
                 <div class="latest">최신</div>
             </div>
             <div class="view-type">
-                <img src="<c:url value="/resources/icon/list_black.svg" />">
-                <img src="<c:url value="/resources/icon/grid_black.svg" />">
+                <img src="/resources/icon/list_black.svg">
+                <img src="/resources/icon/grid_black.svg">
                 <!--따로 버튼 없이 선택하자마자 적용되는 방법은?-->
             </div>
         </div>
         
         <section class="main">
+<!--             글 목록 출력              -->
             <div class="grid-view-contents">
                 <div class="grid-view-content">
                     <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
                     	onclick="location.href='/writing/1'"
                         alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    <button type="button" class="like-button" id="good"></button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
+                    	<ul id="book"></ul>
+                        <h1 id="booktitle"></h1>
+                        <h3 id="author"></h3>
+                        <h3 id="regDate"></h3>
+                        <p id="content"></p>
                     </div>
                     <div class="content-info">
                         <div class="profile-img"><!--작성자 옆 프로필사진-->
                             <img src="#" alt="profile image">
                         </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-                <!--이하 반복-->
-            </div>
-    
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-            </div>
-    
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-                <!--이하 반복-->    
-            </div>
-    
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-                <!--이하 반복-->
-            </div>
-            
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
+                        <strong id="nickname"></strong>
+                        <strong id="regDate"></strong><!--작성일-->              
                     </div>
                 </div>
                 <!--이하 반복-->

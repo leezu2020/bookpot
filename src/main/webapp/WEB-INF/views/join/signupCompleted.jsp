@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>책단지: 회원가입 완료</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/Sign-up complete CSS.css" />">
+    <link rel="stylesheet" href="/resources/css/Sign-up complete CSS.css">
 </head>
 
 <body>
@@ -17,9 +17,9 @@
         <div class="header">
             <div id="logo">
                 <!-- 책 아이콘 -->
-                <img src="<c:url value="/resources/icon/logo.svg" />" alt="logo-icon"> <!--로고 이미지 작업 필요-->
+                <img src="/resources/icon/logo.svg" alt="logo-icon"> <!--로고 이미지 작업 필요-->
                 <!--책단지 아이콘-->
-                <img class="site-name" src="<c:url value="/resources/icon/책단지.svg" />" alt="책단지-icon">
+                <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
             </div>
             
         </div>
@@ -27,7 +27,7 @@
         <div class="main">
 
             <!--로고 이미지-->
-            <img id="main-logo" src="<c:url value="/resources/icon/logo.svg" />" alt="logo-icon">
+            <img id="main-logo" src="/resources/icon/logo.svg" alt="logo-icon">
 
             <!--회원가입 완료 인사말-->
             <div id="welcome"> " 책단지에 어서오세요! :D "</div>

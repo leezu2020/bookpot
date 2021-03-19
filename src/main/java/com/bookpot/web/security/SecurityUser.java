@@ -22,7 +22,6 @@ public class SecurityUser implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return authorities;
 	}
 	
@@ -64,13 +63,11 @@ public class SecurityUser implements UserDetails {
 	
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return this.username;
 	}
 
@@ -79,27 +76,51 @@ public class SecurityUser implements UserDetails {
 	// 휴먼상태 등등
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
-	
+	// 중복 로그인 설정을 위함
+	// 다시 확인해보기
+	@Override
+	public boolean equals(Object obj) {
+	//	return super.equals(obj);
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		SecurityUser other = (SecurityUser) obj;
+		if(username == null) {
+			if(other.username != null)
+				return false;
+		} else if(!username.equals(other.username))
+			return false;
+		
+		return true;
+	}
+	@Override
+	public int hashCode() {
+	//	return super.hashCode();
+		// 코드 이유 찾기
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
 }

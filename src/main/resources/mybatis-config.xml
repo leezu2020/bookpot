@@ -5,5 +5,9 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="User" type="com.bookpot.web.user.entity.User"/>
+		<typeAlias alias="Writing" type="com.bookpot.web.writing.entity.Writing"/>
+		<typeAlias alias="WritingView" type="com.bookpot.web.writing.view.WritingView"/>
+		<typeAlias alias="Tag" type="com.bookpot.web.tag.entity.Tag"/>
+		<typeAlias alias="Good" type="com.bookpot.web.good.entity.Good"/>
 	</typeAliases>
 </configuration>

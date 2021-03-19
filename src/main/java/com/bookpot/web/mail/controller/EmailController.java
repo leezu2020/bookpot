@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookpot.web.join.service.JoinService;
 import com.bookpot.web.mail.service.MailService;
-import com.bookpot.web.user.service.UserService;
 
 @Controller
 @EnableAsync
@@ -25,7 +25,7 @@ public class EmailController {
 	private MailService mailService;
 	
 	@Autowired
-	private UserService userService;
+	private JoinService userService;
 	
 	@GetMapping("email/{email:.+}")
 	@ResponseBody
