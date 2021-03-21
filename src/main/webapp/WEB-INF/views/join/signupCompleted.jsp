@@ -45,7 +45,7 @@
                 <button id="home-page" onClick="location.href='/'">홈으로</button>
 
                 <!--로그인으로 이동버튼-->
-                <button id="login-page" onClick="location.href='/login'">로그인</button>
+                <button id="login-page" onClick="location.href='/'">로그인</button>
             </div>
            
 

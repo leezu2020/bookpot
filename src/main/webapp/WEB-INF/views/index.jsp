@@ -9,72 +9,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>책단지</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/resources/css/Home CSS.css">
+    <script defer src="/resources/js/Home JS.js"></script>
 </head>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		
-		$.ajax({
-			url : "/writing/view/grid",
-			type : "get",
-			dataType : "json",
-			success : function(data){
-				console.log(data);
-			}
-		});
-	});
-</script>
 
 <body>
     <div class="container">
         <header>
-            <div id="logo">
+            <div class="logo">
                 <!-- 책 아이콘 -->
                 <img src="/resources/icon/logo.svg" alt="logo-icon"> <!--로고 이미지 작업 필요-->
                 <!--책단지 아이콘-->
                 <!--책단지 아이콘 클릭시 메인화면 이동-->
                 <a href="/">
                 <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
-          		</a>
-            </div>
-            <nav><!--write버튼, 회원가입버튼, login버튼 묶음-->
-            
-            <!-- 비로그인시 -->
-            <sec:authorize access="!isAuthenticated()">
-                <button type="button" class="login" onClick="location.href='/login'">로그인</button>
-                <!-- 
-                    <div class="login-info">
-                        <form action="">
-                            <label for="login-id">이메일로 로그인</label>
-                            <input type="email" id="login-id" placeholder="이메일을 입력하세요">
-                            <label for="login-password">비밀번호 입력</label>
-                            <input type="password" id="login-password" placeholder="비밀번호를 입력하세요">
-                            <button type="submit">로그인</button>
-                        </form>
-                    </div> //아이디,비밀번호 dropdown 입력창 묶음
-                -->
-                <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-                <button type="sign-up" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
-                <!--회원가입 페이지 이동-->
-            </sec:authorize>
-            
-            <!-- 로그인시 (class와 onclick 링크 수정 필요-->
-            <sec:authorize access="isAuthenticated()">
-            	<sec:authentication property="principal.username" var="nickname"/>
-            	<sec:authentication property="principal.no" var="userNo"/>
-            	<button type="button">${nickname}님 환영합니다</button>
-            	<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
-            	<a href="/users/${userNo}">
-                <button type="button" class="login" >회원정보</button>
                 </a>
-                <button type="sign-up" class="sign-up" onclick="location.href='/logout'">로그아웃</button>
+            </div>
+
+            <nav>
+           	 	<!-- 비로그인시 -->
+            	<sec:authorize access="!isAuthenticated()">
+            	<!--write버튼, 회원가입버튼, login버튼 묶음-->
+                <button type="button" class="login">로그인</button>
+                <button type="button" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
                 <!--회원가입 페이지 이동-->
-                <button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
-                <!--글쓰기 페이지 이동-->
+                </sec:authorize>
+
+				<!-- 로그인시 (class와 onclick 링크 수정 필요-->
+				<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal.username" var="nickname" />
+					<sec:authentication property="principal.no" var="userNo" />
+					<button type="button">${nickname}님환영합니다</button>
+					<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
+					<a href="/users/${userNo}">
+						<button type="button" class="login">회원정보</button>
+					</a>
+					<button type="sign-up" class="sign-up" onclick="location.href='/logout'">로그아웃</button>
+					<!--회원가입 페이지 이동-->
+					<button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
+					<!--글쓰기 페이지 이동-->
+				</sec:authorize>
+
+			</nav>
+         	<!-- 비로그인시 -->
+           	<sec:authorize access="!isAuthenticated()">
+            <div id="login-form-container">
+                <form class="login-form" action="/login" method="post">
+                	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
+                    <button class="login-form-hide" type="button">X</button>
+                    <div class="logo">
+                        <!-- 책 아이콘 -->
+                        <img src="/resources/icon/logo.svg" alt="logo-icon"> <!--로고 이미지 작업 필요-->
+                        <!--책단지 아이콘-->
+                        <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
+                    </div>
+                    <label for="login-email">이메일</label>
+                    <input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
+                    <label for="login-password">비밀번호</label>
+                    <input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
+                    <input id="login-form-submit" type="submit" value="로그인">
+                </form>
+            </div> <!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
+            <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
             </sec:authorize>
-            </nav>
         </header>
         
         <div id="category">
@@ -88,7 +86,7 @@
             </div>
             <!--버튼 누르면 색 변하도록 js작업하기-->
             <div id="filter-menu">
-                <img src="/resources/icon/filter.svg" >
+                <img src="/resources/icon/filter.svg">
                 <div class="filter">필터</div>
             </div>
             <span class="category-menu">국내/외국</span>
@@ -135,35 +133,126 @@
         </div>
         
         <section class="main">
-<!--             글 목록 출력              -->
             <div class="grid-view-contents">
                 <div class="grid-view-content">
                     <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                    	onclick="location.href='/writing/1'"
                         alt="book image">
-                    <button type="button" class="like-button" id="good"></button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     <div class="book-content">
-                    	<ul id="book"></ul>
-                        <h1 id="booktitle"></h1>
-                        <h3 id="author"></h3>
-                        <h3 id="regDate"></h3>
-                        <p id="content"></p>
+                        <h1>엔지니어를 위한 인문학 수업</h1>
+                        <h3>새뮤얼 플러먼</h3>
+                        <h3>2021.02.02</h3>
+                        <p>
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
                     </div>
                     <div class="content-info">
                         <div class="profile-img"><!--작성자 옆 프로필사진-->
                             <img src="#" alt="profile image">
                         </div>              
-                        <strong id="nickname"></strong>
-                        <strong id="regDate"></strong><!--작성일-->              
+                        <strong>Yunji Jeong</strong>
+                        <strong>2020.02.14</strong><!--작성일-->              
+                    </div>
+                </div>
+                <!--이하 반복-->
+            </div>
+    
+            <div class="grid-view-contents">
+                <div class="grid-view-content">
+                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                        alt="book image">
+                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    <div class="book-content">
+                        <h1>엔지니어를 위한 인문학 수업</h1>
+                        <h3>새뮤얼 플러먼</h3>
+                        <h3>2021.02.02</h3>
+                        <p>
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="content-info">
+                        <div class="profile-img"><!--작성자 옆 프로필사진-->
+                            <img src="#" alt="profile image">
+                        </div>              
+                        <strong>Yunji Jeong</strong>
+                        <strong>2020.02.14</strong><!--작성일-->              
+                    </div>
+                </div>
+            </div>
+    
+            <div class="grid-view-contents">
+                <div class="grid-view-content">
+                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                        alt="book image">
+                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    <div class="book-content">
+                        <h1>엔지니어를 위한 인문학 수업</h1>
+                        <h3>새뮤얼 플러먼</h3>
+                        <h3>2021.02.02</h3>
+                        <p>
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="content-info">
+                        <div class="profile-img"><!--작성자 옆 프로필사진-->
+                            <img src="#" alt="profile image">
+                        </div>              
+                        <strong>Yunji Jeong</strong>
+                        <strong>2020.02.14</strong><!--작성일-->              
+                    </div>
+                </div>
+                <!--이하 반복-->    
+            </div>
+    
+            <div class="grid-view-contents">
+                <div class="grid-view-content">
+                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                        alt="book image">
+                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    <div class="book-content">
+                        <h1>엔지니어를 위한 인문학 수업</h1>
+                        <h3>새뮤얼 플러먼</h3>
+                        <h3>2021.02.02</h3>
+                        <p>
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="content-info">
+                        <div class="profile-img"><!--작성자 옆 프로필사진-->
+                            <img src="#" alt="profile image">
+                        </div>              
+                        <strong>Yunji Jeong</strong>
+                        <strong>2020.02.14</strong><!--작성일-->              
+                    </div>
+                </div>
+                <!--이하 반복-->
+            </div>
+            
+            <div class="grid-view-contents">
+                <div class="grid-view-content">
+                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                        alt="book image">
+                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    <div class="book-content">
+                        <h1>엔지니어를 위한 인문학 수업</h1>
+                        <h3>새뮤얼 플러먼</h3>
+                        <h3>2021.02.02</h3>
+                        <p>
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="content-info">
+                        <div class="profile-img"><!--작성자 옆 프로필사진-->
+                            <img src="#" alt="profile image">
+                        </div>              
+                        <strong>Yunji Jeong</strong>
+                        <strong>2020.02.14</strong><!--작성일-->              
                     </div>
                 </div>
                 <!--이하 반복-->
             </div>
         </section>
     </div>
-
-
-    <script src=""></script>
 </body>
 
 </html>

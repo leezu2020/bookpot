@@ -35,12 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		// 중복 로그인 방지
 		http.sessionManagement()
+			.invalidSessionUrl("/")
 			.maximumSessions(1)
 			// true를 사용한다면, 정상적으로 logout하지않고 브라우저 종료시에, 아무도 로그인 못하는 상황 발생
 			// 따라서 action 없는 사용자는 강제로 session을 kill 하는 등의 추가 개발이 필요
 			.maxSessionsPreventsLogin(true)
 			.expiredUrl("/duplicated-login")
 			.sessionRegistry(sessionRegistry());
+		
 		
 		//테스트 위한 임시로 csrf 설정 막기
 		http.csrf().disable();
@@ -60,7 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//	로그인 설정
 			.and()
 			.formLogin()
-			.loginProcessingUrl("/user/login")
+		// 로그인 페이지 처리를 어떻게 해야할지
+			.loginPage("/")
+			.loginProcessingUrl("/login")
 		//	로그인 성공페이지 구현
 		//	.successHandler(authenticationSuccessHandler())
 			
