@@ -46,6 +46,19 @@ public class WritingController {
 		return "";
 	}
 	
+	// 책 제목 검색 DB
+	@GetMapping("/title/{keyword}")
+	@ResponseBody
+	public List<String> srchtitle(@PathVariable String keyword) {
+		Criteria srch = new Criteria();
+		srch.setKeyword(keyword);
+		List<String> list = writingService.getTitleList(srch);
+		for(int i=0; i<list.size(); i++) {
+			System.out.print(list.get(i) + " ");
+		}
+		return list;
+	}
+	
 	// 글 상세 페이지 출력
 	@GetMapping("/{no}")
 	public String detail(@PathVariable int no) {

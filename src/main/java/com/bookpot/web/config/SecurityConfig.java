@@ -1,4 +1,4 @@
-package com.bookpot.web.security.config;
+package com.bookpot.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +12,11 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.bookpot.web.join.service.JoinService;
+import com.bookpot.web.security.LoginFailureHandler;
 import com.bookpot.web.security.SecuritySuccessHandler;
 
 @Configuration
@@ -65,6 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// 로그인 페이지 처리를 어떻게 해야할지
 			.loginPage("/")
 			.loginProcessingUrl("/login")
+		// 로그인 실패 처리
+		//	.failureHandler(authenticationFailureHandler())
 		//	로그인 성공페이지 구현
 		//	.successHandler(authenticationSuccessHandler())
 			
@@ -100,5 +104,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Bean
 	public AuthenticationSuccessHandler authenticationSuccessHandler() {
 		return new SecuritySuccessHandler();
+	}
+	
+	@Bean
+	public AuthenticationFailureHandler authenticationFailureHandler() {
+		return new LoginFailureHandler();
 	}
 }

@@ -14,6 +14,37 @@
     <script defer src="/resources/js/Home JS.js"></script>
 </head>
 
+<script type="text/javascript">
+	var page;
+	$(document).ready(function(){
+		setTimeout(searchbook(), 5000);
+	});
+	function searchbook(){
+		$("#searching").keyup(function(){
+			$("#srch-result").empty();
+			var keyword = $("#searching").val();
+			if(keyword != ''){
+				$.ajax({
+					url : "/writing/title/" + keyword,
+					type : "get",
+					success : function(data){
+						
+						for(var i=0; i<data.length; i++){
+							$("#srch-result").append("<li class='srchList' value=" + data[i] +">" + data[i] + "</li>");
+							console.log(data[i]);
+						}
+					},
+					error: function(e){
+						console.log("DB를 가져오지 못했습니다.");
+					}
+				});
+			} else {
+				$("#srch-result").empty();
+			}
+		});
+	}
+</script>
+
 <body>
     <div class="container">
         <header>
@@ -34,7 +65,30 @@
                 <button type="button" class="login">로그인</button>
                 <button type="button" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
                 <!--회원가입 페이지 이동-->
-                </sec:authorize>
+					<div id="login-form-container">
+						<form class="login-form" action="/login" method="post">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							<button class="login-form-hide" type="button">X</button>
+							<div class="logo">
+								<!-- 책 아이콘 -->
+								<img src="/resources/icon/logo.svg" alt="logo-icon">
+								<!--로고 이미지 작업 필요-->
+								<!--책단지 아이콘-->
+								<img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
+							</div>
+							<label for="login-email">이메일</label>
+							<input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
+							<label for="login-password">비밀번호</label>
+							<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
+							<button id="login-form-submit" type="submit">로그인</button>
+							<c:if test="${not empty errormsg}">
+								<p>${errormsg}</p>
+							</c:if>
+						</form>
+					</div>
+					<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
+					<!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
+				</sec:authorize>
 
 				<!-- 로그인시 (class와 onclick 링크 수정 필요-->
 				<sec:authorize access="isAuthenticated()">
@@ -52,27 +106,6 @@
 				</sec:authorize>
 
 			</nav>
-         	<!-- 비로그인시 -->
-           	<sec:authorize access="!isAuthenticated()">
-            <div id="login-form-container">
-                <form class="login-form" action="/login" method="post">
-                	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
-                    <button class="login-form-hide" type="button">X</button>
-                    <div class="logo">
-                        <!-- 책 아이콘 -->
-                        <img src="/resources/icon/logo.svg" alt="logo-icon"> <!--로고 이미지 작업 필요-->
-                        <!--책단지 아이콘-->
-                        <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
-                    </div>
-                    <label for="login-email">이메일</label>
-                    <input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
-                    <label for="login-password">비밀번호</label>
-                    <input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
-                    <input id="login-form-submit" type="submit" value="로그인">
-                </form>
-            </div> <!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
-            <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-            </sec:authorize>
         </header>
         
         <div id="category">
@@ -81,9 +114,10 @@
                 <label for="searching" class="search">책 찾아보기</label>
             </div>     
             <div class="searching-input">
-                <input type="" id="searching" placeholder="찾는 책의 제목/키워드를 입력하세요">
+                <input type="text" id="searching" placeholder="찾는 책의 제목/키워드를 입력하세요">
                 <button type="reset">X</button><!--쓴것 초기화 button-->
             </div>
+       	 		<ul id="srch-result"></ul>
             <!--버튼 누르면 색 변하도록 js작업하기-->
             <div id="filter-menu">
                 <img src="/resources/icon/filter.svg">
