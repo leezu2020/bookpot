@@ -67,6 +67,9 @@
                 <a href="/">
                 <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
                 </a>
+                <c:if test="${not empty errorMessage}">
+					<p>${errorMessage}</p>
+				</c:if>
             </div>
 
             <nav>
@@ -92,8 +95,8 @@
 							<label for="login-password">비밀번호</label>
 							<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
 							<button id="login-form-submit" type="submit">로그인</button>
-							<c:if test="${not empty errormsg}">
-								<p>${errormsg}</p>
+							<c:if test="${not empty errorMessage}">
+								<p>${errorMessage}</p>
 							</c:if>
 						</form>
 					</div>

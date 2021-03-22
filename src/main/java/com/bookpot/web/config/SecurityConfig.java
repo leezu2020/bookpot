@@ -41,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.maximumSessions(1)
 			// true를 사용한다면, 정상적으로 logout하지않고 브라우저 종료시에, 아무도 로그인 못하는 상황 발생
 			// 따라서 action 없는 사용자는 강제로 session을 kill 하는 등의 추가 개발이 필요
-			.maxSessionsPreventsLogin(true)
-			.expiredUrl("/duplicated-login")
+			.maxSessionsPreventsLogin(false)
+			.expiredUrl("/login/duplication")
 			.sessionRegistry(sessionRegistry());
 		
 		
@@ -67,8 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		// 로그인 페이지 처리를 어떻게 해야할지
 			.loginPage("/")
 			.loginProcessingUrl("/login")
+			.failureUrl("/login?error=true")
 		// 로그인 실패 처리
-		//	.failureHandler(authenticationFailureHandler())
+			.failureHandler(failureHandler())
 		//	로그인 성공페이지 구현
 		//	.successHandler(authenticationSuccessHandler())
 			
@@ -76,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 			.logout()
 		//	.logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
-			.logoutSuccessUrl("/")
+			.logoutSuccessUrl("/login")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSIONID")
 			
@@ -107,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
 	@Bean
-	public AuthenticationFailureHandler authenticationFailureHandler() {
+	public AuthenticationFailureHandler failureHandler() {
 		return new LoginFailureHandler();
 	}
 }
