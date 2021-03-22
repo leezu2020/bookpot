@@ -43,6 +43,17 @@
 			}
 		});
 	}
+	$.ajax({
+		url: "/writing/view/grid",
+		type: "get",
+		dataType: "json",
+		success: function(data){
+			console.log(data);
+		},
+		error: function(e){
+			console.log("글 목록을 가져오지 못했습니다.");
+		}
+	})
 </script>
 
 <body>
@@ -99,9 +110,8 @@
 					<a href="/users/${userNo}">
 						<button type="button" class="login">회원정보</button>
 					</a>
-					<button type="sign-up" class="sign-up" onclick="location.href='/logout'">로그아웃</button>
-					<!--회원가입 페이지 이동-->
-					<button type="write" id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
+					<button class="sign-up" onclick="location.href='/logout'">로그아웃</button>
+					<button id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
 					<!--글쓰기 페이지 이동-->
 				</sec:authorize>
 
@@ -160,132 +170,138 @@
                 <div class="latest">최신</div>
             </div>
             <div class="view-type">
-                <img src="/resources/icon/list_black.svg">
-                <img src="/resources/icon/grid_black.svg">
+                <button id="list-view-selected" class="view-type-select"><img src="/resources/icon/list_black.svg"></button>
+                <button id="grid-view-selected" class="view-type-select"><img src="/resources/icon/grid_black.svg"></button>
                 <!--따로 버튼 없이 선택하자마자 적용되는 방법은?-->
             </div>
         </div>
         
         <section class="main">
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
+            <div id="grid-view">
+                <div class="grid-view-content">      
+                    <div class="grid-view-content-img">
+                        <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                            alt="book image">
+                    </div>
+                    <div class="grid-view-content-like">
+                        <img src="/resources/icon/like_white.svg">
+                        <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    </div>
+                    <div class="grid-book-info">
+                        <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>
+                        <h3 class="grid-book-title">엔지니어를 위한 인문학 수업</h3>
+                        <p class="summary">
                             바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
                         </p>
                     </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
+                    <div class="write-info">
+                        <div class="register-profile"><!--작성자 옆 프로필사진-->
+                            <img src="#">
+                            <span class="profile-nickname">Yunji Jeong</span>
+                        </div>  
+                        <span class="register-date">2020.02.14</span><!--작성일-->    
+                    </div>                   
+                </div>
+                <!--이하 반복-->
+                <div class="grid-view-content">      
+                    <div class="grid-view-content-img">
+                        <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                            alt="book image">
                     </div>
+                    <div class="grid-view-content-like">
+                        <img src="/resources/icon/like_white.svg">
+                        <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    </div>
+                    <div class="grid-book-info">
+                        <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>
+                        <h3 class="grid-book-title">엔지니어를 위한 인문학 수업</h3>
+                        <p class="summary">
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="write-info">
+                        <div class="register-profile"><!--작성자 옆 프로필사진-->
+                            <img src="#">
+                            <span class="profile-nickname">Yunji Jeong</span>
+                        </div>  
+                        <span class="register-date">2020.02.14</span><!--작성일-->    
+                    </div>                   
+                </div>
+                <!--이하 반복-->
+                <div class="grid-view-content">      
+                    <div class="grid-view-content-img">
+                        <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                            alt="book image">
+                    </div>
+                    <div class="grid-view-content-like">
+                        <img src="/resources/icon/like_white.svg">
+                        <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    </div>
+                    <div class="grid-book-info">
+                        <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>
+                        <h3 class="grid-book-title">엔지니어를 위한 인문학 수업</h3>
+                        <p class="summary">
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="write-info">
+                        <div class="register-profile"><!--작성자 옆 프로필사진-->
+                            <img src="#">
+                            <span class="profile-nickname">Yunji Jeong</span>
+                        </div>  
+                        <span class="register-date">2020.02.14</span><!--작성일-->    
+                    </div>                   
+                </div>
+                <!--이하 반복-->
+                <div class="grid-view-content">      
+                    <div class="grid-view-content-img">
+                        <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
+                            alt="book image">
+                    </div>
+                    <div class="grid-view-content-like">
+                        <img src="/resources/icon/like_white.svg">
+                        <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                    </div>
+                    <div class="grid-book-info">
+                        <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>
+                        <h3 class="grid-book-title">엔지니어를 위한 인문학 수업</h3>
+                        <p class="summary">
+                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
+                        </p>
+                    </div>
+                    <div class="write-info">
+                        <div class="register-profile"><!--작성자 옆 프로필사진-->
+                            <img src="#">
+                            <span class="profile-nickname">Yunji Jeong</span>
+                        </div>  
+                        <span class="register-date">2020.02.14</span><!--작성일-->    
+                    </div>                   
                 </div>
                 <!--이하 반복-->
             </div>
-    
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-            </div>
-    
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-                <!--이하 반복-->    
-            </div>
-    
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-                <!--이하 반복-->
-            </div>
-            
-            <div class="grid-view-contents">
-                <div class="grid-view-content">
-                    <img src="https://t1.daumcdn.net/cfile/tistory/99D20C355C94394109"
-                        alt="book image">
-                    <button type="button" class="like-button">256</button> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
-                    <div class="book-content">
-                        <h1>엔지니어를 위한 인문학 수업</h1>
-                        <h3>새뮤얼 플러먼</h3>
-                        <h3>2021.02.02</h3>
-                        <p>
-                            바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..
-                        </p>
-                    </div>
-                    <div class="content-info">
-                        <div class="profile-img"><!--작성자 옆 프로필사진-->
-                            <img src="#" alt="profile image">
-                        </div>              
-                        <strong>Yunji Jeong</strong>
-                        <strong>2020.02.14</strong><!--작성일-->              
-                    </div>
-                </div>
-                <!--이하 반복-->
-            </div>
-        </section>
+			<div id="list-view">
+				<div class="classification">
+					<div class="classification-book-type">분야</div>
+					<div class="classification-content-title">제목</div>
+					<div class="classification-book-title">책 제목</div>
+					<div class="classification-profile-nickname">작성자</div>
+				</div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+				<div class="list-view-content"></div>
+			</div>
+		</section>
     </div>
 </body>
 
