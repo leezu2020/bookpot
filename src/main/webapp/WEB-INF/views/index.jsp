@@ -15,11 +15,7 @@
 </head>
 
 <script type="text/javascript">
-	var page;
-	$(document).ready(function(){
-		setTimeout(searchbook(), 5000);
-	});
-	function searchbook(){
+	(function(){
 		$("#searching").keyup(function(){
 			$("#srch-result").empty();
 			var keyword = $("#searching").val();
@@ -42,7 +38,7 @@
 				$("#srch-result").empty();
 			}
 		});
-	}
+	})();
 	$.ajax({
 		url: "/writing/view/grid",
 		type: "get",
@@ -67,9 +63,6 @@
                 <a href="/">
                 <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
                 </a>
-                <c:if test="${not empty errorMessage}">
-					<p>${errorMessage}</p>
-				</c:if>
             </div>
 
             <nav>
@@ -78,9 +71,11 @@
             	<!--write버튼, 회원가입버튼, login버튼 묶음-->
                 <button type="button" class="login">로그인</button>
                 <button type="button" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
+                </sec:authorize>
+                
                 <!--회원가입 페이지 이동-->
 					<div id="login-form-container">
-						<form class="login-form" action="/login" method="post">
+						<form class="login-form" action="/" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 							<button class="login-form-hide" type="button">X</button>
 							<div class="logo">
@@ -102,7 +97,7 @@
 					</div>
 					<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
 					<!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-				</sec:authorize>
+				
 
 				<!-- 로그인시 (class와 onclick 링크 수정 필요-->
 				<sec:authorize access="isAuthenticated()">
@@ -113,7 +108,7 @@
 					<a href="/users/${userNo}">
 						<button type="button" class="login">회원정보</button>
 					</a>
-					<button class="sign-up" onclick="location.href='/logout'">로그아웃</button>
+					<button class="logout" onclick="location.href='/logout'">로그아웃</button>
 					<button id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
 					<!--글쓰기 페이지 이동-->
 				</sec:authorize>
