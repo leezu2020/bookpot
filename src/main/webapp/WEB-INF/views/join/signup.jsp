@@ -21,7 +21,7 @@
 </head>
 
 <!-- 중복확인 처리를 위한 script -->
-	<script type="text/javascript">
+<script type="text/javascript">
 		var code = '';
 		var setting = '';
 			function fn_checkNickname(){
@@ -79,6 +79,51 @@
 					alert('인증번호를 다시 확인해주세요.');
 				}
 			}
+$(document).ready(function(){	
+		$('#submit-button').click(function (){
+			
+			var params = $('#signup-form').serialize();		
+			console.log(params);
+			event.preventDefault();
+			console.log('실행되라');
+			$.ajax({
+				url : "/join",
+				type : "post",
+				dataType : "json",
+				data : params,
+				success : function(){
+					window.location.href="/join";
+				},
+				error : function(request, status, error){
+					$.each(request.responseJSON, function(i, error){
+						console.log("에러 : " + error);
+						switch(error){
+						case "wrongpassword":
+							$('#password').val('');
+							$('#passwordCheck').val('');
+							break;
+						case "notmatchpassword":
+							$('#password').val('');
+							$('#passwordCheck').val('');
+							break;
+						case "existnickname":
+							$("#nickname").val('');
+							break;
+						case "existemail":
+							$("#email").val('');
+							break;
+						case "emptynickname":
+							break;
+						case "emptypassword":
+							break;
+						case "emptyemail":
+							break;
+						}
+					})
+				}
+			})
+		})
+})
 		</script>
 <body>
     <div class="container">
@@ -139,44 +184,35 @@
         
         
         <div class="main">
-			<form:form id="signup-form" modelAttribute="joinDto"
-				name="signupForm" action="/join" method="post">
+			<form id="signup-form" name="signupForm">
 				<h2>회원가입</h2>
 				<div id="green-box"></div>
 				<!--닉네임 입력-->
 				<p>
 					<label for="nickname">닉네임</label><br>
-					<form:input path="nickname" id="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
+					<input id="nickname" name="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
 					<input type="button" id="nickname-button" value="중복확인" onClick="fn_checkNickname()">
-					<!-- 닉네임 오류 출력란 -->
-					<form:errors path="nickname"/>
 				</p>
 
 				<!--이메일 입력-->
 				<p>
 					<label for="email">이메일</label><br>
-					<form:input path="email" id="email" type="text" placeholder="인증번호를 받을 이메일을 입력해주세요." />
+					<input id="email" type="email" name="email" placeholder="인증번호를 받을 이메일을 입력해주세요." />
 					<input type="button" id="email-button" onClick="fn_sendEmail()" value="인증번호 발송">
-					<!-- 아이디 오류 출력란 -->
-					<form:errors path="email"/>
 					<input type="text" id="inputCode" disabled="disabled" placeholder="인증번호 입력해주세요."/>
 					<input type="button" id="code-button" disabled="disabled" onClick="fn_checkCode()" value="인증번호 확인">
 				</p>
 
 				<!--비밀번호 입력-->
 				<p>
-					<label for="password">비밀번호</label><br>
-					<form:password path="password" id="password" placeholder="8~16자 영문 대 소문자, 숫자를 사용하세요." />
-					<!-- 비밀번호 오류 출력란 -->
-					<form:errors path="password" />
+					<label for="password" >비밀번호</label><br>
+					<input type="password" id="password" name="password" placeholder="8~16자 영문 대 소문자, 숫자를 사용하세요." />
 				</p>
 				
 				<!--비밀번호 확인 입력-->
 				<p>
 					<label for="password">비밀번호 확인</label><br>
-					<form:password path="passwordCheck" id="password" placeholder="비밀번호가 일치하지 않습니다." />
-					<!-- 비밀번호 확인 오류 출력란 -->
-					<form:errors path="passwordCheck" />
+					<input type="password" id="passwordCheck" name="passwordCheck" placeholder="비밀번호가 일치하지 않습니다." />
 				</p>
 				<!--개인정보 동의 내용박스-->
 				<label for="agreebox">개인정보 수집, 이용에 대한 동의</label>
@@ -189,10 +225,10 @@
 				</p>
 
 				<p>
-					<input id="submit-button" type="submit" value="동의하고 회원가입">
+					<input type="button" id="submit-button" value="동의하고 회원가입" />
 					<!--모든 항목 작성완료시 활성화되도록 해야함-->
 				</p>
-			</form:form>
+			</form>
 		</div>
     </div>
 

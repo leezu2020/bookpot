@@ -25,7 +25,7 @@ public class EmailController {
 	private MailService mailService;
 	
 	@Autowired
-	private JoinService userService;
+	private JoinService joinService;
 	
 	@GetMapping("email/{email:.+}")
 	@ResponseBody
@@ -35,7 +35,7 @@ public class EmailController {
 		// 이메일 중복 체크후 코드 전송 진행
 
 		// 이메일이 중복되지 않을때
-		if(!userService.existEmail(email)) {
+		if(!joinService.existEmail(email)) {
 			Random random = new Random();
 			int num = random.nextInt(888888) + 111111;
 			

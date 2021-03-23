@@ -8,6 +8,8 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,17 +37,69 @@ public class WritingController {
 	@GetMapping("/view/{type}")
 	public List<WritingView> list(@PathVariable String type) {
 		System.out.println("viewType : " + type);
+		
 		// 그리드 뷰
+		if(type.equals("grid")) {
+			// 그리드형 데이터 가져오기
+			
+		} else if(type.equals("list")){
+			// 리스트형 데이터 가져오기
+			
+		}
 		return writingService.getAllWriting();
+	}
+	
+	// 글 등록
+	@PostMapping("/reg")
+	public void regWriting(@AuthenticationPrincipal SecurityUser user, @RequestParam Writing writing) {
+		
+		// 추후에 validator로 유효성 검사 추가하기
+		
+		// 유저 정보확인 -> 
+		// 글쓴이 정보 setting
+		writing.setUserNo(user.getNo());
+		
+		// 
+//		if(writingService.add(writing)) {
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		} else {
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+		
+		// 유저 정보 X
+		// bad request로 반환
+	}	
+
+	// 글 상세 페이지 출력
+	@GetMapping("/{no}")
+	public String detail(@PathVariable int no) {
+		// 내용 수정
+		return "writing/detail";
 	}
 	
 	// 검색 목록 출력
 	@GetMapping("/search")
-	public String search(Criteria srch) {
+	@ResponseBody
+	public List<WritingView> search() {
+		Criteria cri = new Criteria();
 		
-		return "";
+		cri.setKeyword("목");
+		cri.setDivision("외국");
+		cri.setCategories(List.of("역사/문화", "예술"));
+		cri.setSort("date");
+		
+		
+		return writingService.getWritingList(cri);
 	}
-	
+
+		
+///////////////////////////////// 구현완료 ///////////////////////////////////////////////////	
+	// 글 등록 페이지 이동
+	@GetMapping("/reg")
+	public String reg() {
+		return "writing/reg";
+	}
+
 	// 책 제목 검색 DB
 	@GetMapping("/title/{keyword}")
 	@ResponseBody
@@ -57,19 +111,6 @@ public class WritingController {
 			System.out.print(list.get(i) + " ");
 		}
 		return list;
-	}
-	
-	// 글 상세 페이지 출력
-	@GetMapping("/{no}")
-	public String detail(@PathVariable int no) {
-		// 내용 수정
-		return "writing/detail";
-	}
-	
-	// 글 등록 페이지 이동
-	@GetMapping("/reg")
-	public String reg() {
-		return "writing/reg";
 	}
 	
 	// 글 등록 도서 검색
@@ -112,17 +153,5 @@ public class WritingController {
 		}
 		
 	}
-	
-	// 글 등록
-	@PostMapping("/reg")
-	public String regWriting(@AuthenticationPrincipal SecurityUser user, @RequestParam Writing writing) {
-		
-		// 추후에 validator로 유효성 검사 추가하기
-		
-		// 글쓴이 정보 setting
-		writing.setUserNo(user.getNo());
-		writingService.regWriting(writing);
-		
-		return "redirect:/writing";
-	}
+
 }

@@ -15,7 +15,7 @@
 </head>
 
 <script type="text/javascript">
-	(function(){
+	$(document).ready(function(){
 		$("#searching").keyup(function(){
 			$("#srch-result").empty();
 			var keyword = $("#searching").val();
@@ -38,18 +38,21 @@
 				$("#srch-result").empty();
 			}
 		});
+	});
+	// 일회성 함수
+	(function(){
+		$.ajax({
+			url: "/writing/search",
+			type: "get",
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+			},
+			error: function(e){
+				console.log("글 목록을 가져오지 못했습니다.");
+			}
+		})
 	})();
-	$.ajax({
-		url: "/writing/view/grid",
-		type: "get",
-		dataType: "json",
-		success: function(data){
-			console.log(data);
-		},
-		error: function(e){
-			console.log("글 목록을 가져오지 못했습니다.");
-		}
-	})
 </script>
 
 <body>
@@ -75,7 +78,7 @@
                 
                 <!--회원가입 페이지 이동-->
 					<div id="login-form-container">
-						<form class="login-form" action="/" method="post">
+						<form class="login-form" action="/login" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 							<button class="login-form-hide" type="button">X</button>
 							<div class="logo">
