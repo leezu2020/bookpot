@@ -16,7 +16,6 @@ public class JoinValidator implements Validator {
 	// 비밀번호 패턴 (영어대소문자 숫자 아무거나 8~16자리) -> 영문 숫자 혼합으로 수정필요
 	private static final String pwRegExp = "(?=.*\\d)(?=.*[a-zA-Z]).{8,16}";
 
-
 	private IJoinService joinService;
 
 	@Override

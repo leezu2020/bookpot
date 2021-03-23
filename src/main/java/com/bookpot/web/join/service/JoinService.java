@@ -10,9 +10,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bookpot.web.join.dto.JoinDto;
 import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.user.dao.UserDao;
 import com.bookpot.web.user.entity.User;
+
+import jakarta.validation.Valid;
 
 @Service
 public class JoinService implements UserDetailsService, IJoinService{
@@ -32,9 +35,9 @@ public class JoinService implements UserDetailsService, IJoinService{
 		return (userDao.getByEmail(email)) != null;
 	}
 	
-	public boolean regUser(User userVo) {
-		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
-		return userDao.insert(userVo);
+	public boolean regUser(@Valid JoinDto joinDto) {
+		joinDto.setPassword(passwordEncoder.encode(joinDto.getPassword()));
+		return userDao.insert(joinDto);
 	}
 
 	@Override

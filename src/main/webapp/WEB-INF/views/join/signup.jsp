@@ -85,14 +85,13 @@ $(document).ready(function(){
 			var params = $('#signup-form').serialize();		
 			console.log(params);
 			event.preventDefault();
-			console.log('실행되라');
 			$.ajax({
 				url : "/join",
 				type : "post",
 				dataType : "json",
 				data : params,
-				success : function(){
-					window.location.href="/join";
+				success : function(response){
+					console.log(response);
 				},
 				error : function(request, status, error){
 					$.each(request.responseJSON, function(i, error){
@@ -107,16 +106,26 @@ $(document).ready(function(){
 							$('#passwordCheck').val('');
 							break;
 						case "existnickname":
+							$('#password').val('');
+							$('#passwordCheck').val('');
 							$("#nickname").val('');
 							break;
 						case "existemail":
+							$('#password').val('');
+							$('#passwordCheck').val('');
 							$("#email").val('');
 							break;
 						case "emptynickname":
+							$('#password').val('');
+							$('#passwordCheck').val('');
 							break;
 						case "emptypassword":
+							$('#password').val('');
+							$('#passwordCheck').val('');
 							break;
 						case "emptyemail":
+							$('#password').val('');
+							$('#passwordCheck').val('');
 							break;
 						}
 					})

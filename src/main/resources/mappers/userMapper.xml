@@ -5,9 +5,9 @@
 <mapper namespace="userMapper">
 
 <!-- to join service -->
-	<insert id="insert" parameterType="User">
+	<insert id="insert" parameterType="JoinDto">
 		insert into user
-		values(null, #{email}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER', #{imgUrl})
+		values(null, #{email}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER', null)
 	</insert>
 	
 	<select id="getByNickname" resultType="User">

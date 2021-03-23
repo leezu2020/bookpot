@@ -92,7 +92,7 @@
 							<input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
 							<label for="login-password">비밀번호</label>
 							<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
-							<button id="login-form-submit" type="submit">로그인</button>
+							<input id="login-form-submit" type="button" value="로그인">
 							<c:if test="${not empty errorMessage}">
 								<p>${errorMessage}</p>
 							</c:if>

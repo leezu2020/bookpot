@@ -4,7 +4,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bookpot.web.join.dto.JoinDto;
 import com.bookpot.web.user.entity.User;
+
+import jakarta.validation.Valid;
 
 @Repository
 public class UserDao {
@@ -26,8 +29,8 @@ public class UserDao {
 		return sqlSession.selectOne(namespace + ".getByUserIDAndPassword", user);
 	}
 	
-	public Boolean insert(User user) {
-		int count = sqlSession.insert(namespace + ".insert", user);
+	public Boolean insert(@Valid JoinDto joinDto) {
+		int count = sqlSession.insert(namespace + ".insert", joinDto);
 		if(count == 1) {
 			return true;
 		} else {
