@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,8 +29,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 			Authentication authentication) throws IOException, ServletException {
 		
 		clearAuthenticationAttributes(request);
-		
-		response.addCookie(new Cookie("BPloginC", "success"));
 		
 		ObjectMapper mapper = new ObjectMapper();
 		

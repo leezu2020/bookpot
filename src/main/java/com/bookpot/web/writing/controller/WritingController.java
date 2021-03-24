@@ -83,8 +83,8 @@ public class WritingController {
 	public List<WritingView> search() {
 		Criteria cri = new Criteria();
 		
-		cri.setKeyword("목");
-		cri.setDivision("외국");
+		cri.setKeyword("");
+		cri.setDivision("");
 		cri.setCategories(List.of("역사/문화", "예술"));
 		cri.setSort("date");
 		
