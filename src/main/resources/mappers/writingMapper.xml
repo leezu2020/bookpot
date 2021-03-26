@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="writingMapper">
+	<insert id="insert" parameterType="Writing">
+		insert into writing
+		values(null, #{booktitle}, #{author}, #{publisher},
+			#{division}, #{title}, #{content}, #{imgUrl}, #{good},
+			now(), null, #{userNo})
+	</insert>
+	
+	<delete id="delete" parameterType="long">
+		delete from writing
+		where no = #{no}
+	</delete>
+	
+	<select id="getDetail" resultType="WritingView">
+		select *
+		from writingview
+		where no = #{no}
+	</select>
+
+	
+	<!-- json테스트 -->
+	<select id="getAll" resultType="WritingView">
+		select *
+		from writingview
+	</select>
+	
+	<!-- 검색용 테스트
+	만약 keyword 주어지지 않았을 때에도 고려해서 수정하기
+	division을 선택하지 않았을 때에도 고려해서 수정하기 -->
+	<select id="get" parameterType="Criteria" resultType="WritingView">
+		select wv.no, wv.booktitle, wv.bookimg, wv.title, wv.content, wv.good goodCnt, wv.nickname, wv.regDate, wv.userimg
+		<if test="userNo != null and userNo != 0">
+			,(select count(*) from good g where wv.no = g.writingNo and g.userNo = #{userNo}) isGood,
+			(select count(*) from scrap s where wv.no = s.writingNo and s.userNo = #{userNo}) isScrap
+		</if>
+		from writingview wv
+		where booktitle like concat('%',#{keyword},'%')
+			<if test="(division != null) and (!division.equals(''))">
+			and division like #{division}
+			</if>
+			or (tag like concat('%',#{keyword},'%'))
+			<if test="(categories != null) and (categories.size!=0)">
+			and
+			<foreach collection="categories" item="category" open="(" close=")" separator="and">
+				category like concat('%',#{category},'%')
+			</foreach>
+			</if>
+		<if test='sort.equals("date")'>
+		order by regDate
+		</if>
+		<if test='sort.equals("good")'>
+		order by good
+		</if>
+	</select>
+<!--    ///////////////////////////////   구현완료  ////////////////////////////////////////// -->
+	<!-- DB등록된 책 제목 목록 -->
+	<select id="getTitles" parameterType="Criteria" resultType="string">
+		select booktitle
+		from writing
+		where booktitle like concat('%',#{keyword},'%')
+	</select>
+</mapper>
+
+<!-- where절에 tag id와 category id를 for문으로 따로 함수처리
+SELECT w.*
+from bookpot.writingtag wt
+left join bookpot.writing w
+on wt.writingNo = w.no
+where division = '국내'
+and (categoryId = 1 or categoryId = 2)
+and w.title like '%제%'
+and (tagId = 1 or tagId = 2);
+-->

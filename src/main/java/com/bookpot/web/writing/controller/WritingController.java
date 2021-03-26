@@ -8,8 +8,6 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookpot.web.criteria.Criteria;
 import com.bookpot.web.security.SecurityUser;
+import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.entity.Writing;
 import com.bookpot.web.writing.service.WritingService;
 import com.bookpot.web.writing.view.WritingView;
@@ -46,18 +45,25 @@ public class WritingController {
 			// 리스트형 데이터 가져오기
 			
 		}
-		return writingService.getAllWriting();
+		
+		// 빈 criteria로 검색했을때에는?
+		Criteria cri = new Criteria();
+		
+		return writingService.getWritingList(cri);
 	}
 	
 	// 글 등록
 	@PostMapping("/reg")
-	public void regWriting(@AuthenticationPrincipal SecurityUser user, @RequestParam Writing writing) {
+	public void regWriting(@AuthenticationPrincipal SecurityUser user, @RequestParam WritingDto writingDto) {
 		
 		// 추후에 validator로 유효성 검사 추가하기
 		
 		// 유저 정보확인 -> 
+		if(user == null) {
+		//	return exception;
+		}
 		// 글쓴이 정보 setting
-		writing.setUserNo(user.getNo());
+		writingDto.setUserNo(user.getNo());
 		
 		// 
 //		if(writingService.add(writing)) {
@@ -72,9 +78,10 @@ public class WritingController {
 
 	// 글 상세 페이지 출력
 	@GetMapping("/{no}")
-	public String detail(@PathVariable int no) {
+	@ResponseBody
+	public WritingView detail(@PathVariable long no) {
 		// 내용 수정
-		return "writing/detail";
+		return writingService.get(no);
 	}
 	
 	// 검색 목록 출력
