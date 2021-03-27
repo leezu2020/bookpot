@@ -18,7 +18,7 @@ public class GoodService implements IGoodService {
 	}
 
 	@Override
-	public boolean deselectGood(Good good) {
+	public boolean goodDown(Good good) {
 		return goodDao.delete(good);
 	}
 

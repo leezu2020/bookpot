@@ -8,7 +8,7 @@ public interface IGoodService {
 	public boolean goodUp(Good good);
 
 	// 좋아요 -1 (취소)
-	public boolean deselectGood(Good good);
+	public boolean goodDown(Good good);
 
 	// 좋아요 체크 확인
 	// 존재 -> true , 없음 -> false

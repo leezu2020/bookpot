@@ -94,6 +94,30 @@
 			}
 		})
 	}
+	
+	function gooddown(){
+		$.ajax({
+			url: "/writing/good/3",
+			type: "delete",
+			dataType: "json",
+			success: function(response){
+				console.log("좋아요가 정상 취소되었습니다. " + response.message);
+			},
+			error: function(xhr, status, error){
+				var msg = xhr.responseText;
+				var parseMsg = JSON.parse(msg);
+				if(xhr.status == 400){
+					console.log("이미 좋아요가 취소된 상태입니다.");
+					console.log(parseMsg.message);
+				} else if(xhr.status == 503){
+					console.log("좋아요 서비스를 사용할 수 없습니다.");
+					console.log(parseMsg.message);
+				} else {
+					console.log(xhr.status + " 의 에러입니다.");
+				}
+			}
+		})
+	}
 </script>
 
 <body>
@@ -227,7 +251,7 @@
                     </div>
                     <div class="grid-view-content-like">
                         <img src="/resources/icon/like_white.svg">
-                        <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
+                        <span class="like-number" onclick="gooddown()">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
                     <div class="grid-book-info">
                         <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>

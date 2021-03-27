@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,5 +57,38 @@ public class GoodController {
 			map.put("message", "alreadyGoodUp");
 			return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@DeleteMapping("good/{writingNo}")
+	public ResponseEntity<HashMap<String, String>> goodDown(@PathVariable long writingNo){
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+		Good good = new Good();
+		good.setUserNo(user.getNo());
+		good.setWritingNo(writingNo);		
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		// 좋아요를 누른 상태라면
+		if(goodService.isExistGood(good)) {
+			// 좋아요 취소가 됐다면
+			if(goodService.goodDown(good)) {
+				map.put("message", "successGoodDown");
+				return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.OK);
+			} else {
+				// 좋아요 취소가 이루어지지 않았을 때
+				map.put("message", "failGoodDown");
+				return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.SERVICE_UNAVAILABLE);
+				
+			}
+		} else {
+			// 좋아요가 눌린 상태가 아닐 때
+			map.put("message", "alreadyGoodDown");
+			return new ResponseEntity<HashMap<String, String>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 }
