@@ -38,11 +38,11 @@
 			(select count(*) from scrap s where wv.no = s.writingNo and s.userNo = #{userNo}) isScrap
 		</if>
 		from writingview wv
-		where booktitle like concat('%',#{keyword},'%')
+		where (booktitle like concat('%',#{keyword},'%')
+			or (tag like concat('%',#{keyword},'%')))
 			<if test="(division != null) and (!division.equals(''))">
 			and division like #{division}
 			</if>
-			or (tag like concat('%',#{keyword},'%'))
 			<if test="(categories != null) and (categories.size!=0)">
 			and
 			<foreach collection="categories" item="category" open="(" close=")" separator="and">

@@ -18,7 +18,7 @@ public interface IWritingService {
 	
 	// 글 목록 가져오기(메인 및 검색)
 	// Search -> List<writing>
-	public List<WritingView> getWritingList(Criteria searchDto);
+	public List<WritingView> getWritingList(Criteria cri);
 	
 	// 상세 글 가져오기
 	// long id -> writing

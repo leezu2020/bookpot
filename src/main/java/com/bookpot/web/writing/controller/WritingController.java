@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookpot.web.criteria.Criteria;
+import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.service.WritingService;
 import com.bookpot.web.writing.view.WritingView;
@@ -54,29 +58,7 @@ public class WritingController {
 		return writingService.getWritingList(cri);
 	}
 	
-	// 글 등록
-	@PostMapping("")
-	public ResponseEntity<String> regWriting(@Valid @RequestBody WritingDto writingDto) {
-		
-		// 추후에 validator로 유효성 검사 추가하기
-		
-		// 유저 정보확인 -> 
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		SecurityUser user = (SecurityUser) authentication.getPrincipal();
-//		if(user != null) {
-		// 글쓴이 정보 setting
-		writingDto.setUserNo((long)38);
-//		}
-		// 
-		if(writingService.add(writingDto)) {
-			return new ResponseEntity<>("success", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		// 유저 정보 X
-		// bad request로 반환
-	}	
+
 
 	// 글 상세 페이지 출력
 	@GetMapping("/{no}")
@@ -84,26 +66,56 @@ public class WritingController {
 		// 내용 수정
 		model.addAttribute("writing", writingService.get(no));
 		
+		
 		return "writing/detail";
 	}
 	
 	// 검색 목록 출력
 	@GetMapping("/search")
 	@ResponseBody
-	public List<WritingView> search() {
-		Criteria cri = new Criteria();
+	public List<WritingView> search(Criteria cri) {		
 		
-		cri.setKeyword("");
-		cri.setDivision("");
-		cri.setCategories(List.of("역사/문화", "예술"));
-		cri.setSort("date");
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		SecurityUser user = (SecurityUser) authentication.getPrincipal();
 		
+//		if(user != null) {
+//			cri.setUserNo(user.getNo());
+//		}
+		cri.setUserNo((long)38);
+		System.out.println("keyword : " + cri.getKeyword());
+		System.out.println("division : " + cri.getDivision());
+		for(int i=0; i<cri.getCategories().size(); i++)
+			System.out.println("분야 : " + cri.getCategories().get(i));
 		
 		return writingService.getWritingList(cri);
 	}
 
 		
 ///////////////////////////////// 구현완료 ///////////////////////////////////////////////////	
+	// 글 등록
+	@PostMapping("")
+	public ResponseEntity<String> regWriting(@Valid @RequestBody WritingDto writingDto) {
+		
+		// 추후에 validator로 유효성 검사 추가하기
+		
+		// 유저 정보확인 -> 
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		if(user != null) {
+		// 글쓴이 정보 setting
+		writingDto.setUserNo(user.getNo());
+		} else {
+		// 로그인 안되어있다면
+			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		}
+		 
+		if(writingService.add(writingDto)) {
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}	
+	
 	// 글 등록 페이지 이동
 	@GetMapping("/reg")
 	public String reg() {

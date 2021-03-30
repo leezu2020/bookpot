@@ -1,7 +1,5 @@
 package com.bookpot.web.writing.dto;
 
-import java.util.Date;
-
 public class WritingDto {
 	private String booktitle;
 	private String author;
