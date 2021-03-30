@@ -43,7 +43,7 @@
 <!-- 첫 화면 글 가져오기 -->
 	(function(){
 		$.ajax({
-			url: "/writings/search",
+			url: "/writings/search?keyword=&division=&categories=&sort=",
 			type: "get",
 			dataType: "json",
 			success: function(data){
@@ -162,7 +162,7 @@
 						<button type="button" class="login">회원정보</button>
 					</a>
 					<button class="logout" onclick="location.href='/logout'">로그아웃</button>
-					<button id="write-button" onclick="location.href='/writing/reg'">글쓰기</button>
+					<button id="write-button" onclick="location.href='/writings/reg'">글쓰기</button>
 					<!--글쓰기 페이지 이동-->
 				</sec:authorize>
 

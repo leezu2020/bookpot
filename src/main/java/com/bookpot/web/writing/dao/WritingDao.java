@@ -47,10 +47,6 @@ public class WritingDao {
 		}
 	}
 	
-	// 검색 결과 출력 테스트용
-	public List<WritingView> search(Criteria cri){
-		return sqlSession.selectList(namespace + ".get", cri);
-	}
 
 	// 글 detail 가져오기
 	public WritingView get(long id) {
@@ -64,4 +60,8 @@ public class WritingDao {
 		return sqlSession.selectList(namespace + ".getTitles", srch);
 	}
 
+	// 검색 결과 출력 테스트용
+	public List<WritingView> search(Criteria cri){
+		return sqlSession.selectList(namespace + ".get", cri);
+	}
 }

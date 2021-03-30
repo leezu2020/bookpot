@@ -119,7 +119,7 @@ public class WritingController {
 	// 글 등록 페이지 이동
 	@GetMapping("/reg")
 	public String reg() {
-		return "writing/reg";
+		return "writing/write";
 	}
 
 	// 책 제목 검색 DB
