@@ -10,6 +10,10 @@
 		<typeAlias alias="WritingView" type="com.bookpot.web.writing.view.WritingView"/>
 		<typeAlias alias="Tag" type="com.bookpot.web.tag.entity.Tag"/>
 		<typeAlias alias="Good" type="com.bookpot.web.good.entity.Good"/>
+		<typeAlias alias="Scrap" type="com.bookpot.web.scrap.entity.Scrap"/>
 		<typeAlias alias="Criteria" type="com.bookpot.web.criteria.Criteria"/>
+		<typeAlias alias="CommentDto" type="com.bookpot.web.comment.dto.CommentDto"/>
+		<typeAlias alias="Comment" type="com.bookpot.web.comment.entity.Comment"/>
+		<typeAlias alias="CommentVo" type="com.bookpot.web.comment.vo.CommentVo"/>
 	</typeAliases>
 </configuration>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookpot.web.criteria.Criteria;
 import com.bookpot.web.writing.dao.WritingDao;
+import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.entity.Writing;
 import com.bookpot.web.writing.view.WritingView;
 
@@ -44,9 +45,9 @@ public class WritingService implements IWritingService{
 	}
 
 	@Override
-	public boolean add(Writing writing) {
+	public boolean add(WritingDto writingDto) {
 		// TODO Auto-generated method stub
-		return true;
+		return writingDao.insert(writingDto);
 	}
 /////////////////////////////////// 구현 완료 //////////////////////////////////////////////////
 	

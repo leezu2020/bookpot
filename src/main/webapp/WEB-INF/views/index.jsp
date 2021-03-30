@@ -22,7 +22,7 @@
 			var keyword = $("#searching").val();
 			if(keyword != ''){
 				$.ajax({
-					url : "/writing/title/" + keyword,
+					url : "/writings/title/" + keyword,
 					type : "get",
 					success : function(data){
 						
@@ -43,7 +43,7 @@
 <!-- 첫 화면 글 가져오기 -->
 	(function(){
 		$.ajax({
-			url: "/writing/search",
+			url: "/writings/search",
 			type: "get",
 			dataType: "json",
 			success: function(data){
@@ -55,25 +55,10 @@
 		})
 	})();
 	
-<!-- 글 detail 기능 -->	
-	function getwriting(){
-		$.ajax({
-			url: "/writing/1",
-			type: "get",
-			dataType: "json",
-			success: function(data){
-				console.log(data);
-			},
-			error: function(e){
-				console.log("글 세부사항 가져오기 실패");
-			}
-		});
-	}
-	
 <!-- 좋아요 기능 -->
 	function goodup(){
 		$.ajax({
-			url: "/writing/good/3",
+			url: "/writings/good/3",
 			type: "post",
 			dataType: "json",
 			success: function(response){
@@ -97,7 +82,7 @@
 	
 	function gooddown(){
 		$.ajax({
-			url: "/writing/good/3",
+			url: "/writings/good/3",
 			type: "delete",
 			dataType: "json",
 			success: function(response){
@@ -236,8 +221,8 @@
                 <div class="latest">최신</div>
             </div>
             <div class="view-type">
-                <button id="list-view-selected" class="view-type-select"><img src="/resources/icon/list_black.svg"></button>
-                <button id="grid-view-selected" class="view-type-select"><img src="/resources/icon/grid_black.svg"></button>
+                <button id="list-view-selected" class="view-type-select"><img src="/resources/icon/list_green.svg" id="list-view-icon"></button>
+                <button id="grid-view-selected" class="view-type-select"><img src="/resources/icon/grid_black.svg" id="grid-view-icon"></button>
                 <!--따로 버튼 없이 선택하자마자 적용되는 방법은?-->
             </div>
         </div>
@@ -279,7 +264,7 @@
                         <span class="like-number" onclick="goodup()">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
              <!--  xpppppppppppppppppppppppppppppppppppp스트 -->
-                    <div class="grid-book-info" onclick="getwriting()">
+                    <div class="grid-book-info" onclick="location.href='/writings/3'">
                         <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>
                         <h3 class="grid-book-title">엔지니어를 위한 인문학 수업</h3>
                         <p class="summary">

@@ -6,8 +6,8 @@
 	<insert id="insert" parameterType="Writing">
 		insert into writing
 		values(null, #{booktitle}, #{author}, #{publisher},
-			#{division}, #{title}, #{content}, #{imgUrl}, #{good},
-			now(), null, #{userNo})
+			#{division}, #{title}, #{content}, #{imgUrl}, 0,
+			current_timestamp, null, #{userNo}, #{startDate}, #{endDate}, #{passage})
 	</insert>
 	
 	<delete id="delete" parameterType="long">

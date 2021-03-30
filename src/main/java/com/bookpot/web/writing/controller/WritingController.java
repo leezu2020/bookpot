@@ -8,24 +8,26 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookpot.web.criteria.Criteria;
-import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.writing.dto.WritingDto;
-import com.bookpot.web.writing.entity.Writing;
 import com.bookpot.web.writing.service.WritingService;
 import com.bookpot.web.writing.view.WritingView;
 
+import jakarta.validation.Valid;
+
 @Controller
-@RequestMapping("/writing")
+@RequestMapping("/writings")
 public class WritingController {
 
 	@Autowired
@@ -53,24 +55,24 @@ public class WritingController {
 	}
 	
 	// 글 등록
-	@PostMapping("/reg")
-	public void regWriting(@AuthenticationPrincipal SecurityUser user, @RequestParam WritingDto writingDto) {
+	@PostMapping("")
+	public ResponseEntity<String> regWriting(@Valid @RequestBody WritingDto writingDto) {
 		
 		// 추후에 validator로 유효성 검사 추가하기
 		
 		// 유저 정보확인 -> 
-		if(user == null) {
-		//	return exception;
-		}
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+//		if(user != null) {
 		// 글쓴이 정보 setting
-		writingDto.setUserNo(user.getNo());
-		
-		// 
-//		if(writingService.add(writing)) {
-//			return new ResponseEntity<>(HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		writingDto.setUserNo((long)38);
 //		}
+		// 
+		if(writingService.add(writingDto)) {
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
 		// 유저 정보 X
 		// bad request로 반환
@@ -78,10 +80,11 @@ public class WritingController {
 
 	// 글 상세 페이지 출력
 	@GetMapping("/{no}")
-	@ResponseBody
-	public WritingView detail(@PathVariable long no) {
+	public String detail(@PathVariable long no, Model model) {
 		// 내용 수정
-		return writingService.get(no);
+		model.addAttribute("writing", writingService.get(no));
+		
+		return "writing/detail";
 	}
 	
 	// 검색 목록 출력

@@ -24,6 +24,7 @@
 <sec:authentication property="principal.name" var="email" />
 <sec:authentication property="principal.username" var="nickname" />
 <sec:authentication property="principal.no" var="userNo" />
+<sec:authentication property="principal.imgUrl" var="imgUrl" />
 <body>
 	<div class="container">
 		<div class="header">
@@ -62,8 +63,8 @@
 
 			<!--이미지 수정-->
 			<div class="image-container">
-				<img id="preview-image"
-					src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+				<img id="preview-image" onerror="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image"
+					src="${imgUrl}">
 				<input style="display: block;" type="file" id="input-image">
 			</div>
 

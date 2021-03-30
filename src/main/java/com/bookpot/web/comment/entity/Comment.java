@@ -5,7 +5,8 @@ import java.util.Date;
 public class Comment {
 	private long no;
 	private String content;
-	private Date regDate;
+	private String regDate;
+	private String modDate;
 	private long writingNo;
 	private long userNo;
 	
@@ -21,10 +22,10 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 	public long getWritingNo() {
@@ -38,6 +39,12 @@ public class Comment {
 	}
 	public void setUserNo(long userNo) {
 		this.userNo = userNo;
+	}
+	public String getModDate() {
+		return modDate;
+	}
+	public void setModDate(String modDate) {
+		this.modDate = modDate;
 	}
 	
 	

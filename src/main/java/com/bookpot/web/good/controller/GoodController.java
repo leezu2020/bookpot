@@ -18,7 +18,7 @@ import com.bookpot.web.good.service.IGoodService;
 import com.bookpot.web.security.SecurityUser;
 
 @RestController
-@RequestMapping("/writing/")
+@RequestMapping("/writings/")
 public class GoodController {
 	
 	@Autowired
@@ -26,7 +26,7 @@ public class GoodController {
 
 	// (userNo, writingNo)을 받아서 db 체크 후 -> 있으면 -1 없으면 +1 ?
 	// 프론트에서 좋아요 여부가 체크된 상태라면 -> get / post / delete 나눠서 처리
-	@PostMapping("good/{writingNo}")
+	@PostMapping("{writingNo}/good")
 	public ResponseEntity<HashMap<String, String>> goodUP(@PathVariable long writingNo){
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,7 +59,7 @@ public class GoodController {
 		}
 	}
 	
-	@DeleteMapping("good/{writingNo}")
+	@DeleteMapping("{writingNo}/good")
 	public ResponseEntity<HashMap<String, String>> goodDown(@PathVariable long writingNo){
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -15,7 +15,7 @@ public class User {
 	private String email;
 	private String password;
 	private String role;
-	private Date regDate;
+	private String regDate;
 	private String imgUrl;
 	
 	public User() {
@@ -68,11 +68,11 @@ public class User {
 		this.role = role;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 
@@ -84,7 +84,7 @@ public class User {
 		this.imgUrl = imgUrl;
 	}
 
-	public User(Long no, String nickname, String email, String password, String role, Date regDate, String imgUrl) {
+	public User(Long no, String nickname, String email, String password, String role, String regDate, String imgUrl) {
 		super();
 		this.no = no;
 		this.nickname = nickname;

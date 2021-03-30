@@ -1,0 +1,36 @@
+<로그인>
+Get,Post	/login				로그인
+
+<회원가입>
+Get	/join/signup			회원가입 페이지 이동
+Post	/join				회원가입
+Get	/join				회원가입 완료 페이지 이동
+Get	/join/nickname/{닉네임}		닉네임 중복 확인
+
+Get	/email/{이메일}			이메일 중복 확인 및 인증메일 전송
+
+<글>
+Post	/writings			글 등록
+Get	/writings/reg			글 등록 페이지 이동
+Get	/writings/{번호}			글 상세 페이지 이동
+Get	/writings/search			글 검색 목록
+
+Get	/writings/search/{키워드}/{페이지}	도서 검색
+
+<유저>
+Get	/users/{번호}			유저 정보 페이지 이동
+					유저 정보 수정 페이지 이동
+Delete					유저 탈퇴
+
+<스크랩>
+Post	/writings/{번호}/scrap		스크랩 추가
+Delete	/writings/{번호}/scrap		스크랩 삭제
+
+<좋아요>
+Post	/writings/{번호}/good		좋아요 +1
+Delete	/writings/{번호}/scrap		좋아요 -1
+
+<댓글>
+Post					댓글 추가
+					댓글 수정
+Delete					댓글 삭제

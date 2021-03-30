@@ -12,8 +12,8 @@ public class Writing {
 	private String content;
 	private String imgUrl;
 	private int good;
-	private Date regDate;
-	private Date modDate;
+	private String regDate;
+	private String modDate;
 	private long userNo;
 	
 	// 선택 사항
@@ -75,16 +75,16 @@ public class Writing {
 	public void setGood(int good) {
 		this.good = good;
 	}
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Date getModDate() {
+	public String getModDate() {
 		return modDate;
 	}
-	public void setModDate(Date modDate) {
+	public void setModDate(String modDate) {
 		this.modDate = modDate;
 	}
 	public long getUserNo() {

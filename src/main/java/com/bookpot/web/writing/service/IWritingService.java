@@ -3,12 +3,12 @@ package com.bookpot.web.writing.service;
 import java.util.List;
 
 import com.bookpot.web.criteria.Criteria;
-import com.bookpot.web.writing.entity.Writing;
+import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.view.WritingView;
 
 public interface IWritingService {
 	// 글쓰기
-	public boolean add(Writing writing);
+	public boolean add(WritingDto writingDto);
 
 	// 글 수정
 	// 인자를 어떻게 받을지? no + writing? or writing?

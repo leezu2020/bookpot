@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bookpot.web.criteria.Criteria;
+import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.entity.Writing;
 import com.bookpot.web.writing.view.WritingView;
 
@@ -18,8 +19,8 @@ public class WritingDao {
 	
 	private static final String namespace = "writingMapper";
 	
-	public Boolean insert(Writing writing) {
-		int count = sqlSession.insert(namespace + ".insert", writing);
+	public Boolean insert(WritingDto writingDto) {
+		int count = sqlSession.insert(namespace + ".insert", writingDto);
 		if(count == 1) {
 			return true;
 		} else {
