@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +15,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.bookpot.web.criteria.Criteria;
 import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.service.WritingService;
+import com.bookpot.web.writing.validator.WritingValidator;
 import com.bookpot.web.writing.view.WritingView;
-
-import jakarta.validation.Valid;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/writings")
@@ -93,10 +97,29 @@ public class WritingController {
 		
 ///////////////////////////////// 구현완료 ///////////////////////////////////////////////////	
 	// 글 등록
-	@PostMapping("")
-	public ResponseEntity<String> regWriting(@Valid @RequestBody WritingDto writingDto) {
+	@PostMapping(value = "", produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> regWriting(@RequestBody WritingDto writingDto, BindingResult bindingResult) {
 		
-		// 추후에 validator로 유효성 검사 추가하기
+		// validator로 유효성 검사 추가하기
+		WritingValidator validator = new WritingValidator();
+		validator.validate(writingDto, bindingResult);
+		if(bindingResult.hasErrors()) {
+			ObjectMapper mapper = new ObjectMapper();
+			HashMap<String, String> map = new HashMap<>();
+			
+			for(FieldError e : bindingResult.getFieldErrors()) {
+				System.out.println(e.getField() + " : " + e.getDefaultMessage());
+				map.put(e.getField(), e.getDefaultMessage());
+			}
+			try {
+				String json = mapper.writeValueAsString(map);
+				System.out.println(json);
+				return new ResponseEntity<String>(json, HttpStatus.BAD_REQUEST);
+			} catch(JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		// 유저 정보확인 -> 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

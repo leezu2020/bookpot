@@ -12,6 +12,7 @@ public class WritingDto {
 	private String startDate;
 	private String endDate;
 	private String passage;
+	
 	public String getBooktitle() {
 		return booktitle;
 	}
