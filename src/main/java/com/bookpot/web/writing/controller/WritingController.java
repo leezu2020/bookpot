@@ -93,9 +93,7 @@ public class WritingController {
 		
 		return writingService.getWritingList(cri);
 	}
-
-		
-///////////////////////////////// 구현완료 ///////////////////////////////////////////////////	
+	
 	// 글 등록
 	@PostMapping(value = "", produces = "application/json")
 	@ResponseBody
@@ -120,6 +118,9 @@ public class WritingController {
 				e.printStackTrace();
 			}
 		}
+		// 해시태그 정보 기입
+		
+		// 카테고리 정보 기입
 		
 		// 유저 정보확인 -> 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -138,6 +139,9 @@ public class WritingController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}	
+		
+///////////////////////////////// 구현완료 ///////////////////////////////////////////////////	
+
 	
 	// 글 등록 페이지 이동
 	@GetMapping("/reg")
