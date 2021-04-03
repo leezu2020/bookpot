@@ -7,5 +7,16 @@
 		insert into tag
 		values(null, #{name})
 	</insert>
+	
+	<select id="getByName" resultType="Tag">
+		select *
+		from tag
+		where name like #{name}
+	</select>
+	
+	<insert id="insertTagRel" parameterType="map">
+		insert into writingtag
+		values(#{writingNo}, (select id from tag where name like #{name}))
+	</insert>
 </mapper>
 

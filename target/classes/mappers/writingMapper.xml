@@ -8,6 +8,10 @@
 		values(null, #{booktitle}, #{author}, #{publisher},
 			#{division}, #{title}, #{content}, #{imgUrl}, 0,
 			current_timestamp, null, #{userNo}, #{startDate}, #{endDate}, #{passage})
+			
+		<selectKey keyProperty="writingNo" resultType="long" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	
 	<delete id="delete" parameterType="long">

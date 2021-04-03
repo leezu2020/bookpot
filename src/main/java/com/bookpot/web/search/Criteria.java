@@ -68,6 +68,18 @@ public class Criteria {
 
 	public int getOffset() {
 		return offset;
-	}	
+	}
+	
+	public String categoryToString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<categories.size(); i++) {
+			if(i==0) {
+				sb.append(this.categories.get(0));
+			} else {
+				sb.append("," + this.categories.get(i));
+			}
+		}
+		return sb.toString();
+	}
 	
 }

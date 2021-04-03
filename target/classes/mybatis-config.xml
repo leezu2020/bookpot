@@ -15,5 +15,6 @@
 		<typeAlias alias="CommentDto" type="com.bookpot.web.comment.dto.CommentDto"/>
 		<typeAlias alias="Comment" type="com.bookpot.web.comment.entity.Comment"/>
 		<typeAlias alias="CommentVo" type="com.bookpot.web.comment.vo.CommentVo"/>
+		<typeAlias alias="Category" type="com.bookpot.web.category.entity.Category"/>
 	</typeAliases>
 </configuration>
