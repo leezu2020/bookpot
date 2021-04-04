@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commentMapper">    
+    <insert id="insert" parameterType="CommentDto">
+    	insert into comment
+    	values(null, #{content}, current_timestamp, null, #{writingNo}, #{userNo})
+    </insert>
+    
+    <select id="getList" resultType="CommentVo">
+    	select c.no no, c.content content, c.regDate regDate, c.modDate modDate, c.writingNo writingNo, u.nickname nickname
+    	from comment c
+    	left join user u on c.userNo = u.no
+    	where writingNo = #{writingNo}
+    </select>
+    
+    <update id="update" parameterType="CommentDto">
+    	update comment
+    	set content = #{content}, modDate = current_timestamp
+    	where no = #{no}
+    </update>
+    
+    <delete id="delete" parameterType="long">
+    	delete
+    	from comment
+    	where no = #{no}
+    </delete>
+</mapper>

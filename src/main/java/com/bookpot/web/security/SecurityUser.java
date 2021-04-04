@@ -8,17 +8,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SecurityUser implements UserDetails {
 
 	// 사용자 중요 데이터
+	// 등록번호
 	private Long no;
-	private String name;	// biz data ???
+	// 닉네임
+	private String name;
+	// 프로필 이미지
+	private String imgUrl;
 	
 	// 보안 필드
 	private Collection<? extends GrantedAuthority> authorities;
-	private String username;	// credential(userID)
+	private String username;	// credential(이메일)
 	private String password;	// credential
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return authorities;
 	}
 	
@@ -30,43 +33,12 @@ public class SecurityUser implements UserDetails {
 		this.no = no;
 	}
 
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return this.password;
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return this.username;
-	}
-
-	// 계정에 대한 디테일 설정
-	// 비밀번호 변경 기한
-	// 휴먼상태 등등
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	public String getName() {
@@ -89,4 +61,66 @@ public class SecurityUser implements UserDetails {
 		this.authorities = authorities;
 	}
 	
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
+	// 계정에 대한 디테일 설정
+	// 비밀번호 변경 기한
+	// 휴먼상태 등등
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	// 중복 로그인 설정을 위함
+	// 다시 확인해보기
+	@Override
+	public boolean equals(Object obj) {
+	//	return super.equals(obj);
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		SecurityUser other = (SecurityUser) obj;
+		if(username == null) {
+			if(other.username != null)
+				return false;
+		} else if(!username.equals(other.username))
+			return false;
+		
+		return true;
+	}
+	@Override
+	public int hashCode() {
+	//	return super.hashCode();
+		// 코드 이유 찾기
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
 }

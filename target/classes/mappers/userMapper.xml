@@ -2,34 +2,38 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bookpot.mapper.userMapper">
-	<insert id="insert" parameterType="userVo">
+<mapper namespace="userMapper">
+
+<!-- to join service -->
+	<insert id="insert" parameterType="JoinDto">
 		insert into user
-		values(null, #{userID}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER')
+		values(null, #{email}, #{nickname}, #{password}, current_timestamp, 'ROLE_USER', null)
 	</insert>
 	
-	<select id="getByNickname" resultType="userVo">
+	<select id="getByNickname" resultType="User">
 		select *
 		from user
 		where nickname = #{nickname}
 	</select>
 	
-	<select id="getByUserID" resultType="userVo">
+	<select id="getByEmail" resultType="User">
 		select *
 		from user
-		where userID = #{userID}
+		where email = #{email}
 	</select>	
 	
-	<select id="getByUserIDAndPassword" resultType="userVo">
+	<select id="getByUserIDAndPassword" resultType="User">
 		select *
 		from user
-		where userID = #{userID}
+		where email = #{email}
 			and password = #{password}
 	</select>
-	
-	<update id="update" parameterType="userVo">
+<!-- /to join service -->
+
+	<update id="update" parameterType="User">
 		update user
 		set name = '수정'
-		where userID = #{userID}
+		where email = #{email}
 	</update>
+	
 </mapper>
