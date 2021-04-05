@@ -152,8 +152,9 @@ public class WritingController {
 		 * setting writingDto.setUserNo(user.getNo()); } else { // 로그인 안되어있다면 return new
 		 * ResponseEntity<String>(HttpStatus.FORBIDDEN); }
 		 */
-		
 		writingDto.setUserNo((long) 38);
+		
+		
 
 		if (writingService.add(writingDto)) {
 			long writingNo = writingDto.getWritingNo();
