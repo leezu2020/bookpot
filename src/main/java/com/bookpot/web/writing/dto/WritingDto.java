@@ -1,6 +1,10 @@
 package com.bookpot.web.writing.dto;
 
+import java.util.List;
+
 public class WritingDto {
+	// selectKey를 위한 임시 저장변수
+	private long writingNo;
 	private String booktitle;
 	private String author;
 	private String publisher;
@@ -13,6 +17,16 @@ public class WritingDto {
 	private String endDate;
 	private String passage;
 	
+	private List<List<String>> tag;
+	private List<List<String>> category;
+	
+	
+	public long getWritingNo() {
+		return writingNo;
+	}
+	public void setWritingNo(long writingNo) {
+		this.writingNo = writingNo;
+	}
 	public String getBooktitle() {
 		return booktitle;
 	}
@@ -79,6 +93,19 @@ public class WritingDto {
 	public void setPassage(String passage) {
 		this.passage = passage;
 	}
+	public List<List<String>> getTag() {
+		return tag;
+	}
+	public void setTag(List<List<String>> tag) {
+		this.tag = tag;
+	}
+	public List<List<String>> getCategory() {
+		return category;
+	}
+	public void setCategory(List<List<String>> category) {
+		this.category = category;
+	}
+
 	
 	
 }

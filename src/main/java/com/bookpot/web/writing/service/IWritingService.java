@@ -2,7 +2,7 @@ package com.bookpot.web.writing.service;
 
 import java.util.List;
 
-import com.bookpot.web.criteria.Criteria;
+import com.bookpot.web.search.Criteria;
 import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.view.WritingView;
 
@@ -27,6 +27,8 @@ public interface IWritingService {
 	// 스크랩한 글 가져오기
 	public List<WritingView> getScrapList(long userNo);
 	
+	// 조건에 맞는 글 개수
+	public int getWritingNum(Criteria cri);
 ////////////////////////////////////// 구현 완료 ////////////////////////////////////////////////	
 	// 등록된 책 제목 가져오기
 	public List<String> getTitleList(Criteria srch);

@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bookpot.web.criteria.Criteria;
+import com.bookpot.web.search.Criteria;
 import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.entity.Writing;
 import com.bookpot.web.writing.view.WritingView;
@@ -54,6 +54,10 @@ public class WritingDao {
 		return sqlSession.selectOne(namespace + ".getDetail", id);
 	}
 	
+	// 검색 해당 글 개수
+	public int searchNum(Criteria cri) {
+		return sqlSession.selectOne(namespace + ".getSearchNum", cri);
+	}
 //////////////////// 구현 완료 ///////////////////////////////////////////////
 	public List<String> getTitles(Criteria srch) {
 		System.out.println("검색어 : " + srch.getKeyword());
@@ -64,4 +68,5 @@ public class WritingDao {
 	public List<WritingView> search(Criteria cri){
 		return sqlSession.selectList(namespace + ".get", cri);
 	}
+
 }

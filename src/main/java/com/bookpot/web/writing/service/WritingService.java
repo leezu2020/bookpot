@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bookpot.web.criteria.Criteria;
+import com.bookpot.web.search.Criteria;
 import com.bookpot.web.writing.dao.WritingDao;
 import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.entity.Writing;
@@ -46,8 +46,11 @@ public class WritingService implements IWritingService{
 
 	@Override
 	public boolean add(WritingDto writingDto) {
-		// TODO Auto-generated method stub
 		return writingDao.insert(writingDto);
+	}
+
+	public int getWritingNum(Criteria cri) {
+		return writingDao.searchNum(cri);
 	}
 /////////////////////////////////// 구현 완료 //////////////////////////////////////////////////
 	
@@ -55,4 +58,5 @@ public class WritingService implements IWritingService{
 	public List<String> getTitleList(Criteria srch) {
 		return writingDao.getTitles(srch);
 	}
+
 }

@@ -11,8 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +21,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.bookpot.web.criteria.Criteria;
-import com.bookpot.web.security.SecurityUser;
+import com.bookpot.web.category.service.ICategoryService;
+import com.bookpot.web.search.Criteria;
+import com.bookpot.web.search.PageDto;
+import com.bookpot.web.tag.service.ITagService;
 import com.bookpot.web.writing.dto.WritingDto;
-import com.bookpot.web.writing.service.WritingService;
+import com.bookpot.web.writing.service.IWritingService;
 import com.bookpot.web.writing.validator.WritingValidator;
 import com.bookpot.web.writing.view.WritingView;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,7 +38,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class WritingController {
 
 	@Autowired
-	private WritingService writingService;
+	private IWritingService writingService;
+	
+	@Autowired
+	private ITagService tagService;
+	
+	@Autowired
+	private ICategoryService cateService;
 	
 	// 모든 목록 출력
 	@ResponseBody
@@ -77,8 +82,7 @@ public class WritingController {
 	// 검색 목록 출력
 	@GetMapping("/search")
 	@ResponseBody
-	public List<WritingView> search(Criteria cri) {		
-		
+	public ResponseEntity<HashMap<String, Object>> search(Criteria cri) {		
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //		SecurityUser user = (SecurityUser) authentication.getPrincipal();
 		
@@ -86,27 +90,48 @@ public class WritingController {
 //			cri.setUserNo(user.getNo());
 //		}
 		cri.setUserNo((long)38);
-		System.out.println("keyword : " + cri.getKeyword());
-		System.out.println("division : " + cri.getDivision());
 		for(int i=0; i<cri.getCategories().size(); i++)
 			System.out.println("분야 : " + cri.getCategories().get(i));
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		return writingService.getWritingList(cri);
+		//페이징 처리
+		int writingNum = writingService.getWritingNum(cri);
+		PageDto paging = new PageDto(writingNum, cri.getPage(), cri.getPerPage());
+		// 요청된 페이지는 없는 페이지
+		if(cri.getPage() > paging.getEndPage()) {
+			return new ResponseEntity<HashMap<String,Object>>(HttpStatus.NOT_FOUND);
+		}
+		
+		map.put("pageNum", paging.getPageList());
+		map.put("paging", paging.getBtn());
+		
+		map.put("writing", writingService.getWritingList(cri));
+		
+		// url 주소 처리하기
+		map.put("url", "/writings/search?keyword="+ cri.getKeyword()+"&division=" + cri.getDivision()
+		+ "&categories=" + cri.categoryToString());
+		return new ResponseEntity<HashMap<String,Object>>(map, HttpStatus.OK);
 	}
 	
 	// 글 등록
 	@PostMapping(value = "", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<String> regWriting(@RequestBody WritingDto writingDto, BindingResult bindingResult) {
+	public ResponseEntity<String> regWriting(@RequestBody WritingDto writingDto,
+			BindingResult bindingResult) {
 		
-		// validator로 유효성 검사 추가하기
+		System.out.println("Array사이즈 : " + writingDto.getTag().get(0).size());
+		for(int i=0; i<writingDto.getTag().get(0).size(); i++) {
+			System.out.println("태그 : " + writingDto.getTag().get(0).get(i));
+		}
+		// validator로 유효성 검사
 		WritingValidator validator = new WritingValidator();
 		validator.validate(writingDto, bindingResult);
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			ObjectMapper mapper = new ObjectMapper();
 			HashMap<String, String> map = new HashMap<>();
-			
-			for(FieldError e : bindingResult.getFieldErrors()) {
+
+			for (FieldError e : bindingResult.getFieldErrors()) {
 				System.out.println(e.getField() + " : " + e.getDefaultMessage());
 				map.put(e.getField(), e.getDefaultMessage());
 			}
@@ -114,26 +139,71 @@ public class WritingController {
 				String json = mapper.writeValueAsString(map);
 				System.out.println(json);
 				return new ResponseEntity<String>(json, HttpStatus.BAD_REQUEST);
-			} catch(JsonProcessingException e) {
+			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
 		}
-		// 해시태그 정보 기입
+
+		// 유저 정보확인 ->
+		/*
+		 * Authentication authentication =
+		 * SecurityContextHolder.getContext().getAuthentication(); SecurityUser user =
+		 * (SecurityUser) authentication.getPrincipal(); if (user != null) { // 글쓴이 정보
+		 * setting writingDto.setUserNo(user.getNo()); } else { // 로그인 안되어있다면 return new
+		 * ResponseEntity<String>(HttpStatus.FORBIDDEN); }
+		 */
+		writingDto.setUserNo((long) 38);
 		
-		// 카테고리 정보 기입
 		
-		// 유저 정보확인 -> 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		SecurityUser user = (SecurityUser) authentication.getPrincipal();
-		if(user != null) {
-		// 글쓴이 정보 setting
-		writingDto.setUserNo(user.getNo());
-		} else {
-		// 로그인 안되어있다면
-			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-		}
-		 
-		if(writingService.add(writingDto)) {
+
+		if (writingService.add(writingDto)) {
+			long writingNo = writingDto.getWritingNo();
+			System.out.println("writingNo : " + writingNo);
+
+			HashMap<String, Object> tagDto = new HashMap<String, Object>();
+			// 해시태그 정보 기입
+			if(writingDto.getTag() != null || !writingDto.getTag().isEmpty()) {
+				for(String tag : writingDto.getTag().get(0)) {
+					// 같은 태그가 존재한다면
+					if(tagService.existByName(tag)) {
+						// 태그 관계 설정하기
+						tagDto.put("name", tag);
+						tagDto.put("writingNo", writingNo);
+						tagService.tagToWriting(tagDto);
+					} else {
+					// 같은 태그가 존재하지 않는다면 새로 생성
+						if(tagService.regTag(tag)) {
+							System.out.println(tag + " : 태그 생성 완료");
+							// 태그 관계 설정하기
+							tagDto.put("name", tag);
+							tagDto.put("writingNo", writingNo);
+							tagService.tagToWriting(tagDto);
+						} else {
+//							// 에러 띄우기
+							
+							System.out.println(tag + " : 태그 생성 실패");
+						}
+					}
+				}
+			}
+
+			HashMap<String, Object> cateDto = new HashMap<String, Object>();
+			// 카테고리 정보 기입
+			if(writingDto.getCategory() != null || !writingDto.getCategory().isEmpty()) {
+				for(String cate : writingDto.getCategory().get(0)) {
+					// 카테고리에 있는건지 확인
+					if(cateService.existByName(cate)) {
+						cateDto.put("name", cate);
+						cateDto.put("writingNo", writingNo);
+						cateService.cateToWriting(cateDto);
+					} else {
+//						// 에러 띄우기		
+						
+						System.out.println("카테고리에 없는 내용입니다 : " + cate);
+					}
+				}
+			}
+			
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -163,7 +233,7 @@ public class WritingController {
 	}
 	
 	// 글 등록 도서 검색
-	@GetMapping(value="/search/{name}/{page}", produces = "text/plain; charset=UTF-8")
+	@GetMapping(value="/books/search/{name}/{page}", produces = "text/plain; charset=UTF-8")
 	@ResponseBody
 	public String search(@PathVariable String name, @PathVariable int page) {
 		String clientID = "EvnKZwxPFMW7RgOp65SV";

@@ -5,17 +5,20 @@ Get,Post	/login				로그인
 Get	/join/signup			회원가입 페이지 이동
 Post	/join				회원가입
 Get	/join				회원가입 완료 페이지 이동
-Get	/join/nickname/{닉네임}		닉네임 중복 확인
+Get	/join/nickname/{닉네임}		닉네임 중복 확인			String	possible / exist
 
-Get	/email/{이메일}			이메일 중복 확인 및 인증메일 전송
+Get	/email/{이메일}			이메일 중복 확인 및 인증메일 전송	String	인증코드 / exist	
 
 <글>
-Post	/writings			글 등록
+Post	/writings				글 등록				String	등록된 글 no
 Get	/writings/reg			글 등록 페이지 이동
 Get	/writings/{번호}			글 상세 페이지 이동
-Get	/writings/search			글 검색 목록
+Get	/writings/search			글 검색 목록			json	{writing:{idx: , no: , booktitle: , division: , tag: , category: , title: , content: , bookimg: , regDate: , goodCnt: , nickname: , userimg: , isGood: , isScrap: },
+										paging:{preBtn: (boolean), nextBtn: (boolean)},
+										pageNum:{(int),(int),(int),(int),(int)}
+										url:" "}
 
-Get	/writings/search/{키워드}/{페이지}	도서 검색
+Get	/writings/books/search/{키워드}/{페이지}	도서 검색			xml	
 
 <유저>
 Get	/users/{번호}			유저 정보 페이지 이동

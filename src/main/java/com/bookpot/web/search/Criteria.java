@@ -1,11 +1,14 @@
-package com.bookpot.web.criteria;
+package com.bookpot.web.search;
 
 import java.util.List;
 
 public class Criteria {
 	
-	// 페이징을 위한 변수 추가
-	
+	// 현재 페이지
+	private int page;
+	// 한 페이지에 출력할 글 수 
+	private int perPage = 9;
+	private int offset;
 	// 책제목, 해시태그 검색 키워드
 	private String keyword;
 	// 국내/해외
@@ -18,8 +21,12 @@ public class Criteria {
 	private Long userNo;
 	
 	public Criteria() {
+		this.page = 1;
 	}
 	
+	public int getPerPage() {
+		return perPage;
+	}
 	public String getKeyword() {
 		return keyword;
 	}
@@ -44,16 +51,35 @@ public class Criteria {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-
 	public Long getUserNo() {
 		return userNo;
 	}
-
 	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		//offset 계산
+		this.offset = (page - 1) * this.perPage;
+		this.page = page;
+	}
 
-
+	public int getOffset() {
+		return offset;
+	}
 	
+	public String categoryToString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<categories.size(); i++) {
+			if(i==0) {
+				sb.append(this.categories.get(0));
+			} else {
+				sb.append("," + this.categories.get(i));
+			}
+		}
+		return sb.toString();
+	}
 	
 }

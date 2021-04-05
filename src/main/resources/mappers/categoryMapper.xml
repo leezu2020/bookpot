@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="categoryMapper">
+	<select id="getByName" resultType="Category">
+		select *
+		from category
+		where name like #{name}
+	</select>
+	
+	<insert id="insertCateRel" parameterType="map">
+		insert into writingcategory
+		values(#{writingNo}, (select id from category where name like #{name}))
+	</insert>
+</mapper>
+

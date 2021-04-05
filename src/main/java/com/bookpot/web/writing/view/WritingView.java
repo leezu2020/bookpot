@@ -6,6 +6,7 @@ public class WritingView {
 	// 회원 로그인 시
 	// 좋아요 표시 여부
 	// 스크랩 표시 여부
+	private long idx;
 	private long no;
 	private String booktitle;
 	private String division;
@@ -104,6 +105,12 @@ public class WritingView {
 	}
 	public void setIsScrap(boolean isScrap) {
 		this.isScrap = isScrap;
+	}
+	public long getIdx() {
+		return idx;
+	}
+	public void setIdx(long idx) {
+		this.idx = idx;
 	}
 
 
