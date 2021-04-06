@@ -18,8 +18,10 @@ let listView = document.getElementById("list-view");
 let gridView = document.getElementById("grid-view");
 let contentView;
 
-// 로그인 창 띄우고&닫기
+console.log('a\nb\nc');
+
 $(document).ready(function(){
+    // 로그인 창 띄우고&닫기
     $(".login").click(function(){
         $("body").toggleClass("login-form-show");
         $("#login-form-container").show();
@@ -60,22 +62,73 @@ $(document).ready(function(){
             }
         })
     })
-})
 
-//분야 선택
-function bookTypeSelected(iOfField) {
-    console.log(bookTypeField[iOfField].style.backgroundColor);
-    if (bookTypeField[iOfField].style.backgroundColor == "#FFFFFF") {
-        console.log("하이라이트로 변경");
-        bookTypeField[iOfField].style.backgroundColor = "#4FBA80";
-        bookTypeField[iOfField].style.color = "#FFFFFF";
-    }
-    else{
-        console.log("기본으로 변경");
-        bookTypeField[iOfField].style.backgroundColor = "#FFFFFF";
-        bookTypeField[iOfField].style.color = "#000000";
-    }
-}
+    //분야 선택시 색 변하게 & 배열 담아서 선택된 분야에 대한 데이터 보내기
+    var categories = new Array(); //선택된 분야 넣을 배열
+    $(".field").click(function() {
+        var index = $(".field").index(this);
+        var clickButton = $(".field:eq(" + index + ")");
+        //선택되었을 때
+        if (clickButton.css("backgroundColor") == "rgb(255, 255, 255)" || clickButton.css("backgroundColor") == "") {
+            console.log("하이라이트 버튼으로 변경");
+            clickButton.css("backgroundColor", "#4FBA80");
+            clickButton.css("color", "rgb(255, 255, 255)");
+            categories.push(clickButton.text());
+        } else { //선택 해제되었을 때
+            console.log("기본 버튼으로 변경");
+            clickButton.css("backgroundColor", "rgb(255, 255, 255)");
+            clickButton.css("color", "rgb(0, 0, 0)");
+            categories.splice(categories.indexOf(clickButton.text()),1);
+        }
+        console.log(categories);
+    })
+    //찾기 눌렀을 때
+    $("#filter-search").click(function() {
+        var resultUrl = "";
+        var qsCategories = "&categories=";
+        //분야 중 선택된 게 없을 때
+        for (let index = 0; index < categories.length - 1; index++) {
+            qsCategories += categories[index] + ",";
+        }
+		if(categories.length > 0)
+      		qsCategories += categories[categories.length - 1];
+        
+        
+        resultUrl += "/writings/search?keyword=&division=" + qsCategories + "&sort=good";
+        console.log(resultUrl);
+        $.ajax({
+            url : resultUrl,
+            type : "get",
+            dataType : "json",
+            success : function(data) { 
+                const searchResult = data;
+                let gridContent = "";
+                for (let index = 0; index < searchResult.writing.length; index++) {
+                    let likeIcon = '<img src="/resources/icon/like_white.svg">\n';
+                    if (searchResult.writing[index].isGood == true) {
+                        likeIcon = '<img src="/resources/icon/like_green.svg">\n';
+                    }
+                    gridContent += '<div class="grid-view-content">\n<div class="grid-view-content-img">' + '<img src=' + searchResult.writing[index].bookimg + ' alt="book image">\n</div>\n';
+                    gridContent += '<div class="grid-view-content-like">' + likeIcon + '<span class="like-number">' + searchResult.writing[index].goodCnt + '</span>\n</div>\n';                    
+                    gridContent += '<div class="grid-book-info">\n<h1 class="grid-content-title">' + searchResult.writing[index].title + '</h1>\n';
+                    gridContent += '<h3 class="grid-book-title">' + searchResult.writing[index].booktitle + '</h3>\n';
+                    gridContent += '<p class="summary">' + searchResult.writing[index].content + '</p>\n</div>\n</div>'
+                }
+                $("#grid-view").append(gridContent);
+            }
+        })
+    })
+
+    //인기순, 최신순
+    $(".best").click(function() {
+        $(".best").toggleClass("array-selected");
+        $(".latest").removeClass("array-selected");
+    })
+    $(".latest").click(function() {
+        $(".latest").toggleClass("array-selected");
+        $(".best").removeClass("array-selected");
+    })
+})
 
 function showLoginError() {
     console.log("showLoginError 함수 실행됨");
