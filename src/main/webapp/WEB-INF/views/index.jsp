@@ -126,27 +126,26 @@
                 <button type="button" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
                 </sec:authorize>
                 
-                <!--회원가입 페이지 이동-->
-					<div id="login-form-container">
-						<form class="login-form">
-							<button class="login-form-hide" type="button">X</button>
-							<div class="logo">
-								<!-- 책 아이콘 -->
-								<img src="/resources/icon/logo.svg" alt="logo-icon">
-								<!--로고 이미지 작업 필요-->
-								<!--책단지 아이콘-->
-								<img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
-							</div>
-							<label for="login-email">이메일</label>
-							<input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
-							<label for="login-password">비밀번호</label>
-							<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
-							<input id="login-form-submit" type="button" value="로그인">
-							<div id="login-form-error-message">${errorMessage}</div>
-						</form>
-					</div>
-					<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
-					<!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
+				<div id="login-form-container">
+					<form class="login-form">
+						<button class="login-form-hide" type="button">X</button>
+						<div class="logo">
+							<!-- 책 아이콘 -->
+							<img src="/resources/icon/logo.svg" alt="logo-icon">
+							<!--로고 이미지 작업 필요-->
+							<!--책단지 아이콘-->
+							<img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
+						</div>
+						<label for="login-email">이메일</label>
+						<input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
+						<label for="login-password">비밀번호</label>
+						<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
+						<input id="login-form-submit" type="button" value="로그인">
+						<div id="login-form-error-message">가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.</div>
+					</form>
+				</div>
+				<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
+				<!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
 				
 
 				<!-- 로그인시 (class와 onclick 링크 수정 필요-->
