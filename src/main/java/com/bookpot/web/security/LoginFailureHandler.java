@@ -30,7 +30,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 		
 		// 오류 메세지 
 		if(exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException) {
-			errorMsg = "아이디나 비밀번호가 맞지 않습니다.";
+			errorMsg = "test.";
 		} else {
 			errorMsg = "알 수 없는 이유로 로그인에 실패하였습니다.";
 		}

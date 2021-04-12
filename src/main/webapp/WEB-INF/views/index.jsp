@@ -126,30 +126,26 @@
                 <button type="button" class="sign-up" onclick="location.href='/join/signup'">회원가입</button>
                 </sec:authorize>
                 
-                <!--회원가입 페이지 이동-->
-					<div id="login-form-container">
-						<form class="login-form" action="/login" method="post">
-							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-							<button class="login-form-hide" type="button">X</button>
-							<div class="logo">
-								<!-- 책 아이콘 -->
-								<img src="/resources/icon/logo.svg" alt="logo-icon">
-								<!--로고 이미지 작업 필요-->
-								<!--책단지 아이콘-->
-								<img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
-							</div>
-							<label for="login-email">이메일</label>
-							<input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
-							<label for="login-password">비밀번호</label>
-							<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
-							<input id="login-form-submit" type="button" value="로그인">
-							<c:if test="${not empty errorMessage}">
-								<p>${errorMessage}</p>
-							</c:if>
-						</form>
-					</div>
-					<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
-					<!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
+				<div id="login-form-container">
+					<form class="login-form">
+						<button class="login-form-hide" type="button">X</button>
+						<div class="logo">
+							<!-- 책 아이콘 -->
+							<img src="/resources/icon/logo.svg" alt="logo-icon">
+							<!--로고 이미지 작업 필요-->
+							<!--책단지 아이콘-->
+							<img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
+						</div>
+						<label for="login-email">이메일</label>
+						<input type="email" id="login-email" name="username" placeholder="이메일을 입력하세요">
+						<label for="login-password">비밀번호</label>
+						<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
+						<input id="login-form-submit" type="button" value="로그인">
+						<div id="login-form-error-message">가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.</div>
+					</form>
+				</div>
+				<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->
+				<!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
 				
 
 				<!-- 로그인시 (class와 onclick 링크 수정 필요-->
@@ -209,15 +205,15 @@
                 <!--더 적어야함-->
             </div>
             <div class="category-action">
-                <button class="filter-search" type="button">찾기</button>
-                <button class="initialize" type="reset">초기화</button> <!--위에서 누른것들 초기화되도록-->
+                <button id="filter-search" type="button">찾기</button>
+                <button id="initialize" type="reset">초기화</button> <!--위에서 누른것들 초기화되도록-->
             </div>
         </div>
         
         <!--인기글, 최신순 탭 + 그리드&리스트 뷰-->
         <div id="array">
             <div class="content-array">
-                <div class="best">인기</div>
+                <div class="best array-selected">인기</div>
                 <div class="latest">최신</div>
             </div>
             <div class="view-type">
@@ -333,12 +329,14 @@
             </div>
 			<div id="list-view">
 				<div class="classification">
+                    <div class="content-number">번호</div>
 					<div class="classification-content-title">제목</div>
 					<div class="classification-book-title">책 제목</div>
 					<div class="classification-profile-nickname">작성자</div>
                     <div class="classification-register-date">작성일</div>
                 </div>
                 <div class="list-view-content">
+                    <div class="list-content-number">1</div>
                     <div class="list-content-title">엔지니어도 인문학이 필요할까?</div>
                     <div class="list-book-title">엔지니어를 위한 인문학 수업</div>
                     <div class="list-profile-nickname">Yunji Jeong</div>
