@@ -128,8 +128,7 @@
                 
                 <!--회원가입 페이지 이동-->
 					<div id="login-form-container">
-						<form class="login-form" action="/login" method="post">
-							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<form class="login-form">
 							<button class="login-form-hide" type="button">X</button>
 							<div class="logo">
 								<!-- 책 아이콘 -->
@@ -143,9 +142,7 @@
 							<label for="login-password">비밀번호</label>
 							<input type="password" id="login-password" name="password" placeholder="비밀번호를 입력하세요">
 							<input id="login-form-submit" type="button" value="로그인">
-							<c:if test="${not empty errorMessage}">
-								<p>${errorMessage}</p>
-							</c:if>
+							<div id="login-form-error-message">${errorMessage}</div>
 						</form>
 					</div>
 					<!-- 아이디,비밀번호 dropdown 입력창 묶음 -->

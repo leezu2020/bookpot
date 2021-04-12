@@ -55,6 +55,7 @@ $(document).ready(function(){
                     window.location.href = result.returnUrl;
                 } else {
                     $("#login-form-error-message").show();
+					$("#login-password").val('');
                 }
             },
             error : function(a, b, c) {
