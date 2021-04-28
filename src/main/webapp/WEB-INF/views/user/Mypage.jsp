@@ -9,17 +9,25 @@
 
     <title>책단지: 마이페이지</title>
     <link rel="stylesheet" href="/resources/css/Mypage CSS.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
-    <script src="/resources/js/Mypage JS.js" defer=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="/resources/js/Mypage JS.js"></script>
     
 
 </head>
+
+<!-- 중복확인 처리를 위한 script -->
 
 
 <!--css 작업 후 이미지 파일 앞에 /resources 다시 붙이기 -->
 
 
 <body>
+<!-- 로그인한 사용자 -->
+<sec:authorize access="isAuthenticated()">
+	<!-- 로그인 정보 -->
+	<sec:authentication var="userName" property="principal.username" />
+	<sec:authentication var="userEmail" property="principal.name" />
+
     <div class="container">
         <div class="header">
             <div id="logo">
@@ -116,15 +124,16 @@
                 <p>
                     <label for="nickname">닉네임</label><br>
                     <!--회원정보 수정시 input 활성화-->
-                    <input id="nickname-info" type="text" value="씽씽">
-                    <button type="button" id="nickname-button">중복확인</button>
-                    </p><div class="alert-nickname" id="nickname-check"></div>
-                <p></p>
+                    <input id="nickname-info" type="text" value="${userName}" >
+                    <input type="button" id="nickname-button" value="중복확인" onClick="fn_checkNickname()">
+                </p><div class="alert-nickname" id="nickname-check"></div>
+                <p>
+                </p>
 
                 <!--이메일-->
                 <p>
                     <label for="email">이메일</label><br>
-                    </p><input id="email-info" type="text" value="osh1477@naver.com" disabled>
+                    </p><input id="email-info" type="text" value="${userEmail}" disabled>
                 <p></p>
 
                 <!--비밀번호 수정-->
@@ -185,6 +194,6 @@
 
         </div>
     </div>
-
+</sec:authorize>
 
 </body></html>
