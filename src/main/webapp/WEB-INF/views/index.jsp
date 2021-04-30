@@ -154,7 +154,7 @@
 					<sec:authentication property="principal.no" var="userNo" />
 					<button type="button">${nickname}님환영합니다</button>
 					<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
-					<a href="/users/${userNo}">
+					<a href="/users">
 						<button type="button" class="login">회원정보</button>
 					</a>
 					<button class="logout" onclick="location.href='/logout'">로그아웃</button>

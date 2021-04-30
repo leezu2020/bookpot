@@ -46,4 +46,8 @@ public class UserDao {
 			return false;
 		}
 	}
+
+	public boolean delete(String email) {
+		return false;
+	}
 }

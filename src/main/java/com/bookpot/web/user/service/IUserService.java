@@ -10,4 +10,6 @@ public interface IUserService {
 	// 회원 정보 수정
 	public boolean updateUser(User userVo);
 
+	// 회원 정보 삭제
+	public boolean deleteUser(String email);
 }

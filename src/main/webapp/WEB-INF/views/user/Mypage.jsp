@@ -28,7 +28,6 @@
 	<sec:authentication var="userName" property="principal.username" />
 	<sec:authentication var="userEmail" property="principal.name" />
 
-    <div class="container">
         <div class="header">
             <div id="logo">
                 <!-- 책 아이콘 -->
@@ -116,7 +115,6 @@
 
         <!--오른쪽 내 정보 수정 부분-->
         <div class="main">
-            <form action="">
                 <h2>내 정보</h2>
                 <div id="green-box"></div>
 
@@ -161,7 +159,7 @@
 
                 <!--적용&취소버튼-->
                 <div class="upload-buttons">
-                    <button type="button" id="update-button">적용</button>
+                    <button type="button" id="update-button" onclick="updateInfo()">적용</button>
                     <button type="button" id="cancel-button">취소</button>
                 </div>
 

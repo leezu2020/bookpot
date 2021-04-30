@@ -136,6 +136,7 @@ $(document).ready( function() {
 			success : function(result){
 				if(result == "match"){
 			        $("#nickname-info").prop("disabled", false);
+					$('#pwd-forchange').val('')
 			
 			        /*비번 일치 검사 후 숨기기*/
 			        $('#pwd-set').hide();
@@ -203,3 +204,19 @@ function fn_checkNickname(){
 		}
 	});
 };
+
+/*제출하기*/
+function updateInfo(){
+	event.defaultPrevented
+	let info = { nickname : $('#nickname-info').val(),
+				 password : $('#password').val()
+				}
+	$.ajax({
+		url : "/users",
+		type : "put",
+		data : info,
+		success : function(result){
+			
+		}
+	})
+}

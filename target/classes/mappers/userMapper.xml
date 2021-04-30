@@ -32,7 +32,8 @@
 
 	<update id="update" parameterType="User">
 		update user
-		set name = '수정'
+		set nickname = #{nickname},
+			password = #{password}
 		where email = #{email}
 	</update>
 	
