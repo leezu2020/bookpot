@@ -90,9 +90,11 @@ $(document).ready(function(){
 				type : "post",
 				dataType : "json",
 				data : params,
-				success : function(response){
-					console.log(response);
+				success : function(result){
+					console.log(result);
+					window.location.href = result.returnUrl;
 				},
+				// 수정필요
 				error : function(request, status, error){
 					$.each(request.responseJSON, function(i, error){
 						console.log("에러 : " + error);

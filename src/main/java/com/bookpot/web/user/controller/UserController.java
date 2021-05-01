@@ -1,6 +1,11 @@
 package com.bookpot.web.user.controller;
 
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +13,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookpot.web.security.SecurityUser;
+import com.bookpot.web.user.entity.User;
+import com.bookpot.web.user.service.IUserService;
 
 @Controller
 @RequestMapping("/users")
@@ -24,16 +32,73 @@ public class UserController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;	
 	
+	@Autowired
+	private IUserService userService;
+	
 	// 정보 조회
 	// 결과값 수정
-	@GetMapping("/{userNo}")
-	public String userInfo(@PathVariable long userNo) {
+	@GetMapping("")
+	public String userInfo() {
 		
 		System.out.println("유저 정보 조회");
 		
 		return "user/Mypage";
 	}
 	
+	// 정보 수정
+	@PutMapping("")
+	@ResponseBody
+	public ResponseEntity<String> modUserInfo(User info){
+		// 로그인 유저 정보
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+		// 닉네임 중복확인하기
+		// 비밀번호 유효성 체크하기
+		
+		// 로그인 정보 확인용 이메일
+		info.setEmail(user.getName());
+		// 비밀번호 암호화
+		info.setPassword(passwordEncoder.encode(info.getPassword()));
+		
+		if(userService.updateUser(info)) {
+			// 로그인 정보 갱신 추가하기
+			
+			System.out.println("정보 수정 성공");
+		}
+		else
+			System.out.println("수정 실패");
+		return new ResponseEntity<String>("check", HttpStatus.OK);
+	}
+	
+	// 정보 삭제
+	@DeleteMapping("")
+	@ResponseBody
+	public ResponseEntity<HashMap<String,String>> delUserInfo(HttpServletRequest request){
+		// 로그인 유저 정보
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		// 정보 삭제
+		if(userService.deleteUser(user.getName())) {
+
+			// 강제 로그아웃 시키기
+			HttpSession session = request.getSession();
+			session.invalidate();
+			
+			map.put("result", "delete");
+			map.put("returnUrl", "/");
+			return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.OK);
+		}
+		else {
+			map.put("result", "failToDel");
+			return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		
+	}
+	
+	// 비밀번호 재확인
 	@PostMapping("/checkPwd")
 	@ResponseBody
 	public ResponseEntity<String> checkPwd(@RequestParam(name = "pwd") String pwd) {

@@ -46,4 +46,13 @@ public class UserDao {
 			return false;
 		}
 	}
+
+	public boolean delete(String email) {
+		int count = sqlSession.delete(namespace + ".delete", email);
+		if(count == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

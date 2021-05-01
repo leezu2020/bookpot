@@ -32,8 +32,14 @@
 
 	<update id="update" parameterType="User">
 		update user
-		set name = '수정'
+		set nickname = #{nickname},
+			password = #{password}
 		where email = #{email}
 	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from user
+		where email = #{email}
+	</delete>
 	
 </mapper>

@@ -154,7 +154,7 @@
 					<sec:authentication property="principal.no" var="userNo" />
 					<button type="button">${nickname}님환영합니다</button>
 					<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
-					<a href="/users/${userNo}">
+					<a href="/users">
 						<button type="button" class="login">회원정보</button>
 					</a>
 					<button class="logout" onclick="location.href='/logout'">로그아웃</button>
@@ -367,6 +367,18 @@
 				<div class="list-view-content"></div>
 			</div>
 		</section>
+        <div class="page">
+            <div class="page-number">1</div>
+            <div class="page-number">2</div>
+            <div class="page-number">3</div>
+            <div class="page-number">4</div>
+            <div class="page-number">5</div>
+            <div class="page-number">6</div>
+            <div class="page-number">7</div>
+            <div class="page-number">8</div>
+            <div class="page-number">9</div>
+            <div class="page-number">10</div>
+        </div>
     </div>
 </body>
 

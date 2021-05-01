@@ -1,6 +1,7 @@
 package com.bookpot.web.join.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bookpot.web.join.dto.JoinDto;
 import com.bookpot.web.join.service.JoinService;
 import com.bookpot.web.join.validator.JoinValidator;
-import com.bookpot.web.user.entity.User;
 
 import jakarta.validation.Valid;
 
@@ -46,34 +46,32 @@ public class JoinController {
 	// 회원 등록
 	@PostMapping("")
 	@ResponseBody
-	public ResponseEntity<List<String>> signUp(@ModelAttribute @Valid JoinDto joinDto, BindingResult result,
+	public ResponseEntity<HashMap<String,String>> signUp(@ModelAttribute @Valid JoinDto joinDto, BindingResult result,
 			Model model) {
 		System.out.println("signup 실행");
-		ResponseEntity<List<String>> entity = null;
 		// 유효성 검사
 		new JoinValidator().validate(joinDto, result);
 
 		if (result.hasErrors()) {
-			List<String> errorlist = new ArrayList<>();
+			HashMap<String, String> errorlist = new HashMap<String, String>();
 			List<ObjectError> errors = result.getAllErrors();
 			for (ObjectError error : errors) {
-				errorlist.add(error.getCode());
+				errorlist.put(error.getObjectName(),error.getCode());
+				System.out.println("회원가입 오류 : " + error.getObjectName() + " " + error.getCode());
 			}
-			entity = new ResponseEntity<>(errorlist, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(errorlist, HttpStatus.BAD_REQUEST);
 		} else {
-			entity = new ResponseEntity<>(HttpStatus.OK);
-		}
-
-		if (entity.getBody() != null) {
-			for (int i = 0; i < entity.getBody().size(); i++) {
-				System.out.println("회원가입 오류 개수 : " + entity.getBody().get(i));
+			HashMap<String, String> regResult = new HashMap<String, String>();
+			if(joinService.regUser(joinDto)) {
+				System.out.println("회원가입 성공");
+				regResult.put("returnUrl", "/");
+				return new ResponseEntity<HashMap<String,String>>(regResult, HttpStatus.OK);
 			}
-		} else {
-			joinService.regUser(joinDto);
-			System.out.println("회원가입 성공");
+			else {
+				regResult.put("error", "failToReg");
+				return new ResponseEntity<HashMap<String,String>>(regResult, HttpStatus.SERVICE_UNAVAILABLE);
+			}
 		}
-
-		return entity;
 	}
 
 	@GetMapping("")
