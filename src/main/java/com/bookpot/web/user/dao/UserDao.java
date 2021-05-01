@@ -48,6 +48,11 @@ public class UserDao {
 	}
 
 	public boolean delete(String email) {
-		return false;
+		int count = sqlSession.delete(namespace + ".delete", email);
+		if(count == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

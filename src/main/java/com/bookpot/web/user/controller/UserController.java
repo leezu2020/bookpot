@@ -1,6 +1,11 @@
 package com.bookpot.web.user.controller;
 
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,18 +74,28 @@ public class UserController {
 	// 정보 삭제
 	@DeleteMapping("")
 	@ResponseBody
-	public ResponseEntity<String> delUserInfo(){
+	public ResponseEntity<HashMap<String,String>> delUserInfo(HttpServletRequest request){
 		// 로그인 유저 정보
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		SecurityUser user = (SecurityUser) authentication.getPrincipal();
 		
+		HashMap<String, String> map = new HashMap<String, String>();
 		// 정보 삭제
-		if(userService.deleteUser(user.getUsername()))
-			return new ResponseEntity<String>("delete", HttpStatus.OK);
-		else
-			return new ResponseEntity<String>("failToDelete", HttpStatus.SERVICE_UNAVAILABLE);
+		if(userService.deleteUser(user.getName())) {
+
+			// 강제 로그아웃 시키기
+			HttpSession session = request.getSession();
+			session.invalidate();
+			
+			map.put("result", "delete");
+			map.put("returnUrl", "/");
+			return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.OK);
+		}
+		else {
+			map.put("result", "failToDel");
+			return new ResponseEntity<HashMap<String,String>>(map, HttpStatus.SERVICE_UNAVAILABLE);
+		}
 		
-		// 강제 로그아웃 시키기
 	}
 	
 	// 비밀번호 재확인

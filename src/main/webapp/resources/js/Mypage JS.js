@@ -220,3 +220,20 @@ function updateInfo(){
 		}
 	})
 }
+
+function deleteInfo(){
+	event.defaultPrevented
+	$.ajax({
+		url : "/users",
+		type : "delete",
+		dataType : 'json',
+		success : function(result){
+			console.log(result);
+			window.location.href="result.returnUrl";
+		},
+		error: function(e){
+			console.log("fail");
+			console.log(e.responseJSON.result);
+		}
+	})
+}

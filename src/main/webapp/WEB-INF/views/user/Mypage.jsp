@@ -185,7 +185,7 @@
 
                 <!--회원탈퇴-->
                 <p>
-                    <button type="button" id="withdrawal-button" onclick="">회원탈퇴</button>
+                    <button type="button" id="withdrawal-button" onclick="deleteInfo()">회원탈퇴</button>
                 </p>
                 
 
