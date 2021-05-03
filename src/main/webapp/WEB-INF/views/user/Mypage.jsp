@@ -85,7 +85,7 @@
 
                     <!--내가 쓴 글 아이콘-->
                     <div id="what-i-wrote">
-                       <a href="https://www.naver.com">
+                       <a href="/users/writings">
                            <img id="pencil-img" src="/resources/icon/pencil.svg" alt="pencil-icon"><br>
                            <p id="pencil-letter">내가 쓴 글</p>
                        </a>
@@ -93,7 +93,7 @@
    
                    <!--스크랩 아이콘-->
                    <div id="scrap">
-                       <a href="https://www.naver.com">
+                       <a href="/users/scraps">
                            <img id="scrap-img" src="/resources/icon/scrap.svg" alt="scrap-icon"><br>
                            <p id="scrap-letter">스크랩</p>
                        </a>
@@ -101,7 +101,7 @@
    
                    <!--댓글 쓴 글 아이콘-->
                    <div id="comments">
-                       <a href="https://www.naver.com">
+                       <a href="/users/comments">
                            <img id="comments-img" src="/resources/icon/comments.svg" alt="comments-icon"><br>
                            <p id="comments-letter">댓글</p>
                        </a>

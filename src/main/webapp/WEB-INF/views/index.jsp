@@ -43,7 +43,7 @@
 <!-- 첫 화면 글 가져오기 -->
 	(function(){
 		$.ajax({
-			url: "/writings/search?keyword=&division=&categories=&sort=",
+			url: "/writings/search?keyword=&division=&categories=&sort=date&page=9",
 			type: "get",
 			dataType: "json",
 			success: function(data){

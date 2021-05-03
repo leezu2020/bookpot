@@ -21,7 +21,7 @@
 	
 	<select id="getDetail" resultType="WritingView">
 		select *
-		from writingview
+		from writingsview
 		where no = #{no}
 	</select>
 
@@ -29,13 +29,13 @@
 	<!-- json테스트 -->
 	<select id="getAll" resultType="WritingView">
 		select *
-		from writingview
+		from writingsview
 	</select>
 	
 	<!-- 검색 해당 글 수 -->
 	<select id="getSearchNum" parameterType="Criteria" resultType="int">
 		select count(*) as cnt
-		from writingview wv
+		from writingsview wv
 		where (booktitle like concat('%',#{keyword},'%')
 			or (tag like concat('%',#{keyword},'%')))
 			<if test="(division != null) and (!division.equals(''))">
@@ -58,10 +58,10 @@
 		(
 			select @rownum:=@rownum+1 as idx, wv.no, wv.booktitle, wv.bookimg, wv.title, wv.content, wv.good goodCnt, wv.nickname, wv.regDate, wv.userimg
 			<if test="userNo != null and userNo != 0">
-				,(select count(*) from good g where wv.no = g.writingNo and g.userNo = #{userNo}) isGood,
-				(select count(*) from scrap s where wv.no = s.writingNo and s.userNo = #{userNo}) isScrap
+				,(select count(*) from good g where wv.no = g.writingNo and g.userNo = #{userNo}) isGood
+				,(select count(*) from scrap s where wv.no = s.writingNo and s.userNo = #{userNo}) isScrap
 			</if>
-			from writingview wv, (select @rownum:=0) r
+			from writingsview wv, (select @rownum:=0) r
 			where (booktitle like concat('%',#{keyword},'%')
 				or (tag like concat('%',#{keyword},'%')))
 				
@@ -76,11 +76,11 @@
 				</foreach>
 				</if>
 				
-			<if test='sort.equals("date")'>
-			order by regDate
+			<if test="sort.equals('date')">
+			order by wv.regDate
 			</if>
-			<if test='sort.equals("good")'>
-			order by good
+			<if test="sort.equals('good')">
+			order by wv.good
 			</if>
 		) result
 		limit ${offset}, ${perPage}

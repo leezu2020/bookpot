@@ -11,6 +11,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bookpot.web.category.service.ICategoryService;
 import com.bookpot.web.search.Criteria;
 import com.bookpot.web.search.PageDto;
+import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.tag.service.ITagService;
 import com.bookpot.web.writing.dto.WritingDto;
 import com.bookpot.web.writing.service.IWritingService;
@@ -83,15 +86,19 @@ public class WritingController {
 	@GetMapping("/search")
 	@ResponseBody
 	public ResponseEntity<HashMap<String, Object>> search(Criteria cri) {		
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
 		
-//		if(user != null) {
-//			cri.setUserNo(user.getNo());
-//		}
-		cri.setUserNo((long)38);
-		for(int i=0; i<cri.getCategories().size(); i++)
-			System.out.println("분야 : " + cri.getCategories().get(i));
+		if(user != null) {
+			cri.setUserNo(user.getNo());
+		}
+//		cri.setUserNo((long)38);
+		if(cri.getCategories() != null) {
+			for(int i=0; i<cri.getCategories().size(); i++)
+				System.out.println("분야 : " + cri.getCategories().get(i));
+		} else {
+			System.out.println("분야 비어있음");
+		}
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
@@ -110,7 +117,7 @@ public class WritingController {
 		
 		// url 주소 처리하기
 		map.put("url", "/writings/search?keyword="+ cri.getKeyword()+"&division=" + cri.getDivision()
-		+ "&categories=" + cri.categoryToString());
+		+ "&categories=" + cri.categoryToString() + "&sort=" + cri.getSort() + "&page=");
 		return new ResponseEntity<HashMap<String,Object>>(map, HttpStatus.OK);
 	}
 	
