@@ -113,4 +113,40 @@ public class UserController {
 		else
 			return new ResponseEntity<String>("notmatch", HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping("/writings")
+	public String showWritings() {
+		// 로그인 유저 정보
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+		// 로그인한 유저가 쓴 글 목록 가져오기
+		
+		
+		return "user/show";
+	}
+	
+	@GetMapping("/comments")
+	public String showComments() {
+		// 로그인 유저 정보
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+		// 로그인한 유저가 쓴 댓글 있는 글 목록 가져오기	
+		
+		
+		return "user/show";
+	}
+	
+	@GetMapping("/scraps")
+	public String showScraps() {
+		// 로그인 유저 정보
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+		// 로그인한 유저가 스크랩한 글 가져오기
+		
+		
+		return "user/show";
+	}
 }

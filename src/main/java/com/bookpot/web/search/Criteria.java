@@ -72,6 +72,7 @@ public class Criteria {
 	
 	public String categoryToString() {
 		StringBuilder sb = new StringBuilder();
+		System.out.println("criteria.카테고리 : " + categories);
 		for(int i=0; i<categories.size(); i++) {
 			if(i==0) {
 				sb.append(this.categories.get(0));

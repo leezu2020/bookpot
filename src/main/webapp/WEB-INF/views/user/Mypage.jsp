@@ -38,23 +38,14 @@
                 </a>
             </div>
             <nav><!--write버튼, 회원가입버튼, login버튼 묶음-->
-                <button type="button" class="login">로그인</button>
-                <!-- 
-                    <div class="login-info">
-                        <form action="">
-                            <label for="login-id">이메일로 로그인</label>
-                            <input type="email" id="login-id" placeholder="이메일을 입력하세요">
-                            <label for="login-password">비밀번호 입력</label>
-                            <input type="password" id="login-password" placeholder="비밀번호를 입력하세요">
-                            <button type="submit">로그인</button>
-                        </form>
-                    </div> //아이디,비밀번호 dropdown 입력창 묶음
-                -->
-                <!--로그인 버튼과 눌렀을때 dropdown되는 입력창들 묶음-->
-                <button type="sign-up" class="sign-up">회원가입</button>
-                <!--회원가입 페이지 이동-->
-                <button type="write" id="write-button">글쓰기</button>
-                <!--글쓰기 페이지 이동-->
+				<button type="button">${nickname}님환영합니다</button>
+				<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
+				<a href="/users">
+					<button type="button" class="login">회원정보</button>
+				</a>
+				<button class="logout" onclick="location.href='/logout'">로그아웃</button>
+				<button id="write-button" onclick="location.href='/writings/reg'">글쓰기</button>
+				<!--글쓰기 페이지 이동-->
             </nav>
         </div>
 
@@ -85,7 +76,7 @@
 
                     <!--내가 쓴 글 아이콘-->
                     <div id="what-i-wrote">
-                       <a href="https://www.naver.com">
+                       <a href="/users/writings">
                            <img id="pencil-img" src="/resources/icon/pencil.svg" alt="pencil-icon"><br>
                            <p id="pencil-letter">내가 쓴 글</p>
                        </a>
@@ -93,7 +84,7 @@
    
                    <!--스크랩 아이콘-->
                    <div id="scrap">
-                       <a href="https://www.naver.com">
+                       <a href="/users/scraps">
                            <img id="scrap-img" src="/resources/icon/scrap.svg" alt="scrap-icon"><br>
                            <p id="scrap-letter">스크랩</p>
                        </a>
@@ -101,7 +92,7 @@
    
                    <!--댓글 쓴 글 아이콘-->
                    <div id="comments">
-                       <a href="https://www.naver.com">
+                       <a href="/users/comments">
                            <img id="comments-img" src="/resources/icon/comments.svg" alt="comments-icon"><br>
                            <p id="comments-letter">댓글</p>
                        </a>
