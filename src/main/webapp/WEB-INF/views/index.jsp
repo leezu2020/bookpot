@@ -151,7 +151,6 @@
 				<!-- 로그인시 (class와 onclick 링크 수정 필요-->
 				<sec:authorize access="isAuthenticated()">
 					<sec:authentication property="principal.username" var="nickname" />
-					<sec:authentication property="principal.no" var="userNo" />
 					<button type="button">${nickname}님환영합니다</button>
 					<!-- 본인 이름 클릭했을 때, 정보조회 링크 -->
 					<a href="/users">
@@ -187,21 +186,21 @@
             </div>
             <span class="category-menu">분야</span>
             <div class="book-type">
- 				<button class="field" type="button" onclick="bookTypeSelected(0)">예술</button>
-                <button class="field" type="button" onclick="bookTypeSelected(1)">소설</button>
-                <button class="field" type="button" onclick="bookTypeSelected(2)">역사/문화</button>
-                <button class="field" type="button" onclick="bookTypeSelected(3)">인문</button>
-                <button class="field" type="button" onclick="bookTypeSelected(4)">비문학</button>
-                <button class="field" type="button" onclick="bookTypeSelected(5)">경제/경영</button>
-                <button class="field" type="button" onclick="bookTypeSelected(6)">정치</button>
-                <button class="field" type="button" onclick="bookTypeSelected(7)">영어</button>
-                <button class="field" type="button" onclick="bookTypeSelected(8)">과학</button>
-                <button class="field" type="button" onclick="bookTypeSelected(9)">여성학</button>
-                <button class="field" type="button" onclick="bookTypeSelected(10)">고전</button> 
-                <button class="field" type="button" onclick="bookTypeSelected(11)">자기계발</button> 
-                <button class="field" type="button" onclick="bookTypeSelected(12)">취미/실용</button> 
-                <button class="field" type="button" onclick="bookTypeSelected(13)">컴퓨터</button> 
-                <button class="field" type="button" onclick="bookTypeSelected(14)">어린이</button> 
+                <button class="field" type="button">예술</button>
+                <button class="field" type="button">소설</button>
+                <button class="field" type="button">역사/문화</button>
+                <button class="field" type="button">인문</button>
+                <button class="field" type="button">비문학</button>
+                <button class="field" type="button">경제/경영</button>
+                <button class="field" type="button">정치</button>
+                <button class="field" type="button">영어</button>
+                <button class="field" type="button">과학</button>
+                <button class="field" type="button">여성학</button>
+                <button class="field" type="button">고전</button> 
+                <button class="field" type="button">자기계발</button> 
+                <button class="field" type="button">취미/실용</button> 
+                <button class="field" type="button">컴퓨터</button> 
+                <button class="field" type="button">어린이</button> 
                 <!--더 적어야함-->
             </div>
             <div class="category-action">
@@ -343,12 +342,14 @@
                     <div class="list-register-date">2021. 02. 02</div>
                 </div>
                 <div class="list-view-content">
+                    <div class="list-content-number">2</div>
                     <div class="list-content-title">행복은 제 발로 걸어오지 않아. 그러니 내 발로 찾아가야지</div>
                     <div class="list-book-title">또다시 같은 꿈을 꾸었어</div>
                     <div class="list-profile-nickname">yujung7768903</div>
                     <div class="list-register-date">2021. 03. 22</div>
                 </div>
                 <div class="list-view-content">
+                    <div class="list-content-number">3</div>
                     <div class="list-content-title"></div>
                     <div class="list-book-title"></div>
                     <div class="list-profile-nickname"></div>

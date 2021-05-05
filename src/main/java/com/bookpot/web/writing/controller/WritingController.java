@@ -8,6 +8,9 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,12 +88,19 @@ public class WritingController {
 	// 검색 목록 출력
 	@GetMapping("/search")
 	@ResponseBody
-	public ResponseEntity<HashMap<String, Object>> search(Criteria cri) {		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		SecurityUser user = (SecurityUser) authentication.getPrincipal();
+	public ResponseEntity<HashMap<String, Object>> search(HttpServletRequest request, Criteria cri) {		
 		
-		if(user != null) {
-			cri.setUserNo(user.getNo());
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("JSESSIONID") != null) {
+		
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			SecurityUser user = (SecurityUser) authentication.getPrincipal();
+		
+			
+			if(user != null) {
+				cri.setUserNo(user.getNo());
+			}
 		}
 //		cri.setUserNo((long)38);
 		if(cri.getCategories() != null) {
