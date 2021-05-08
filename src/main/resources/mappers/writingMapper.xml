@@ -49,6 +49,29 @@
 			</if>
 	</select>
 	
+	<!-- 내가 쓴 글 -->
+	<select id="getByUserNickname" parameterType="String" resultType="WritingView">
+		select result.*
+		from
+		(
+			select @rownum:=@rownum+1 as idx, wv.no, wv.booktitle, wv.bookimg, wv.title, wv.content, wv.good goodCnt, wv.nickname, wv.regDate, wv.userimg
+			<if test="userNo != null and userNo != 0">
+				,(select count(*) from good g where wv.no = g.writingNo and g.userNo = #{userNo}) isGood
+				,(select count(*) from scrap s where wv.no = s.writingNo and s.userNo = #{userNo}) isScrap
+			</if>
+			from writingsview wv, (select @rownum:=0) r, user u
+			where wv.nickname = u.nickname
+				and u.no = #{userNo}
+			order by wv.regDate
+		) result
+<!-- 		limit ${offset}, ${perPage} -->
+	</select>
+	
+	<!-- 내가 스크랩한 글 -->
+	
+	
+	<!-- 내가 쓴 댓글이 있는 글 -->
+	
 	<!-- 검색용 테스트
 	만약 keyword 주어지지 않았을 때에도 고려해서 수정하기
 	division을 선택하지 않았을 때에도 고려해서 수정하기 -->

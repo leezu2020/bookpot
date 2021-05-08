@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bookpot.web.security.SecurityUser;
 import com.bookpot.web.user.entity.User;
 import com.bookpot.web.user.service.IUserService;
+import com.bookpot.web.writing.service.IWritingService;
 
 @Controller
 @RequestMapping("/users")
@@ -34,6 +35,9 @@ public class UserController {
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IWritingService writingService;
 	
 	// 정보 조회
 	// 결과값 수정
@@ -121,7 +125,7 @@ public class UserController {
 		SecurityUser user = (SecurityUser) authentication.getPrincipal();
 		
 		// 로그인한 유저가 쓴 글 목록 가져오기
-		
+		System.out.println(writingService.getByUserNickname(user.getNo()));
 		
 		return "user/show";
 	}
