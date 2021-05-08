@@ -47,7 +47,11 @@ public class WritingDao {
 		}
 	}
 	
-
+	// 내가 쓴 글 가져오기
+	public List<WritingView> getByUserNickname(long no) {
+		return sqlSession.selectList(namespace + ".getByUserNickname", no);
+	}
+	
 	// 글 detail 가져오기
 	public WritingView get(long id) {
 		// TODO Auto-generated method stub

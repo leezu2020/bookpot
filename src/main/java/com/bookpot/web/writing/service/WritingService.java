@@ -38,6 +38,7 @@ public class WritingService implements IWritingService{
 		return writingDao.get(id);
 	}
 
+	// 구현하기
 	@Override
 	public List<WritingView> getScrapList(long userNo) {
 		// 스크랩 db에서 userNO으로 조회해서 writingNo 가져와서 writing 반환
@@ -48,7 +49,13 @@ public class WritingService implements IWritingService{
 	public boolean add(WritingDto writingDto) {
 		return writingDao.insert(writingDto);
 	}
+	
+	@Override
+	public List<WritingView> getByUserNickname(long no) {
+		return writingDao.getByUserNickname(no);
+	}
 
+	@Override
 	public int getWritingNum(Criteria cri) {
 		return writingDao.searchNum(cri);
 	}
@@ -58,5 +65,6 @@ public class WritingService implements IWritingService{
 	public List<String> getTitleList(Criteria srch) {
 		return writingDao.getTitles(srch);
 	}
+
 
 }

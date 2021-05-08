@@ -234,7 +234,7 @@
                         <span class="like-number" onclick="gooddown()">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
                     <div class="grid-book-info">
-                        <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</h1>
+                        <h1 class="grid-content-title">엔지니어도 인문학이 필요할까?</a></h1>
                         <h3 class="grid-book-title">엔지니어를 위한 인문학 수업</h3>
                         <p class="summary">
                             바야흐로 융합의 시대다. 공학과 인문학을 융합하는 교육은 엔지니어의 시야를 넓히고, 문제 해결의 새로운 실마리를 제공해 줄 것이다. 공학교 교육은..

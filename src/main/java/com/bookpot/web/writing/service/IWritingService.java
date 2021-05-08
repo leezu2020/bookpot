@@ -27,6 +27,9 @@ public interface IWritingService {
 	// 스크랩한 글 가져오기
 	public List<WritingView> getScrapList(long userNo);
 	
+	// 내가 쓴 글 가져오기
+	public List<WritingView> getByUserNickname(long no);
+	
 	// 조건에 맞는 글 개수
 	public int getWritingNum(Criteria cri);
 ////////////////////////////////////// 구현 완료 ////////////////////////////////////////////////	
