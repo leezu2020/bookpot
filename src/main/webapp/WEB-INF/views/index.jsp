@@ -43,7 +43,7 @@
 <!-- 첫 화면 글 가져오기 -->
 	(function(){
 		$.ajax({
-			url: "/writings/search?keyword=&division=&categories=&sort=date&page=9",
+			url: "/writings/search?keyword=&division=&categories=&sort=date&page=1",
 			type: "get",
 			dataType: "json",
 			success: function(data){
@@ -230,7 +230,7 @@
                             alt="book image">
                     </div>
                     <div class="grid-view-content-like">
-                        <img src="/resources/icon/like_white.svg">
+                        <img src="/resources/icon/like_white.svg" class="like-icon">
                         <span class="like-number" onclick="gooddown()">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
                     <div class="grid-book-info">
@@ -255,7 +255,7 @@
                             alt="book image">
                     </div>
                     <div class="grid-view-content-like">
-                        <img src="/resources/icon/like_white.svg">
+                        <img src="/resources/icon/like_white.svg" class="like-icon">
                         <span class="like-number" onclick="goodup()">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
              <!--  xpppppppppppppppppppppppppppppppppppp스트 -->
@@ -281,7 +281,7 @@
                             alt="book image">
                     </div>
                     <div class="grid-view-content-like">
-                        <img src="/resources/icon/like_white.svg">
+                        <img src="/resources/icon/like_white.svg" class="like-icon">
                         <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
                     <div class="grid-book-info">
@@ -306,7 +306,7 @@
                             alt="book image">
                     </div>
                     <div class="grid-view-content-like">
-                        <img src="/resources/icon/like_white.svg">
+                        <img src="/resources/icon/like_white.svg" class="like-icon">
                         <span class="like-number">256</span> <!--좋아요 버튼.(하트 이모티콘 넣어야함)--> 
                     </div>
                     <div class="grid-book-info">
@@ -368,7 +368,7 @@
 				<div class="list-view-content"></div>
 			</div>
 		</section>
-        <div class="page">
+        <div id="page">
             <div class="page-number">1</div>
             <div class="page-number">2</div>
             <div class="page-number">3</div>

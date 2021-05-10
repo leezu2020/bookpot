@@ -110,14 +110,13 @@
                 <div id="green-box"></div>
 
                 <!--닉네임-->
-                <p>
+                <div id="nickname-set">
                     <label for="nickname">닉네임</label><br>
                     <!--회원정보 수정시 input 활성화-->
                     <input id="nickname-info" type="text" value="${userName}" >
                     <input type="button" id="nickname-button" value="중복확인" onClick="fn_checkNickname()">
-                </p><div class="alert-nickname" id="nickname-check"></div>
-                <p>
-                </p>
+                	<div class="alert-nickname" id="nickname-check"></div>
+                </div>
 
                 <!--이메일-->
                 <p>
@@ -176,7 +175,7 @@
 
                 <!--회원탈퇴-->
                 <p>
-                    <button type="button" id="withdrawal-button" onclick="deleteInfo()">회원탈퇴</button>
+                    <button type="button" id="withdrawal-button" onclick="alertWithdrawl()">회원탈퇴</button>
                 </p>
                 
 

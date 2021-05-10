@@ -16,137 +16,22 @@
 
     <title>책단지</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/Sign-up CSS.css" />">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="<c:url value="/resources/js/jquery-3.6.0.min.js" />"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->	
+    <script defer src="/resources/js/Sign-up JS.js"></script>
 </head>
 
-<!-- 중복확인 처리를 위한 script -->
-<script type="text/javascript">
-		var code = '';
-		var setting = '';
-			function fn_checkNickname(){
-				$.ajax({
-					url : "/join/nickname/" + $('#nickname').val(),
-					type : "get",
-					success : function(result){
-						if(result == 'exist'){
-							alert('사용중인 닉네임입니다.');
-							$('#nickname').focus();
-							$('#nickname').val('');
-						} else if(result == 'notmatch'){
-							alert('닉네임을 확인해주세요.');
-							$('#nickname').focus();
-							$('#nickname').val('');
-						} else {
-							alert('사용가능한 닉네임입니다.');
-						}
-					},
-					error: function(e){
-						alert("닉네임 값을 가져오지 못했습니다.");
-					}
-				});
-			};
-			
-			function fn_sendEmail(){
-				$.ajax({
-					url : "/email/" + $('#email').val(),
-					type : "get",
-					success : function(result){
-						if(result == 'exist'){
-							alert('사용중인 이메일입니다.');
-							$('#inputCode').attr("disabled",true);
-							$('#code-button').attr("disabled",true);
-							$('#email').focus();
-							$('#email').val('');
-						} else {
-							alert('이메일이 전송되었습니다.');
-							$('#inputCode').attr("disabled",false);
-							$('#code-button').attr("disabled",false);
-							code = result;
-						}
-					}
-				});
-			};
-			
-			function fn_checkCode(){
-				var inputCode = $('#inputCode').val();
-				if(inputCode == code){
-					alert('인증되었습니다.');
-					setting = 'finished';
-				} else {
-					$('#inputCode').focus();
-					$('#inputCode').val('');
-					alert('인증번호를 다시 확인해주세요.');
-				}
-			}
-$(document).ready(function(){	
-		$('#submit-button').click(function (){
-			
-			var params = $('#signup-form').serialize();		
-			console.log(params);
-			event.preventDefault();
-			$.ajax({
-				url : "/join",
-				type : "post",
-				dataType : "json",
-				data : params,
-				success : function(result){
-					console.log(result);
-					window.location.href = result.returnUrl;
-				},
-				// 수정필요
-				error : function(request, status, error){
-					$.each(request.responseJSON, function(i, error){
-						console.log("에러 : " + error);
-						switch(error){
-						case "wrongpassword":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							break;
-						case "notmatchpassword":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							break;
-						case "existnickname":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							$("#nickname").val('');
-							break;
-						case "existemail":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							$("#email").val('');
-							break;
-						case "emptynickname":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							break;
-						case "emptypassword":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							break;
-						case "emptyemail":
-							$('#password').val('');
-							$('#passwordCheck').val('');
-							break;
-						}
-					})
-				}
-			})
-		})
-})
-		</script>
 <body>
     <div class="container">
         <div class="header">
             <div id="logo">
             	<!-- 클릭시 메인페이지 -->
                 <!-- 책 아이콘 -->
-                <img src="<c:url value="/resources/icon/logo.svg" />" alt="logo-icon"> <!--로고 이미지 작업 필요-->
+                <img src="/resources/icon/logo.svg" alt="logo-icon"> <!--로고 이미지 작업 필요-->
                 
             	<a href="/">
                 <!--책단지 아이콘-->
-                <img class="site-name" src="<c:url value="/resources/icon/책단지.svg" />" alt="책단지-icon">
+                <img class="site-name" src="/resources/icon/책단지.svg" alt="책단지-icon">
            		</a>
             </div>
             <nav><!--write버튼, 회원가입버튼, login버튼 묶음-->
@@ -203,6 +88,8 @@ $(document).ready(function(){
 					<label for="nickname">닉네임</label><br>
 					<input id="nickname" name="nickname" type="text" placeholder="한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용 불가)" />
 					<input type="button" id="nickname-button" value="중복확인" onClick="fn_checkNickname()">
+                    <div class="alert-nickname" id="nickname-check"></div>
+                    <!-- class는 css용, id는 js용 -->
 				</p>
 
 				<!--이메일 입력-->
@@ -210,20 +97,33 @@ $(document).ready(function(){
 					<label for="email">이메일</label><br>
 					<input id="email" type="email" name="email" placeholder="인증번호를 받을 이메일을 입력해주세요." />
 					<input type="button" id="email-button" onClick="fn_sendEmail()" value="인증번호 발송">
+					<div class="alert-email" id="email-check"></div>
+					
+                <!--인증번호 입력-->
+                <div class="email-code-set">
+                    <input id="code-check" type="text" placeholder="인증번호를 입력해주세요.">
+                    <button type="button" id="email-check-button" onClick="fn_checkCode()">인증번호 확인</button>
+                    <div class="alert-code" id="code-check"></div>
+
+                </div></p>
+                	
+                <!-- 	테스트용		
 					<input type="text" id="inputCode" disabled="disabled" placeholder="인증번호 입력해주세요."/>
 					<input type="button" id="code-button" disabled="disabled" onClick="fn_checkCode()" value="인증번호 확인">
-				</p>
+				 -->	
 
 				<!--비밀번호 입력-->
 				<p>
 					<label for="password" >비밀번호</label><br>
 					<input type="password" id="password" name="password" placeholder="8~16자 영문 대 소문자, 숫자를 사용하세요." />
+                    <div class="alert-pwd" id="pwd-check"></div>
 				</p>
 				
 				<!--비밀번호 확인 입력-->
 				<p>
-					<label for="password">비밀번호 확인</label><br>
-					<input type="password" id="passwordCheck" name="passwordCheck" placeholder="비밀번호가 일치하지 않습니다." />
+					<label for="password-2">비밀번호 확인</label><br>
+					<input type="password" id="password-2" name="passwordCheck" placeholder="비밀번호가 일치하지 않습니다." />
+                    <div class="alert-pwd2" id="pwd2-check"></div>				
 				</p>
 				<!--개인정보 동의 내용박스-->
 				<label for="agreebox">개인정보 수집, 이용에 대한 동의</label>
@@ -231,7 +131,7 @@ $(document).ready(function(){
 				<p id="agreebox">
 					- 회원가입, 사이트 이용을 위해서는 아래와 같이 개인정보를 수집, 이용 합니다.<br><br>
 					1. 개인정보 수집 목적: 회원가입, 사이트 이용<br>
-					2. 회원정보 수집 항목: 아이디, 닉네임, 비밀번호<br>
+					2. 회원정보 수집 항목: 이메일, 닉네임, 비밀번호<br>
 					3. 보유 및 이용기간: 회원 탈퇴 시까지<br>
 				</p>
 

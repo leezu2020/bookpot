@@ -14,7 +14,7 @@ public class PageDto {
 	// 현재 페이지
 	private int page;
 	// 한번에 보여줄 페이지 수
-	private int pageCnt = 5;
+	private int pageCnt = 10;
 	
 	public PageDto() {
 		// TODO Auto-generated constructor stub
