@@ -273,7 +273,6 @@ p {
 #nickname,
 #email-info {
   width: 400px;
-  margin-right: 15px;
 }
 
 .main #green-box {
@@ -309,9 +308,14 @@ input {
   border-width: 1px;
 }
 
+#nickname-set {
+  margin-top: 10px;
+}
+
 #password-set,
 #password-2-set {
   display: none;
+  margin-top: 10px;
 }
 
 #password,
@@ -361,7 +365,7 @@ input {
   font-size: 12px;
   width: 255px;
   height: 35px;
-  background-color: #9dbbab;
+  background-color: var(--color_highlight);
   border-style: none;
   color: var(--color_white);
   margin-right: 5px;
@@ -372,8 +376,9 @@ input {
   font-size: 12px;
   width: 255px;
   height: 35px;
-  background-color: var(--color_highlight);
-  border-style: none;
+  background-color: #9dbbab;
+  /*border-style: none;*/
+
   color: var(--color_white);
 }
 
@@ -407,6 +412,7 @@ input {
 .alertpwd-forchange {
   color: red;
   margin-top: 0px;
+  margin-bottom: 10px;
 }
 
 /*내정보 input*/

@@ -42,7 +42,6 @@ inputImage.addEventListener("change", e => {
 
 /* 
 유효성 검사항목
-
 1. 닉네임 조건 충족: 한글, 영 대소문자(특수기호, 공백 사용 불가) 2~10자
 2. 비밀번호 조건 충족: 8~16자 영문 대 소문자, 문자와 숫자는 최소 하나
 3. 비밀번호 일치 충족: 비밀번호와 동일
@@ -126,60 +125,66 @@ $(document).ready( function() {
 $("#nickname-info").prop("disabled", true);
 
 $(document).ready( function() {
-	$('#pwd-button').click( function(){
-
-	    let pwdData = {pwd : $('#pwd-forchange').val()}
-		$.ajax({
-			url : "/users/checkPwd",
-			type : "post",
-			data : pwdData,
-			success : function(result){
-				if(result == "match"){
-			        $("#nickname-info").prop("disabled", false);
-					$('#pwd-forchange').val('')
-			
-			        /*비번 일치 검사 후 숨기기*/
-			        $('#pwd-set').hide();
-			
-			        $('#change-button').hide();
-			        $('.upload-buttons').show();
-			        $('#nickname-info').width('386');
-			        $('#nickname-button').show();
-			        $('#password-set').show();
-			        $('#password-2-set').show();
-			
-			        $('#nickname-info').css('font-weight', 'normal');
-				}	
-			},
-			error : function(){
-				$('#alertpwd-forcheck').text('비밀번호를 확인해주세요.');
-			}
-		})		
-	})
-
     
-});
+    $('#pwd-button').click(function() {
+        console.log($('#pwd-button').is('disabled'));
+        $("#nickname-info").prop("disabled", false);
+
+        /*비번 일치 검사 후 숨기기*/
+        $('#pwd-set').hide();
+
+        $('#change-button').hide();
+        $('.upload-buttons').show();
+        $('#nickname-info').width('386');
+        $('#nickname-button').show();
+        $('#password-set').show();
+        $('#password-2-set').show();
+
+        $('#nickname-info').css('font-weight', 'normal');
+                
+    
+    });
+    
+    });
     
 
 /*적용&취소 버튼 클릭 시 이벤트*/
-$(document).ready( function() {
+    $(document).ready( function() {
 
-    $( '.upload-buttons' ).click( function() { 
-        $('#change-button').show();
-        
-        $('.upload-buttons').hide();
-        $('#nickname-info').width('506');
-        $('#nickname-button').hide();
-        $('#password-set').hide();
-        $('#password-2-set').hide();
-        $('#nickname-info').css('font-weight', 'bold');
+        $( '.upload-buttons' ).click( function() { 
+            $('#change-button').show();
+            
+            $('.upload-buttons').hide();
+            $('#nickname-info').width('506');
+            $('#nickname-button').hide();
+            $('#password-set').hide();
+            $('#password-2-set').hide();
+            $('#nickname-info').css('font-weight', 'bold');
 
-        console.log($('#pwd-button').is('disabled'));
-    $("#nickname-info").prop("disabled", true);
-
+            console.log($('#pwd-button').is('disabled'));
+        $("#nickname-info").prop("disabled", true);
+    
+        });
+    
     });
+    
 
-});
+    // 회원탈퇴 버튼 클릭 시 이벤트
+
+
+    function alertWithdrawl() {
+        var result = confirm("정말로 탈퇴하시겠습니까?");
+        
+        result;
+        if (result == true) {
+            // 회원탈퇴 처리
+			deleteInfo();
+            console.log(true);
+        }
+        else {
+            console.log(false);
+        }
+    }
 
 /*아이디 중복 확인*/
 function fn_checkNickname(){
